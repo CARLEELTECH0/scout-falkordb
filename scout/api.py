@@ -51,3 +51,35 @@ class SessionCreateRequest(BaseModel):
     user_id: str = "EMP-02"
     topic: str = "Security Operations Sweep"
 
+class DirectiveRequest(BaseModel):
+    directive: str
+    incident_id: Optional[str] = "INC-2026-001"
+
+# -------------------------------------------------------------
+# API Endpoints
+# -------------------------------------------------------------
+@app.get("/api/stats")
+def get_stats():
+    """Return live summary counts across the graph."""
+    node_count = db.query("MATCH (n) RETURN count(n)")[0][0]
+    edge_count = db.query("MATCH ()-[r]->() RETURN count(r)")[0][0]
+    incident_count = db.query("MATCH (i:Incident) RETURN count(i)")[0][0]
+    quarantine_count = db.query("MATCH (a:Asset {status: 'Quarantined'}) RETURN count(a)")[0][0]
+    return {
+        "nodes": node_count,
+        "edges": edge_count,
+        "incidents": incident_count,
+        "quarantined": quarantine_count,
+        "employees": 10,
+        "teams": 3,
+        "projects": 2,
+        "assets": 3,
+        "documents": 5,
+        "velocity": "42 ops/s"
+    }
+
+@app.get("/api/incidents")
+def list_incidents():
+    """List all incidents with status and severity."""
+    cypher = """
+    MATCH (i:Incident)
