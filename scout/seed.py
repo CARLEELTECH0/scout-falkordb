@@ -120,3 +120,16 @@ def seed_enterprise_graph():
         db.create_node("Agent", ag)
 
     sessions = [
+        {"id": "SES-101", "user_id": "EMP-02", "created_at": "2026-10-14T08:00:00Z", "topic": "SSH Security Sweep"},
+        {"id": "SES-102", "user_id": "EMP-04", "created_at": "2026-10-14T09:30:00Z", "topic": "Database Access Audit"},
+    ]
+    for s in sessions:
+        db.create_node("Session", s)
+
+    db.create_edge("Agent", "AGT-01", "HAS_SESSION", "Session", "SES-101")
+    db.create_edge("Agent", "AGT-01", "HAS_SESSION", "Session", "SES-102")
+
+    interactions = [
+        {
+            "id": "INT-01",
+            "prompt": "Investigate anomalous SSH traffic from subnet 10.0.1.0/24",
