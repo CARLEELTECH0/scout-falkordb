@@ -70,3 +70,19 @@ def seed_enterprise_graph():
     assignments = [
         ("EMP-02", "PRJ-01"), ("EMP-03", "PRJ-01"), ("EMP-04", "PRJ-01"),
         ("EMP-05", "PRJ-02"), ("EMP-06", "PRJ-02"), ("EMP-07", "PRJ-02"),
+    ]
+    for emp_id, prj_id in assignments:
+        db.create_edge("Employee", emp_id, "ASSIGNED_TO", "Project", prj_id)
+
+    assets = [
+        {"id": "AST-01", "name": "prod-auth-gateway", "type": "Server", "ip": "10.0.1.12", "tier": "Tier-1", "status": "Active"},
+        {"id": "AST-02", "name": "prod-falcon-cluster", "type": "Database", "ip": "10.0.1.5", "tier": "Tier-0", "status": "Active"},
+        {"id": "AST-03", "name": "k8s-worker-node-01", "type": "Server", "ip": "10.0.2.40", "tier": "Tier-2", "status": "Active"},
+    ]
+    for a in assets:
+        db.create_node("Asset", a)
+
+    access_edges = [
+        ("EMP-02", "AST-01", {"protocol": "SSH", "last_active": "2026-10-14T08:12:00Z"}),
+        ("EMP-04", "AST-01", {"protocol": "Bastion", "last_active": "2026-10-13T14:20:00Z"}),
+        ("EMP-06", "AST-02", {"protocol": "PG-Wire", "last_active": "2026-10-14T09:00:00Z"}),
