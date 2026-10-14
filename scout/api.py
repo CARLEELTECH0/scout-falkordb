@@ -118,3 +118,28 @@ def get_employee(employee_id: str):
 
 @app.get("/api/brain/access-path")
 def audit_access(employee_id: str, asset_id: str):
+    """Track 3: Multi-hop access path between employee and asset."""
+    return brain.audit_access_path(employee_id, asset_id)
+
+@app.post("/api/memory/session")
+def create_session(req: SessionCreateRequest):
+    """Track 2: Start persistent agent memory session."""
+    sid = memory.start_session(req.agent_id, req.user_id, req.topic)
+    return {"session_id": sid, "status": "active"}
+
+@app.get("/api/memory/session/{session_id}")
+def get_session(session_id: str):
+    """Track 2: Retrieve chronological interaction memory for a session."""
+    return memory.get_session_history(session_id)
+
+@app.get("/api/memory/recall")
+def recall(q: str):
+    """Track 2: Recall semantic memory concepts and past solutions."""
+    concepts = memory.recall_concepts(q)
+    procedural = memory.recall_procedural_memory(q)
+    return {"concepts": concepts, "procedural_solutions": procedural}
+
+@app.post("/api/agent/investigate")
+def investigate(req: InvestigateRequest):
+    """Track 1: Run autonomous multi-hop investigation on an incident."""
+    return agent.investigate_incident(req.incident_id, req.session_id)
