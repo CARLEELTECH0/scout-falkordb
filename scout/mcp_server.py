@@ -63,3 +63,33 @@ TOOLS_SPEC = [
             "type": "object",
             "properties": {
                 "asset_id": {"type": "string", "description": "Asset ID to isolate"},
+                "reason": {"type": "string", "description": "Security rationale for quarantine"}
+            },
+            "required": ["asset_id", "reason"]
+        }
+    }
+]
+
+def handle_call(name: str, args: dict) -> dict:
+    db = FalkorGraph.get_instance()
+    brain = CompanyBrain(db)
+    memory = AgentMemory(db)
+    agent = ScoutActionAgent(db=db)
+
+    if name == "scout_compute_blast_radius":
+        return brain.compute_blast_radius(args["asset_id"])
+    elif name == "scout_investigate_incident":
+        return agent.investigate_incident(args["incident_id"])
+    elif name == "scout_recall_memory":
+        return {"recalled": memory.recall_procedural_memory(args["concept"])}
+    elif name == "scout_audit_access_path":
+        return {"paths": brain.audit_access_path(args["employee_id"], args["asset_id"])}
+    elif name == "scout_quarantine_asset":
+        return agent.quarantine_asset(args["asset_id"], args["reason"])
+    else:
+        raise ValueError(f"Unknown tool: {name}")
+
+def main():
+    """Stdio JSON-RPC loop for Model Context Protocol."""
+    for line in sys.stdin:
+        if not line.strip():
