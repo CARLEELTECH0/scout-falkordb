@@ -83,3 +83,23 @@ class AgentMemory:
 
     def handoff_agent_task(
         self,
+        from_agent_id: str,
+        to_agent_id: str,
+        reason: str,
+        incident_id: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Multi-Agent Coordination: Delegate an ongoing task from one agent to another with graph audit."""
+        props = {
+            "reason": reason,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "status": "Transferred"
+        }
+        if incident_id:
+            props["incident_id"] = incident_id
+
+        self.db.create_edge("Agent", from_agent_id, "HANDED_OFF_TO", "Agent", to_agent_id, props)
+        return {
+            "from_agent": from_agent_id,
+            "to_agent": to_agent_id,
+            "status": "Transferred",
+            "reason": reason,
