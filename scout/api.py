@@ -83,3 +83,13 @@ def list_incidents():
     """List all incidents with status and severity."""
     cypher = """
     MATCH (i:Incident)
+    OPTIONAL MATCH (i)-[:AFFECTS]->(a:Asset)
+    RETURN i.id AS id, i.title AS title, i.severity AS severity, i.status AS status, a.name AS target_asset, i.created_at AS created_at
+    ORDER BY i.created_at DESC
+    """
+    return db.query_dicts(cypher)
+
+@app.get("/api/assets")
+def list_assets():
+    """List all infrastructure assets."""
+    cypher = "MATCH (a:Asset) RETURN a.id AS id, a.name AS name, a.type AS type, a.tier AS tier, a.status AS status ORDER BY a.tier ASC"
