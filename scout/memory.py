@@ -68,3 +68,18 @@ class AgentMemory:
 
     def recall_procedural_memory(self, concept_name: str) -> List[Dict[str, Any]]:
         """Procedural Memory: What tools and steps did agents use when dealing with this concept?"""
+        cypher = """
+        MATCH (c:Concept)
+        WHERE toLower(c.name) = toLower($name)
+        MATCH (i:Interaction)-[:RECALLS]->(c)
+        MATCH (i)-[:RECORDED_IN]->(s:Session)<-[:HAS_SESSION]-(a:Agent)
+        OPTIONAL MATCH (a)-[:USED_TOOL]->(t:Tool)
+        RETURN a.name AS agent_name,
+               c.name AS concept,
+               collect(DISTINCT t.name) AS tools_used,
+               collect(DISTINCT i.response) AS past_solutions
+        """
+        return self.db.query_dicts(cypher, {"name": concept_name})
+
+    def handoff_agent_task(
+        self,
