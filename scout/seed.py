@@ -186,3 +186,10 @@ def seed_enterprise_graph():
     ]
     for inc in incidents:
         db.create_node("Incident", inc)
+
+    # Connections
+    db.create_edge("Incident", "INC-2026-001", "TRIGGERED_BY", "Log", "LOG-881")
+    db.create_edge("Incident", "INC-2026-001", "TRIGGERED_BY", "Log", "LOG-882")
+    db.create_edge("Incident", "INC-2026-001", "AFFECTS", "Asset", "AST-01")
+
+    db.create_edge("Incident", "INC-2026-002", "TRIGGERED_BY", "Log", "LOG-903")
