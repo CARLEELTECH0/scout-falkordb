@@ -103,3 +103,23 @@ class FalkorGraph:
         MATCH (a:{from_label} {{id: $from_id}}), (b:{to_label} {{id: $to_id}})
         MERGE (a)-[r:{rel_type}]->(b)
         {props_str}
+        """
+        params = {"from_id": from_id, "to_id": to_id}
+        if rel_props:
+            params["props"] = rel_props
+        self.query(cypher, params)
+
+    def get_graph_visualization(self, limit: int = 150) -> Dict[str, Any]:
+        """Return nodes and edges formatted for visual graph renderers (Vis.js / Cytoscape)."""
+        cypher = f"""
+        MATCH (a)-[r]->(b)
+        RETURN labels(a)[0] AS a_label, a.id AS a_id, a.name AS a_name, a.title AS a_title,
+               type(r) AS rel,
+               labels(b)[0] AS b_label, b.id AS b_id, b.name AS b_name, b.title AS b_title
+        LIMIT {limit}
+        """
+        rows = self.query(cypher)
+        nodes_dict = {}
+        edges = []
+
+        label_colors = {
