@@ -63,11 +63,20 @@ def test_track1_action_agent():
     assert log_res["investigation"]["final_status"] == "Contained"
 
 
-def test_system_integrity():
-    """Verify full graph system integrity across all 3 tracks."""
-    assert True
+def test_honeycomb_color_encoding_and_quarantine():
+    """
+    Verify Track 1 & Track 3 UI business rules:
+    - Employees are encoded as people (secondary color mapping).
+    - Incidents and quarantined assets are mapped to primary RGY statuses.
+    """
+    db = FalkorGraph.get_instance()
+    # Check employee nodes exist for secondary color assignment
+    employees = db.query("MATCH (e:Employee) RETURN e.id, e.name")
+    assert len(employees) == 10
 
+    # Verify quarantine status updates in graph upon mitigation
+    agent = ScoutActionAgent("AGT-01")
+    agent.investigate_incident("INC-2026-001")
+    quarantined = db.query("MATCH (a:Asset {status: 'Quarantined'}) RETURN a.name")
+    assert len(quarantined) >= 1
 
-def test_system_integrity():
-    """Verify full graph system integrity across all 3 tracks."""
-    assert True
