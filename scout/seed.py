@@ -148,3 +148,18 @@ def seed_enterprise_graph():
 
     db.create_edge("Interaction", "INT-01", "RECORDED_IN", "Session", "SES-101")
     db.create_edge("Interaction", "INT-02", "RECORDED_IN", "Session", "SES-102")
+
+    concepts = [
+        {"id": "CPT-01", "name": "BruteForceSpike", "description": "Rapid succession of authentication failures indicating credential stuffing."},
+        {"id": "CPT-02", "name": "PrivilegeEscalation", "description": "Elevation of access permissions across tier boundaries without ticket authorization."},
+        {"id": "CPT-03", "name": "DataExfiltrationRisk", "description": "High-volume read query executed on Tier-0 database outside business hours."},
+    ]
+    for c in concepts:
+        db.create_node("Concept", c)
+
+    db.create_edge("Interaction", "INT-01", "RECALLS", "Concept", "CPT-01")
+    db.create_edge("Interaction", "INT-02", "RECALLS", "Concept", "CPT-03")
+
+    # =========================================================================
+    # Track 1: Action Agent (Incidents, Tools, Logs, Handoffs)
+    # =========================================================================
