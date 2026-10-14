@@ -116,3 +116,9 @@ class AgentMemory:
                i.prompt AS prompt,
                i.response AS response,
                i.timestamp AS timestamp,
+               collect(DISTINCT c.name) AS recalled_concepts
+        ORDER BY i.timestamp ASC
+        """
+        return self.db.query_dicts(cypher, {"session_id": session_id})
+
+# Procedural recall leverages semantic indexing across historical containment sessions.
