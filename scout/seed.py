@@ -133,3 +133,18 @@ def seed_enterprise_graph():
         {
             "id": "INT-01",
             "prompt": "Investigate anomalous SSH traffic from subnet 10.0.1.0/24",
+            "response": "Identified high-velocity failed logins targeting prod-auth-gateway. Flagged INC-2026-001.",
+            "timestamp": "2026-10-14T08:05:00Z"
+        },
+        {
+            "id": "INT-02",
+            "prompt": "Correlate access logs on prod-falcon-cluster with off-hours queries",
+            "response": "Found bulk SELECT on customer_audit by EMP-07 outside shift hours. Flagged INC-2026-002.",
+            "timestamp": "2026-10-14T09:35:00Z"
+        }
+    ]
+    for inter in interactions:
+        db.create_node("Interaction", inter)
+
+    db.create_edge("Interaction", "INT-01", "RECORDED_IN", "Session", "SES-101")
+    db.create_edge("Interaction", "INT-02", "RECORDED_IN", "Session", "SES-102")
