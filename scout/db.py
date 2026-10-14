@@ -66,3 +66,20 @@ class FalkorGraph:
                     entry[col_name] = val.properties
                 else:
                     entry[col_name] = val
+            output.append(entry)
+        return output
+
+    def create_node(self, label: str, properties: Dict[str, Any]) -> None:
+        """Upsert a node by its 'id' property."""
+        cypher = f"MERGE (n:{label} {{id: $id}}) SET n += $props"
+        self.query(cypher, {"id": properties["id"], "props": properties})
+
+    def get_node(self, label: str, id_val: Any) -> Optional[Dict[str, Any]]:
+        """Fetch a node's properties by ID."""
+        cypher = f"MATCH (n:{label} {{id: $id}}) RETURN n LIMIT 1"
+        res = self.query(cypher, {"id": id_val})
+        if res and len(res) > 0 and len(res[0]) > 0:
+            node = res[0][0]
+            return node.properties if hasattr(node, "properties") else node
+        return None
+
