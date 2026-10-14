@@ -46,3 +46,23 @@ class FalkorGraph:
     def query(self, cypher: str, params: Optional[Dict[str, Any]] = None) -> List[List[Any]]:
         """Execute parameterized Cypher query against FalkorDB."""
         res = self.graph.query(cypher, params or {})
+        return res.result_set
+
+    def query_dicts(self, cypher: str, params: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        """Execute Cypher query and return rows as dictionaries mapped to header columns."""
+        res = self.graph.query(cypher, params or {})
+        headers = []
+        for col in res.header:
+            if isinstance(col, (list, tuple)) and len(col) > 1:
+                headers.append(str(col[1]))
+            else:
+                headers.append(str(col))
+        output = []
+        for row in res.result_set:
+            entry = {}
+            for i, col_name in enumerate(headers):
+                val = row[i]
+                if hasattr(val, "properties"):
+                    entry[col_name] = val.properties
+                else:
+                    entry[col_name] = val
