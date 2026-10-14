@@ -200,3 +200,9 @@ def seed_enterprise_graph():
     db.create_edge("Agent", "AGT-01", "USED_TOOL", "Tool", "TOOL-01")
     db.create_edge("Agent", "AGT-01", "USED_TOOL", "Tool", "TOOL-03")
 
+    # Multi-Agent Coordination Handoff: Investigator -> Remediator
+    db.create_edge("Agent", "AGT-01", "HANDED_OFF_TO", "Agent", "AGT-02", {"reason": "Mitigation Required", "incident": "INC-2026-002"})
+    db.create_edge("Agent", "AGT-02", "USED_TOOL", "Tool", "TOOL-02")
+    db.create_edge("Agent", "AGT-02", "USED_TOOL", "Tool", "TOOL-04")
+
+    print("[+] Unified Scout Enterprise Graph successfully seeded!")
