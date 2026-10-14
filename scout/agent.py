@@ -183,3 +183,16 @@ class ScoutActionAgent:
             }
             self.db.create_node("Incident", inc_props)
             self.db.create_edge("Incident", incident_id, "TRIGGERED_BY", "Log", log_id)
+            self.db.create_edge("Incident", incident_id, "AFFECTS", "Asset", target_asset_id)
+
+            # Autonomous triage & response
+            investigation = self.investigate_incident(incident_id, session_id=session_id)
+            return {
+                "log_id": log_id,
+                "incident_created": incident_id,
+                "investigation": investigation
+            }
+
+        return {"log_id": log_id, "status": "Ingested", "alert": False}
+
+# Autonomous triage convergence: asset quarantine status validated post-containment.
