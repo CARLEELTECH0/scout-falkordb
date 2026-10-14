@@ -178,3 +178,103 @@ def human_directive(req: DirectiveRequest):
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
     return """<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCOUT — AI Team Workspace & Incident Solver</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-canvas: #080b13;
+            --bg-card: rgba(18, 24, 38, 0.78);
+            --liquid-orange: #ff6b00;
+            --spring-curve: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: #f1f5f9;
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+            letter-spacing: -0.012em;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Imran Jakir Pillowy Rounded Cards */
+        .dribbble-card {
+            background: linear-gradient(150deg, rgba(22, 28, 46, 0.75) 0%, rgba(12, 16, 28, 0.92) 100%);
+            backdrop-filter: blur(28px) saturate(210%);
+            -webkit-backdrop-filter: blur(28px) saturate(210%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 10px 32px -8px rgba(0, 0, 0, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+            transition: all 0.25s var(--spring-curve);
+        }
+        .dribbble-card:hover {
+            border-color: rgba(249, 115, 22, 0.40);
+            box-shadow: 0 14px 40px -8px rgba(249, 115, 22, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* Voice Card (Lavender/Purple Glow) */
+        .voice-card {
+            background: linear-gradient(145deg, rgba(46, 28, 68, 0.65) 0%, rgba(20, 16, 32, 0.90) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.32);
+            border-radius: 22px;
+            box-shadow: 0 8px 25px -6px rgba(168, 85, 247, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        /* Solar Orange Tactile Button */
+        .btn-solar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 18px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            color: #ffffff;
+            background: linear-gradient(180deg, #ff7b24 0%, #ea580c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 4px 18px rgba(234, 88, 12, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            transition: all 140ms var(--spring-curve);
+        }
+        .btn-solar:hover:not(:disabled) {
+            background: linear-gradient(180deg, #ff8d3d 0%, #f97316 100%);
+            box-shadow: 0 6px 24px rgba(249, 115, 22, 0.60);
+            transform: translateY(-1px);
+        }
+        .btn-solar:active:not(:disabled) {
+            transform: translateY(0.5px) scale(0.98);
+        }
+
+        .btn-obsidian {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
