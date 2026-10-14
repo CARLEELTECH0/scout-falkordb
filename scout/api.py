@@ -93,3 +93,28 @@ def list_incidents():
 def list_assets():
     """List all infrastructure assets."""
     cypher = "MATCH (a:Asset) RETURN a.id AS id, a.name AS name, a.type AS type, a.tier AS tier, a.status AS status ORDER BY a.tier ASC"
+    return db.query_dicts(cypher)
+
+@app.get("/api/graph")
+def get_graph():
+    """Return nodes and edges for graph visualization."""
+    return db.get_graph_visualization(limit=300)
+
+@app.post("/api/seed")
+def reseed():
+    """Reset and re-seed the full enterprise graph."""
+    seed_enterprise_graph()
+    return {"status": "success", "message": "FalkorDB graph reset and seeded successfully."}
+
+@app.get("/api/brain/blast-radius/{asset_id}")
+def get_blast_radius(asset_id: str):
+    """Track 3: Blast radius evaluation for a target infrastructure asset."""
+    return brain.compute_blast_radius(asset_id)
+
+@app.get("/api/brain/employee/{employee_id}")
+def get_employee(employee_id: str):
+    """Track 3: Employee reporting chain, clearances, and access permissions."""
+    return brain.get_employee_context(employee_id)
+
+@app.get("/api/brain/access-path")
+def audit_access(employee_id: str, asset_id: str):
