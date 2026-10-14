@@ -46,3 +46,8 @@ def test_track2_agent_memory():
     assert len(proc) > 0
     assert "LogTelemetryScanner" in proc[0]["tools_used"]
 
+    # Multi-agent handoff
+    handoff = memory.handoff_agent_task("AGT-01", "AGT-02", "Escalation to senior remediator")
+    assert handoff["status"] == "Transferred"
+
+def test_track1_action_agent():
