@@ -38,3 +38,38 @@ class ScoutActionAgent:
                inc.title AS title,
                inc.severity AS severity,
                inc.status AS status,
+               collect(DISTINCT {id: l.id, message: l.message, level: l.level}) AS trigger_logs,
+               a.id AS asset_id,
+               a.name AS asset_name,
+               a.tier AS asset_tier,
+               a.ip AS asset_ip
+        """
+        res_hop1 = self.db.query_dicts(cypher_hop1, {"id": incident_id})
+        if not res_hop1:
+            return {"error": f"Incident {incident_id} not found in FalkorDB"}
+
+        inc_info = res_hop1[0]
+        hops_trace.append({
+            "hop": 1,
+            "description": "Correlated incident with telemetry trigger logs and target infrastructure.",
+            "data": {
+                "incident": inc_info["title"],
+                "severity": inc_info["severity"],
+                "logs_found": len(inc_info["trigger_logs"]),
+                "target_asset": inc_info["asset_name"]
+            }
+        })
+
+        asset_id = inc_info.get("asset_id")
+        blast_radius = {}
+        if asset_id:
+            # Hop 3: Query Company Brain for Blast Radius
+            blast_radius = self.brain.compute_blast_radius(asset_id)
+            hops_trace.append({
+                "hop": 2,
+                "description": "Computed multi-hop organizational blast radius through Company Brain.",
+                "data": {
+                    "asset_tier": inc_info.get("asset_tier"),
+                    "exposed_employees": blast_radius.get("exposed_employees", []),
+                    "affected_projects": blast_radius.get("affected_projects", []),
+                    "risk_score": blast_radius.get("calculated_risk_score")
