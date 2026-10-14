@@ -83,3 +83,44 @@ MATCH (a1:Agent {id: $from_agent_id}), (a2:Agent {id: $to_agent_id})
 CREATE (a1)-[:HANDED_OFF_TO {
     reason: $reason,
     incident_id: $incident_id,
+    timestamp: $timestamp,
+    status: 'Transferred'
+}]->(a2)
+```
+
+---
+
+## 🕵️ Track 1: Action Agent Multi-Hop Triage & Remediation
+
+### 6. Incident Multi-Hop Telemetry Correlation
+Correlates incoming security alerts with raw telemetry logs, affected assets, and historical investigative tools.
+```cypher
+MATCH (inc:Incident {id: $id})
+OPTIONAL MATCH (inc)-[:TRIGGERED_BY]->(l:Log)
+OPTIONAL MATCH (inc)-[:AFFECTS]->(a:Asset)
+RETURN inc.id AS incident_id,
+       inc.title AS title,
+       inc.severity AS severity,
+       inc.status AS status,
+       collect(DISTINCT {id: l.id, message: l.message, level: l.level}) AS trigger_logs,
+       a.id AS asset_id,
+       a.name AS asset_name,
+       a.tier AS asset_tier,
+       a.ip AS asset_ip
+```
+
+---
+
+### 7. Active Infrastructure Quarantine Mutation
+Atomically isolates a compromised server/database in the graph and updates incident status.
+```cypher
+MATCH (a:Asset {id: $asset_id}), (ag:Agent {id: $agent_id})
+SET a.status = 'Quarantined',
+    a.quarantine_reason = $reason,
+    a.quarantined_at = $timestamp
+CREATE (a)-[:QUARANTINED_BY {reason: $reason, timestamp: $timestamp}]->(ag)
+WITH a
+MATCH (inc:Incident)-[:AFFECTS]->(a)
+SET inc.status = 'Contained'
+RETURN a.name, a.status, inc.status
+```
