@@ -163,3 +163,13 @@ def seed_enterprise_graph():
     # =========================================================================
     # Track 1: Action Agent (Incidents, Tools, Logs, Handoffs)
     # =========================================================================
+    tools = [
+        {"id": "TOOL-01", "name": "LogTelemetryScanner", "category": "Telemetry", "permission": "ReadAudit"},
+        {"id": "TOOL-02", "name": "FirewallQuarantine", "category": "Mitigation", "permission": "WriteNetwork"},
+        {"id": "TOOL-03", "name": "GraphBlastRadiusAnalyzer", "category": "Forensics", "permission": "ReadGraph"},
+        {"id": "TOOL-04", "name": "TokenRevocationEngine", "category": "Remediation", "permission": "WriteIAM"},
+    ]
+    for t in tools:
+        db.create_node("Tool", t)
+
+    logs = [
