@@ -173,3 +173,10 @@ def seed_enterprise_graph():
         db.create_node("Tool", t)
 
     logs = [
+        {"id": "LOG-881", "level": "WARN", "message": "Failed SSH password for root from 10.0.1.45 port 42812", "timestamp": "2026-10-14T08:02:11Z"},
+        {"id": "LOG-882", "level": "WARN", "message": "Failed SSH password for admin from 10.0.1.45 port 42814", "timestamp": "2026-10-14T08:02:15Z"},
+        {"id": "LOG-903", "level": "INFO", "message": "Bulk query SELECT * FROM users_pii executed (50,000 rows returned)", "timestamp": "2026-10-14T09:32:00Z"},
+    ]
+    for l in logs:
+        db.create_node("Log", l)
+
