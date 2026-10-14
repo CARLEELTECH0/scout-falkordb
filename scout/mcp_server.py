@@ -93,3 +93,35 @@ def main():
     """Stdio JSON-RPC loop for Model Context Protocol."""
     for line in sys.stdin:
         if not line.strip():
+            continue
+        try:
+            req = json.loads(line)
+            method = req.get("method")
+            req_id = req.get("id")
+
+            if method == "tools/list":
+                res = {"jsonrpc": "2.0", "id": req_id, "result": {"tools": TOOLS_SPEC}}
+            elif method == "tools/call":
+                params = req.get("params", {})
+                tool_name = params.get("name")
+                tool_args = params.get("arguments", {})
+                result_data = handle_call(tool_name, tool_args)
+                res = {
+                    "jsonrpc": "2.0",
+                    "id": req_id,
+                    "result": {
+                        "content": [{"type": "text", "text": json.dumps(result_data, indent=2)}]
+                    }
+                }
+            else:
+                res = {"jsonrpc": "2.0", "id": req_id, "error": {"code": -32601, "message": "Method not found"}}
+
+            sys.stdout.write(json.dumps(res) + "\n")
+            sys.stdout.flush()
+        except Exception as e:
+            err_res = {"jsonrpc": "2.0", "id": None, "error": {"code": -32000, "message": str(e)}}
+            sys.stdout.write(json.dumps(err_res) + "\n")
+            sys.stdout.flush()
+
+if __name__ == "__main__":
+    main()
