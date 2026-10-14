@@ -43,3 +43,28 @@ class AgentMemory:
         }
         self.db.create_node("Interaction", props)
         self.db.create_edge("Interaction", interaction_id, "RECORDED_IN", "Session", session_id)
+
+        if concept_names:
+            for c_name in concept_names:
+                # Ensure concept exists
+                c_id = f"CPT-{c_name.upper().replace(' ', '_')}"
+                self.db.create_node("Concept", {"id": c_id, "name": c_name})
+                self.db.create_edge("Interaction", interaction_id, "RECALLS", "Concept", c_id)
+
+        return interaction_id
+
+    def recall_concepts(self, keyword: str) -> List[Dict[str, Any]]:
+        """Semantic Memory: Search for concepts and find all past interactions that recalled them."""
+        cypher = """
+        MATCH (c:Concept)
+        WHERE toLower(c.name) CONTAINS toLower($kw) OR toLower(coalesce(c.description, '')) CONTAINS toLower($kw)
+        OPTIONAL MATCH (i:Interaction)-[:RECALLS]->(c)
+        RETURN c.id AS concept_id,
+               c.name AS concept_name,
+               c.description AS description,
+               collect(DISTINCT {prompt: i.prompt, response: i.response, timestamp: i.timestamp}) AS past_interactions
+        """
+        return self.db.query_dicts(cypher, {"kw": keyword})
+
+    def recall_procedural_memory(self, concept_name: str) -> List[Dict[str, Any]]:
+        """Procedural Memory: What tools and steps did agents use when dealing with this concept?"""
