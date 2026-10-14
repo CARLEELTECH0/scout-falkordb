@@ -153,3 +153,18 @@ class ScoutActionAgent:
 
     def ingest_and_triage_log(
         self,
+        message: str,
+        level: str,
+        target_asset_id: str,
+        session_id: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Ingest real-time log, detect anomalies, auto-generate Incident in FalkorDB and triage."""
+        log_id = f"LOG-{uuid.uuid4().hex[:6].upper()}"
+        log_props = {
+            "id": log_id,
+            "message": message,
+            "level": level,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        }
+        self.db.create_node("Log", log_props)
+
