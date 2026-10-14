@@ -83,3 +83,23 @@ class FalkorGraph:
             return node.properties if hasattr(node, "properties") else node
         return None
 
+    def update_node(self, label: str, id_val: Any, updates: Dict[str, Any]) -> None:
+        """Update node attributes."""
+        cypher = f"MATCH (n:{label} {{id: $id}}) SET n += $updates"
+        self.query(cypher, {"id": id_val, "updates": updates})
+
+    def create_edge(
+        self,
+        from_label: str,
+        from_id: Any,
+        rel_type: str,
+        to_label: str,
+        to_id: Any,
+        rel_props: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        """Create a directed edge between two existing nodes."""
+        props_str = " SET r += $props" if rel_props else ""
+        cypher = f"""
+        MATCH (a:{from_label} {{id: $from_id}}), (b:{to_label} {{id: $to_id}})
+        MERGE (a)-[r:{rel_type}]->(b)
+        {props_str}
