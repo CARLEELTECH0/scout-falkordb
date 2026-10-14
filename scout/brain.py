@@ -23,3 +23,23 @@ class CompanyBrain:
                t.name AS team,
                collect(DISTINCT mgr.name) AS management_chain,
                collect(DISTINCT p.name) AS projects,
+               collect(DISTINCT a.name) AS accessed_assets
+        """
+        rows = self.db.query_dicts(cypher, {"id": employee_id})
+        return rows[0] if rows else {}
+
+    def compute_blast_radius(self, asset_id: str) -> Dict[str, Any]:
+        """
+        Compute the organizational and security blast radius if an asset is compromised.
+        Finds:
+        1. All employees with direct access.
+        2. All projects relying on or associated with those employees.
+        3. All sensitive documents linked to those projects.
+        4. Any active incidents on the asset.
+        """
+        cypher = """
+        MATCH (a:Asset {id: $id})
+        OPTIONAL MATCH (inc:Incident)-[:AFFECTS]->(a)
+        OPTIONAL MATCH (e:Employee)-[:ACCESSED]->(a)
+        OPTIONAL MATCH (e)-[:ASSIGNED_TO]->(p:Project)
+        OPTIONAL MATCH (p)-[:CONTAINS]->(d:Document)
