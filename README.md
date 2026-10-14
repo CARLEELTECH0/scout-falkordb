@@ -128,3 +128,38 @@ MATCH (inc:Incident {id: $incident_id})
 OPTIONAL MATCH (inc)-[:TRIGGERED_BY]->(l:Log)
 OPTIONAL MATCH (inc)-[:AFFECTS]->(asset:Asset)
 OPTIONAL MATCH (emp:Employee)-[:ACCESSED]->(asset)
+OPTIONAL MATCH (agent:Agent)-[:INVESTIGATED]->(inc)
+OPTIONAL MATCH (agent)-[:USED_TOOL]->(tool:Tool)
+RETURN inc.title AS Incident,
+       asset.name AS AffectedAsset,
+       collect(DISTINCT emp.name) AS Accessors,
+       agent.name AS Investigator,
+       collect(DISTINCT tool.name) AS ToolsUsed
+```
+
+---
+
+## 🚀 Quickstart & Setup
+
+### 1. Clone & Install
+```bash
+git clone <repo_url>
+cd scout
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 2. Configuration (Zero-Config or Cloud)
+Scout works **out-of-the-box with embedded zero-config FalkorDB** (`falkordblite`). No Docker or local server installation is needed!
+
+To connect to a remote FalkorDB instance (e.g. FalkorDB Cloud), simply add to `.env`:
+```env
+FALKORDB_HOST=your-cluster-url.falkordb.cloud
+FALKORDB_PORT=6379
+FALKORDB_USERNAME=default
+FALKORDB_PASSWORD=your_password
+```
+
+### 3. Run the Autonomous Demo
+Execute the full multi-hop end-to-end investigation workflow:
