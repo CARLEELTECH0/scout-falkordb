@@ -378,3 +378,173 @@ def dashboard():
         /* Honeycomb Node Hover & Drag */
         .hex-cell {
             cursor: grab;
+            transition: filter 0.2s, stroke-width 0.2s;
+        }
+        .hex-cell:active {
+            cursor: grabbing;
+        }
+        .hex-cell:hover {
+            filter: drop-shadow(0 0 12px currentColor);
+            stroke-width: 3.5px;
+        }
+
+        /* Pulsing breach stroke */
+        @keyframes breachGlow {
+            0%, 100% { stroke-opacity: 1; filter: drop-shadow(0 0 6px #ff6b00); }
+            50% { stroke-opacity: 0.5; filter: drop-shadow(0 0 14px #ff8a3d); }
+        }
+        .breach-link {
+            stroke: #ff6b00;
+            stroke-width: 3px;
+            animation: breachGlow 2.2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col antialiased selection:bg-orange-500/30 selection:text-orange-200 overflow-hidden">
+
+    <!-- TOP HEADER (Clean Collaboration Bar - 56px) -->
+    <header class="h-[56px] px-6 bg-[#090c15] border-b border-white/[0.08] flex items-center justify-between shrink-0 z-40">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-700 flex items-center justify-center text-base shadow-[0_0_18px_rgba(249,115,22,0.48)] border border-orange-300/35 cursor-pointer" title="Scout AI Team Workspace">
+                🛡️
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="font-extrabold text-sm tracking-tight text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-orange-300">SCOUT</span>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/30 font-bold">FalkorDB</span>
+                </div>
+            </div>
+            <div class="h-4 w-px bg-white/10 hidden sm:block"></div>
+            <!-- System Status Indicator in Plain English -->
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs flex items-center gap-1.5 font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>All Systems Live</span>
+            </span>
+        </div>
+
+        <!-- Center Current Situation Pill in Plain English -->
+        <div class="hidden md:flex items-center gap-2">
+            <div id="top-situation-pill" class="px-3.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2 font-medium">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                <span>Current Issue: <strong class="text-white">14 Failed Logins on Login Gateway</strong></span>
+                <span class="text-[10px] px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-200 uppercase font-mono font-bold">Critical</span>
+            </div>
+        </div>
+
+        <!-- Top Right Action Controls -->
+        <div class="flex items-center gap-2.5">
+            <button onclick="triggerSimulatedAttack()" class="btn-solar text-xs" title="Simulate a new issue to see AI in action">
+                <span>⚡ Simulate New Issue</span>
+            </button>
+            <button onclick="toggleCockpitView()" id="btn-toggle-layout" class="btn-obsidian text-xs" title="Switch between Focused View and 3-Column Cockpit">
+                <span id="layout-mode-label">🔲 Cockpit View</span>
+            </button>
+            <button onclick="reseedGraph()" class="btn-obsidian text-xs" title="Reset all data to clean state">
+                <span>🔄 Reset</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN DYNAMIC CONTENT CONTAINER (Padding at bottom for floating dock) -->
+    <main class="flex-1 overflow-hidden relative pb-[82px]">
+
+        <!-- =================================================================== -->
+        <!-- VIEW 1: 💬 AI TEAM CHAT & SITUATION (DEFAULT FIRST FRAME) -->
+        <!-- =================================================================== -->
+        <div id="view-chat" class="w-full h-full flex flex-col p-5 gap-4 overflow-hidden max-w-7xl mx-auto">
+            
+            <!-- CURRENT SITUATION BANNER (Prominent First Frame Highlight) -->
+            <div id="situation-banner-card" class="dribbble-card p-4 shrink-0 border-orange-500/30 bg-gradient-to-r from-orange-950/30 via-slate-900/60 to-black/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-lg">
+                <div class="flex items-start gap-3.5">
+                    <div id="situation-icon-box" class="w-11 h-11 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-300 flex items-center justify-center text-xl shrink-0">
+                        🚨
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span id="situation-badge-rgy" class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 Situation: Critical</span>
+                            <span class="text-xs text-slate-400 font-mono">Today at 12:44 PM</span>
+                            <span class="text-xs text-slate-500">·</span>
+                            <span class="text-xs text-orange-300 font-medium">Target: Login Gateway (prod-auth-gateway)</span>
+                        </div>
+                        <h2 id="situation-title-text" class="text-sm font-bold text-white tracking-tight">
+                            Unauthorized Login Wave: 14 consecutive failed passwords detected from unknown address
+                        </h2>
+                        <p id="situation-desc-text" class="text-xs text-slate-300 max-w-3xl leading-relaxed">
+                            The security key was traced to team member <strong class="text-purple-300">Bob Martinez</strong>. Our AI agents investigated the access path, verified safety rules, and recommend an immediate one-click lockdown.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- One-Click Instant Fix Action -->
+                <div class="flex items-center gap-2 shrink-0 self-end md:self-center">
+                    <button onclick="executeMitigation()" id="btn-banner-quarantine" class="btn-solar h-10 px-5 text-xs font-bold shadow-lg shadow-orange-500/30">
+                        <span>🛡️ Lock Down & Fix Issue</span>
+                    </button>
+                    <button onclick="switchTab('honeycomb'); highlightNode('EMP-02');" class="btn-obsidian h-10 px-4 text-xs font-medium">
+                        <span>👤 View Bob on Map</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CHAT STREAM CANVAS -->
+            <div class="flex-1 dribbble-card flex flex-col overflow-hidden bg-black/50 border-white/[0.08]">
+                
+                <!-- Chat Stream Subheader (Dribbble Screen Anatomy: Sophia Lee / Online / Voice Room) -->
+                <div class="h-14 px-6 border-b border-white/[0.08] flex items-center justify-between shrink-0 bg-black/40">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-orange-500 via-amber-600 to-purple-600 flex items-center justify-center font-bold text-xs text-white shadow">
+                                AI
+                            </div>
+                            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-black"></span>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                                <span>Scout-Alpha & Policy-Beta</span>
+                                <span class="text-[10px] text-orange-400 px-2 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/30 font-medium">AI Decision Room</span>
+                            </h3>
+                            <p class="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <span>Online · Live Multi-Agent Reasoning</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Voice Call Waveform Visualizer from Dribbble Shot -->
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-xs font-mono">
+                            <span class="text-orange-400 font-bold">🎙️ Voice Room:</span>
+                            <div class="flex items-center gap-0.5 h-3">
+                                <span class="w-1 bg-orange-400 rounded-full sound-bar-1"></span>
+                                <span class="w-1 bg-amber-400 rounded-full sound-bar-2"></span>
+                                <span class="w-1 bg-orange-500 rounded-full sound-bar-3"></span>
+                                <span class="w-1 bg-amber-300 rounded-full sound-bar-4"></span>
+                                <span class="w-1 bg-orange-400 rounded-full sound-bar-5"></span>
+                            </div>
+                            <span class="text-slate-400 text-[10px] ml-1">00:04:18</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages Feed -->
+                <div id="unified-chat-stream" class="flex-1 overflow-y-auto p-5 space-y-4 text-xs">
+                    
+                    <!-- Date Divider -->
+                    <div class="flex items-center justify-center">
+                        <span class="px-3 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-[10px] font-mono text-slate-400 uppercase font-semibold">Today · Live Situation</span>
+                    </div>
+
+                    <!-- Message 1: Scout-Alpha (Security Guardian) -->
+                    <div class="p-4 rounded-3xl bg-black/60 border border-orange-500/25 space-y-2.5 max-w-3xl">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-full bg-orange-600/40 text-orange-300 font-bold text-[10px] flex items-center justify-center border border-orange-500/30">SA</div>
+                                <span class="font-bold text-orange-300">Scout-Alpha (Security Guardian)</span>
+                                <span class="text-[9px] px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-400 border border-orange-500/30 font-mono">Analysis</span>
+                            </div>
+                            <span class="text-[10px] text-slate-400 font-mono">12:44:10 PM</span>
+                        </div>
+                        <p class="text-slate-200 leading-relaxed text-[12px]">
+                            I caught an unusual spike in failed logins on the <strong class="text-white">Login Gateway</strong> (<code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code>). There were <strong class="text-rose-400">14 consecutive failed attempts in 30 seconds</strong> coming from an unrecognized device (<code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">192.168.1.105</code>).
+                        </p>
+
