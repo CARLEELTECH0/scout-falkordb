@@ -16,3 +16,20 @@ def test_db_instance():
     assert res[0][0] == 10
 
 def test_track3_company_brain():
+    brain = CompanyBrain()
+    # Test employee reporting chain
+    emp = brain.get_employee_context("EMP-03")
+    assert emp["name"] == "Charlie Kim"
+    assert "Bob Martinez" in emp["management_chain"]
+
+    # Test blast radius on Tier-1 gateway
+    blast = brain.compute_blast_radius("AST-01")
+    assert blast["asset_name"] == "prod-auth-gateway"
+    assert blast["calculated_risk_score"] > 50
+    assert "Bob Martinez" in blast["exposed_employees"]
+
+    # Test access path audit
+    paths = brain.audit_access_path("EMP-02", "AST-01")
+    assert len(paths) > 0
+
+def test_track2_agent_memory():
