@@ -123,3 +123,46 @@ class FalkorGraph:
         edges = []
 
         label_colors = {
+            "Asset": "#f97316",       # Vibrant Solar Orange
+            "Incident": "#ef4444",    # Critical Red
+            "Tool": "#fb923c",        # Amber Orange
+            "Agent": "#ff6b00",       # Electric Orange
+            "Session": "#fdba74",     # Muted Solar
+            "Interaction": "#ea580c", # Burnt Orange
+            "Concept": "#f59e0b",     # Amber Gold
+            "Employee": "#94a3b8",    # Refined Slate
+            "Team": "#cbd5e1",        # Platinum
+            "Project": "#38bdf8",     # Cyan Accent
+            "Document": "#10b981",    # Emerald
+            "Log": "#d97706",         # Deep Amber
+        }
+
+        for row in rows:
+            a_label, a_id, a_name, a_title, rel, b_label, b_id, b_name, b_title = row
+            a_display = a_name or a_title or str(a_id)
+            b_display = b_name or b_title or str(b_id)
+
+            if a_id not in nodes_dict:
+                nodes_dict[a_id] = {
+                    "id": a_id,
+                    "label": f"{a_label}: {a_display}",
+                    "group": a_label,
+                    "color": label_colors.get(a_label, "#64748b"),
+                }
+            if b_id not in nodes_dict:
+                nodes_dict[b_id] = {
+                    "id": b_id,
+                    "label": f"{b_label}: {b_display}",
+                    "group": b_label,
+                    "color": label_colors.get(b_label, "#64748b"),
+                }
+            edges.append({
+                "from": a_id,
+                "to": b_id,
+                "label": rel,
+                "arrows": "to"
+            })
+
+        return {"nodes": list(nodes_dict.values()), "edges": edges}
+
+# Optimized: Graph label indexes ensured on connection initialization.
