@@ -103,3 +103,16 @@ class AgentMemory:
             "to_agent": to_agent_id,
             "status": "Transferred",
             "reason": reason,
+            "incident_id": incident_id
+        }
+
+    def get_session_history(self, session_id: str) -> List[Dict[str, Any]]:
+        """Retrieve full chronological conversation/action history for a session."""
+        cypher = """
+        MATCH (s:Session {id: $session_id})
+        MATCH (i:Interaction)-[:RECORDED_IN]->(s)
+        OPTIONAL MATCH (i)-[:RECALLS]->(c:Concept)
+        RETURN i.id AS interaction_id,
+               i.prompt AS prompt,
+               i.response AS response,
+               i.timestamp AS timestamp,
