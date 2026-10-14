@@ -63,3 +63,13 @@ class CompanyBrain:
             len(res.get("exposed_documents", [])) * 20 +
             (50 if res.get("tier") == "Tier-0" else 20)
         )
+        res["calculated_risk_score"] = risk_score
+        res["severity"] = "CRITICAL" if risk_score > 100 else ("HIGH" if risk_score > 50 else "MEDIUM")
+        return res
+
+    def audit_access_path(self, employee_id: str, asset_id: str) -> List[Dict[str, Any]]:
+        """Explain the relationship path between an employee and an asset."""
+        cypher = """
+        MATCH path = (e:Employee {id: $emp_id})-[*1..3]-(a:Asset {id: $asset_id})
+        RETURN [n in nodes(path) | {id: n.id, label: labels(n)[0], name: coalesce(n.name, n.title)}] AS nodes,
+               [r in relationships(path) | type(r)] AS relationships
