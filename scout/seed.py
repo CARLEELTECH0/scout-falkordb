@@ -50,3 +50,23 @@ def seed_enterprise_graph():
     ]
     for t in teams:
         db.create_node("Team", t)
+
+    memberships = [
+        ("EMP-01", "TEAM-01"), ("EMP-02", "TEAM-01"), ("EMP-03", "TEAM-01"),
+        ("EMP-04", "TEAM-02"), ("EMP-05", "TEAM-02"),
+        ("EMP-06", "TEAM-03"), ("EMP-07", "TEAM-03"), ("EMP-08", "TEAM-03"),
+        ("EMP-09", "TEAM-03"), ("EMP-10", "TEAM-01"),
+    ]
+    for emp_id, team_id in memberships:
+        db.create_edge("Employee", emp_id, "MEMBER_OF", "Team", team_id)
+
+    projects = [
+        {"id": "PRJ-01", "name": "Project FalconShield", "status": "Active", "risk": "Critical", "description": "Zero-trust IAM overhaul"},
+        {"id": "PRJ-02", "name": "Project Horizon Cloud", "status": "Active", "risk": "Medium", "description": "Multi-region microservices deployment"},
+    ]
+    for p in projects:
+        db.create_node("Project", p)
+
+    assignments = [
+        ("EMP-02", "PRJ-01"), ("EMP-03", "PRJ-01"), ("EMP-04", "PRJ-01"),
+        ("EMP-05", "PRJ-02"), ("EMP-06", "PRJ-02"), ("EMP-07", "PRJ-02"),
