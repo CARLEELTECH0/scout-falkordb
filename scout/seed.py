@@ -108,3 +108,15 @@ def seed_enterprise_graph():
     ]
     for prj_id, doc_id in project_docs:
         db.create_edge("Project", prj_id, "CONTAINS", "Document", doc_id)
+
+    # =========================================================================
+    # Track 2: Agent Memory & Coordination
+    # =========================================================================
+    agents = [
+        {"id": "AGT-01", "name": "Scout-Investigator", "version": "1.0", "status": "Active", "specialty": "Triage"},
+        {"id": "AGT-02", "name": "Scout-Remediator", "version": "1.0", "status": "Standby", "specialty": "Action"},
+    ]
+    for ag in agents:
+        db.create_node("Agent", ag)
+
+    sessions = [
