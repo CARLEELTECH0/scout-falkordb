@@ -73,3 +73,33 @@ class ScoutActionAgent:
                     "exposed_employees": blast_radius.get("exposed_employees", []),
                     "affected_projects": blast_radius.get("affected_projects", []),
                     "risk_score": blast_radius.get("calculated_risk_score")
+                }
+            })
+
+        # Hop 4: Check Agent Memory for Historical Precedents
+        concept_recalled = "BruteForceSpike" if "brute" in inc_info["title"].lower() or "auth" in inc_info["title"].lower() else "DataExfiltrationRisk"
+        past_solutions = self.memory.recall_procedural_memory(concept_recalled)
+        hops_trace.append({
+            "hop": 3,
+            "description": f"Retrieved procedural memory for semantic concept '{concept_recalled}'.",
+            "data": {
+                "concept": concept_recalled,
+                "precedents_found": len(past_solutions),
+                "recommended_tools": past_solutions[0].get("tools_used", []) if past_solutions else ["TOOL-02"]
+            }
+        })
+
+        # Hop 5: Action & Tool Selection
+        action_taken = None
+        tool_executed = None
+        if inc_info["severity"] in ("High", "Critical") and asset_id:
+            # Select and run FirewallQuarantine (TOOL-02)
+            tool_executed = "TOOL-02"  # FirewallQuarantine
+            action_taken = self.quarantine_asset(asset_id, reason=f"Triggered by {incident_id}")
+            # Update incident status
+            self.db.update_node("Incident", incident_id, {"status": "Contained"})
+            # Link agent tool execution in graph
+            self.db.create_edge("Agent", self.agent_id, "USED_TOOL", "Tool", tool_executed)
+            self.db.create_edge("Agent", self.agent_id, "INVESTIGATED", "Incident", incident_id)
+
+            hops_trace.append({
