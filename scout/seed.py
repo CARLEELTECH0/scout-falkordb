@@ -180,3 +180,9 @@ def seed_enterprise_graph():
     for l in logs:
         db.create_node("Log", l)
 
+    incidents = [
+        {"id": "INC-2026-001", "title": "Gateway Brute-Force Attack", "severity": "High", "status": "UnderInvestigation", "created_at": "2026-10-14T08:03:00Z"},
+        {"id": "INC-2026-002", "title": "Anomalous Database Bulk Extraction", "severity": "Critical", "status": "Contained", "created_at": "2026-10-14T09:33:00Z"},
+    ]
+    for inc in incidents:
+        db.create_node("Incident", inc)
