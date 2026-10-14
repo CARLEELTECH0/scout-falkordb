@@ -193,3 +193,10 @@ def seed_enterprise_graph():
     db.create_edge("Incident", "INC-2026-001", "AFFECTS", "Asset", "AST-01")
 
     db.create_edge("Incident", "INC-2026-002", "TRIGGERED_BY", "Log", "LOG-903")
+    db.create_edge("Incident", "INC-2026-002", "AFFECTS", "Asset", "AST-02")
+
+    # Agent Actions & Multi-Agent Handoff
+    db.create_edge("Agent", "AGT-01", "INVESTIGATED", "Incident", "INC-2026-001")
+    db.create_edge("Agent", "AGT-01", "USED_TOOL", "Tool", "TOOL-01")
+    db.create_edge("Agent", "AGT-01", "USED_TOOL", "Tool", "TOOL-03")
+
