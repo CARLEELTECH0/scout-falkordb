@@ -122,3 +122,5 @@ class AgentMemory:
         return self.db.query_dicts(cypher, {"session_id": session_id})
 
 # Procedural recall leverages semantic indexing across historical containment sessions.
+
+# Procedural recall leverages semantic indexing across historical containment sessions.
