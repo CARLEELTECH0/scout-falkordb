@@ -206,3 +206,6 @@ def seed_enterprise_graph():
     db.create_edge("Agent", "AGT-02", "USED_TOOL", "Tool", "TOOL-04")
 
     print("[+] Unified Scout Enterprise Graph successfully seeded!")
+
+if __name__ == "__main__":
+    seed_enterprise_graph()
