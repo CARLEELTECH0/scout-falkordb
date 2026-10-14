@@ -38,3 +38,53 @@ def run_demo():
     session_id = memory.start_session("AGT-01", "EMP-02", "Investigating Gateway Anomalies")
     print(f"[*] Initialized Graph Memory Session: {session_id}")
     procedural = memory.recall_procedural_memory("BruteForceSpike")
+    print(f"[*] Recalled Past Procedural Memory for 'BruteForceSpike':")
+    if procedural:
+        print(f"    - Historical Tools Used: {procedural[0].get('tools_used')}")
+        print(f"    - Past Resolution Pattern: {procedural[0].get('past_solutions')[:1]}")
+
+    print("\n--- [TRACK 1: ACTION AGENT MULTI-HOP INVESTIGATION] ---")
+    agent = ScoutActionAgent(agent_id="AGT-01")
+    incident_id = "INC-2026-001"
+    print(f"[*] Dispatching Scout Autonomous Investigator on {incident_id}...")
+    result = agent.investigate_incident(incident_id, session_id=session_id)
+
+    print("\n[+] MULTI-HOP REASONING TRACE:")
+    for hop in result.get("reasoning_hops", []):
+        print(f"    Hop {hop['hop']}: {hop['description']}")
+        print(f"      -> Data: {hop['data']}")
+
+    print("\n[+] EXPLAINABLE VERDICT & RESOLUTION:")
+    print(f"    {result.get('explainable_verdict')}")
+    print(f"    Final Status: {result.get('final_status')}")
+    print(f"    Mitigation Tool Executed: {result.get('tools_used')}")
+
+    print("\n--- [TRACK 2: MULTI-AGENT HANDOFF] ---")
+    handoff = memory.handoff_agent_task(
+        from_agent_id="AGT-01",
+        to_agent_id="AGT-02",
+        reason="Quarantine verified; transfer to Remediator for IAM credential rotation",
+        incident_id=incident_id
+    )
+    print(f"[+] Multi-Agent Task Transferred in Graph: {handoff['from_agent']} -> {handoff['to_agent']}")
+    print("=" * 70)
+    print("All 3 tracks demonstrated with 100% Cypher-driven graph execution!")
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1] == "demo":
+        run_demo()
+    elif sys.argv[1] == "seed":
+        seed_enterprise_graph()
+    elif sys.argv[1] == "serve":
+        port = int(sys.argv[2]) if len(sys.argv) > 2 else 8000
+        print(f"[*] Launching Scout Dashboard at http://localhost:{port}")
+        uvicorn.run("scout.api:app", host="0.0.0.0", port=port, reload=True)
+    elif sys.argv[1] == "mcp":
+        from scout.mcp_server import main as mcp_main
+        mcp_main()
+    else:
+        print(f"Unknown command: {sys.argv[1]}")
+        print("Available: demo, seed, serve, mcp")
+
+if __name__ == "__main__":
+    main()
