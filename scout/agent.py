@@ -103,3 +103,33 @@ class ScoutActionAgent:
             self.db.create_edge("Agent", self.agent_id, "INVESTIGATED", "Incident", incident_id)
 
             hops_trace.append({
+                "hop": 4,
+                "description": "Selected mitigation tool and quarantined compromised asset.",
+                "data": {
+                    "tool": "TOOL-02 (FirewallQuarantine)",
+                    "action": "Asset isolated and incident status updated to Contained"
+                }
+            })
+
+        # Record this investigation in memory session if provided
+        if session_id:
+            summary = f"Investigated {incident_id} ({inc_info['title']}). Target {inc_info.get('asset_name')} quarantined via {tool_executed}."
+            self.memory.record_interaction(
+                session_id=session_id,
+                prompt=f"Investigate {incident_id}",
+                response=summary,
+                concept_names=[concept_recalled]
+            )
+
+        return {
+            "incident_id": incident_id,
+            "title": inc_info["title"],
+            "severity": inc_info["severity"],
+            "final_status": "Contained" if action_taken else inc_info["status"],
+            "blast_radius": blast_radius,
+            "tools_used": [tool_executed] if tool_executed else [],
+            "reasoning_hops": hops_trace,
+            "explainable_verdict": (
+                f"Incident {incident_id} is a {inc_info['severity']} severity event affecting {inc_info.get('asset_name')} "
+                f"({inc_info.get('asset_tier')}). Because {len(blast_radius.get('exposed_employees', []))} employees and "
+                f"{len(blast_radius.get('affected_projects', []))} critical projects are downstream, Scout executed "
