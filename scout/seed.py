@@ -33,3 +33,20 @@ def seed_enterprise_graph():
         ("EMP-02", "EMP-01"),
         ("EMP-03", "EMP-02"),
         ("EMP-04", "EMP-01"),
+        ("EMP-05", "EMP-04"),
+        ("EMP-07", "EMP-04"),
+        ("EMP-08", "EMP-04"),
+        ("EMP-06", "EMP-01"),
+        ("EMP-09", "EMP-01"),
+        ("EMP-10", "EMP-01"),
+    ]
+    for sub, sup in reports:
+        db.create_edge("Employee", sub, "REPORTS_TO", "Employee", sup)
+
+    teams = [
+        {"id": "TEAM-01", "name": "SecOps", "department": "Information Security"},
+        {"id": "TEAM-02", "name": "Cloud Platform", "department": "Infrastructure"},
+        {"id": "TEAM-03", "name": "Core Product", "department": "Engineering"},
+    ]
+    for t in teams:
+        db.create_node("Team", t)
