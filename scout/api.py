@@ -278,3 +278,103 @@ def dashboard():
             align-items: center;
             justify-content: center;
             gap: 6px;
+            height: 40px;
+            padding: 0 16px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            color: #cbd5e1;
+            background: rgba(22, 28, 44, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: all 140ms var(--spring-curve);
+        }
+        .btn-obsidian:hover {
+            background: rgba(32, 40, 62, 0.85);
+            border-color: rgba(249, 115, 22, 0.40);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* Soundwave Equalizer Bars */
+        @keyframes soundwave {
+            0%, 100% { height: 4px; }
+            50% { height: 18px; }
+        }
+        .sound-bar-1 { animation: soundwave 1.1s infinite ease-in-out 0.1s; }
+        .sound-bar-2 { animation: soundwave 1.1s infinite ease-in-out 0.35s; }
+        .sound-bar-3 { animation: soundwave 1.1s infinite ease-in-out 0.2s; }
+        .sound-bar-4 { animation: soundwave 1.1s infinite ease-in-out 0.5s; }
+        .sound-bar-5 { animation: soundwave 1.1s infinite ease-in-out 0.25s; }
+
+        .waveform-bar {
+            width: 2.5px;
+            border-radius: 2px;
+            background-color: #cbd5e1;
+        }
+
+        /* Micro scrollbars */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(249, 115, 22, 0.28);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(249, 115, 22, 0.50);
+        }
+
+        /* Floating Bottom Nav Pill */
+        .bottom-dock {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 60;
+            background: rgba(14, 18, 30, 0.88);
+            backdrop-filter: blur(28px) saturate(220%);
+            -webkit-backdrop-filter: blur(28px) saturate(220%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 9999px;
+            padding: 6px 10px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.80), 0 0 30px rgba(249, 115, 22, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dock-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: 38px;
+            padding: 0 16px;
+            border-radius: 9999px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #94a3b8;
+            transition: all 0.2s var(--spring-curve);
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid transparent;
+        }
+        .dock-tab:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .dock-tab.active {
+            color: #ffffff;
+            background: linear-gradient(180deg, rgba(255, 107, 0, 0.22) 0%, rgba(234, 88, 12, 0.35) 100%);
+            border: 1px solid rgba(249, 115, 22, 0.50);
+            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+        }
+
+        /* Honeycomb Node Hover & Drag */
+        .hex-cell {
+            cursor: grab;
