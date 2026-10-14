@@ -51,3 +51,10 @@ def test_track2_agent_memory():
     assert handoff["status"] == "Transferred"
 
 def test_track1_action_agent():
+    agent = ScoutActionAgent("AGT-01")
+    res = agent.investigate_incident("INC-2026-001")
+    assert res["final_status"] == "Contained"
+    assert "TOOL-02" in res["tools_used"]
+    assert len(res["reasoning_hops"]) >= 3
+
+    # Test automated log triage
