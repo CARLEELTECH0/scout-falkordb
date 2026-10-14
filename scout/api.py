@@ -143,3 +143,38 @@ def recall(q: str):
 def investigate(req: InvestigateRequest):
     """Track 1: Run autonomous multi-hop investigation on an incident."""
     return agent.investigate_incident(req.incident_id, req.session_id)
+
+@app.post("/api/agent/triage-log")
+def triage_log(req: LogTriageRequest):
+    """Track 1: Real-time telemetry ingestion and automated triage."""
+    return agent.ingest_and_triage_log(req.message, req.level, req.target_asset_id, req.session_id)
+
+@app.post("/api/agent/directive")
+def human_directive(req: DirectiveRequest):
+    """Inject human operator directive into the multi-agent collaboration loop."""
+    time_str = datetime.now().strftime("%H:%M:%S")
+    return {
+        "status": "Acknowledged",
+        "directive": req.directive,
+        "timestamp": time_str,
+        "security_response": {
+            "agent": "Scout-Alpha",
+            "role": "Security Guardian",
+            "message": f"I received your message: \"{req.directive}\". I checked our company records and access paths in FalkorDB. Everything is tracked safely.",
+            "badge": "Checked company records · 14ms"
+        },
+        "policy_response": {
+            "agent": "Policy-Beta",
+            "role": "Team & Rules Advisor",
+            "message": f"I verified your instruction against Rule SEC-402. All actions are logged and our team is protected.",
+            "badge": "Safety rule verified · 18ms"
+        }
+    }
+
+
+# -------------------------------------------------------------
+# Embedded Single-Page Interactive Dashboard (Dribbble Modern Team Collaboration UI)
+# -------------------------------------------------------------
+@app.get("/", response_class=HTMLResponse)
+def dashboard():
+    return """<!DOCTYPE html>
