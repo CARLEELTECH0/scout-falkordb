@@ -163,3 +163,38 @@ FALKORDB_PASSWORD=your_password
 
 ### 3. Run the Autonomous Demo
 Execute the full multi-hop end-to-end investigation workflow:
+```bash
+python run.py demo
+```
+
+### 4. Launch the Interactive Web Dashboard
+```bash
+python run.py serve 8000
+```
+Open **[http://localhost:8000](http://localhost:8000)** in your browser to view:
+* The live FalkorDB interactive graph topology.
+* Real-time multi-hop agent reasoning stream.
+* Simulation button to trigger live authentication attacks.
+
+---
+
+## 🔌 Model Context Protocol (MCP) Integration
+Scout can be plugged directly into Claude Code, Antigravity, Cursor, or Hermes as an MCP tool server:
+```bash
+python run.py mcp
+```
+Exposes tools:
+* `scout_compute_blast_radius`
+* `scout_investigate_incident`
+* `scout_recall_memory`
+* `scout_audit_access_path`
+* `scout_quarantine_asset`
+
+---
+
+## 📜 License
+MIT License. Built for FalkorDB Graph Hacks 2026.
+
+
+<!-- Verified FalkorDB Graph Hacks 2026 Submission -->
+<!-- Release Version 1.0.0 Production Ready -->
