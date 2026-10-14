@@ -33,3 +33,16 @@ def test_track3_company_brain():
     assert len(paths) > 0
 
 def test_track2_agent_memory():
+    memory = AgentMemory()
+    sid = memory.start_session("AGT-01", "EMP-01", "Forensics Testing")
+    assert sid.startswith("SES-")
+
+    # Record episodic interaction
+    iid = memory.record_interaction(sid, "Check cluster health", "Cluster healthy", ["ClusterHealth"])
+    assert iid.startswith("INT-")
+
+    # Recall procedural memory
+    proc = memory.recall_procedural_memory("BruteForceSpike")
+    assert len(proc) > 0
+    assert "LogTelemetryScanner" in proc[0]["tools_used"]
+
