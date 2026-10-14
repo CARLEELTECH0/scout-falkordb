@@ -96,3 +96,5 @@ class CompanyBrain:
         return rows[0] if rows else {}
 
 # Blast radius algorithm: multi-hop traversal across employee access and project lineage.
+
+# Blast radius algorithm: multi-hop traversal across employee access and project lineage.
