@@ -133,3 +133,23 @@ class ScoutActionAgent:
                 f"Incident {incident_id} is a {inc_info['severity']} severity event affecting {inc_info.get('asset_name')} "
                 f"({inc_info.get('asset_tier')}). Because {len(blast_radius.get('exposed_employees', []))} employees and "
                 f"{len(blast_radius.get('affected_projects', []))} critical projects are downstream, Scout executed "
+                f"{tool_executed or 'telemetry scan'} to neutralize lateral movement."
+            )
+        }
+
+    def quarantine_asset(self, asset_id: str, reason: str) -> Dict[str, Any]:
+        """Mutate the graph: Mark an asset as Quarantined and link to this agent."""
+        props = {
+            "status": "Quarantined",
+            "quarantine_reason": reason,
+            "quarantined_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        }
+        self.db.update_node("Asset", asset_id, props)
+        self.db.create_edge("Asset", asset_id, "QUARANTINED_BY", "Agent", self.agent_id, {
+            "reason": reason,
+            "timestamp": props["quarantined_at"]
+        })
+        return {"asset_id": asset_id, "status": "Quarantined", "reason": reason}
+
+    def ingest_and_triage_log(
+        self,
