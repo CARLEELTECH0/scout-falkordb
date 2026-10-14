@@ -192,6 +192,37 @@ Exposes tools:
 
 ---
 
+## 🎨 Modern Collaboration UI & Honeycomb Architecture
+
+Scout's frontend visualizer is inspired by the **Dribbble Modern Team Collaboration App** design system (Chat, Tasks & Voice Calls) and features:
+
+1. **First Frame Focus**:
+   - The workspace immediately surfaces the **AI Team Chat Stream & Current Situation Banner**.
+   - Displays real-time reasoning and discussions between `Scout-Alpha` (Security Guardian) and `Policy-Beta` (Team & Rules Advisor).
+   - Features playable audio voice note bubbles with animated soundwave equalizers and document attachments.
+
+2. **Dynamic Honeycomb Lattice Graph**:
+   - Interactive regular hexagon SVG cells arranged in an axial honeycomb spiral:
+     $$x = \text{centerX} + R \cdot \sqrt{3} \cdot (q + r/2)$$
+     $$y = \text{centerY} + R \cdot \frac{3}{2} \cdot r$$
+   - Dynamic pointer-capture physics allowing fluid drag-and-drop manipulation of any hexagon node while relational edges smoothly track adjacent cells.
+
+3. **Strict Color Architecture**:
+   - **People / Employees**: Encoded in **Secondary Color** (Vibrant Violet `#a855f7`) for contrast against operational states.
+   - **Situations & Threats**: Strictly mapped to **Primary RGY** (Red, Green, Yellow):
+     - 🔴 **Red**: Critical risks and compromised assets (`prod-auth-gateway`, active brute force).
+     - 🟡 **Yellow**: Elevated access and monitored assets (`prod-falcon-cluster`, `Project FalconShield`).
+     - 🟢 **Green**: Operational, safe, or quarantined & contained assets (`analytics-warehouse`, and quarantined targets post-lockdown).
+
+4. **Floating Bottom Navigation Dock**:
+   - Clean floating frosted-glass dock with simple, jargon-free English navigation:
+     - `💬 AI Team Chat` (Active situation & directives)
+     - `🚨 Alerts & Fixes` (Step-by-step reasoner & one-click quarantine)
+     - `🕸️ Honeycomb Map` (Dynamic network visualizer)
+     - `📊 Overview` (Voice calls, team channels, checklist, and live feed)
+
+---
+
 ## 📜 License
 MIT License. Built for FalkorDB Graph Hacks 2026.
 
