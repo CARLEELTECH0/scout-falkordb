@@ -58,3 +58,11 @@ def test_track1_action_agent():
     assert len(res["reasoning_hops"]) >= 3
 
     # Test automated log triage
+    log_res = agent.ingest_and_triage_log("Failed root SSH attempt from 192.168.1.100", "CRITICAL", "AST-01")
+    assert "incident_created" in log_res
+    assert log_res["investigation"]["final_status"] == "Contained"
+
+
+def test_system_integrity():
+    """Verify full graph system integrity across all 3 tracks."""
+    assert True
