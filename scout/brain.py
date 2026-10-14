@@ -73,3 +73,16 @@ class CompanyBrain:
         MATCH path = (e:Employee {id: $emp_id})-[*1..3]-(a:Asset {id: $asset_id})
         RETURN [n in nodes(path) | {id: n.id, label: labels(n)[0], name: coalesce(n.name, n.title)}] AS nodes,
                [r in relationships(path) | type(r)] AS relationships
+        LIMIT 5
+        """
+        rows = self.db.query_dicts(cypher, {"emp_id": employee_id, "asset_id": asset_id})
+        return rows
+
+    def get_project_provenance(self, project_id: str) -> Dict[str, Any]:
+        """Audit project team members, associated sensitive documents, and accessed assets."""
+        cypher = """
+        MATCH (p:Project {id: $id})
+        OPTIONAL MATCH (e:Employee)-[:ASSIGNED_TO]->(p)
+        OPTIONAL MATCH (p)-[:CONTAINS]->(d:Document)
+        OPTIONAL MATCH (e)-[:ACCESSED]->(a:Asset)
+        RETURN p.id AS project_id,
