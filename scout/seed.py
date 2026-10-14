@@ -86,3 +86,25 @@ def seed_enterprise_graph():
         ("EMP-02", "AST-01", {"protocol": "SSH", "last_active": "2026-10-14T08:12:00Z"}),
         ("EMP-04", "AST-01", {"protocol": "Bastion", "last_active": "2026-10-13T14:20:00Z"}),
         ("EMP-06", "AST-02", {"protocol": "PG-Wire", "last_active": "2026-10-14T09:00:00Z"}),
+        ("EMP-07", "AST-02", {"protocol": "TLS", "last_active": "2026-10-14T09:15:00Z"}),
+        ("EMP-05", "AST-03", {"protocol": "Kubectl", "last_active": "2026-10-14T07:45:00Z"}),
+    ]
+    for emp_id, ast_id, props in access_edges:
+        db.create_edge("Employee", emp_id, "ACCESSED", "Asset", ast_id, props)
+
+    docs = [
+        {"id": "DOC-01", "title": "Zero-Trust Architecture Spec", "classification": "Secret", "uri": "s3://corp-docs/sec-01.pdf"},
+        {"id": "DOC-02", "title": "FalkorDB Graph Cluster Runbook", "classification": "Confidential", "uri": "s3://corp-docs/db-02.md"},
+        {"id": "DOC-03", "title": "IAM Incident Response Playbook", "classification": "Secret", "uri": "s3://corp-docs/playbook-03.pdf"},
+        {"id": "DOC-04", "title": "Kubernetes Ingress Firewall Rules", "classification": "Confidential", "uri": "s3://corp-docs/k8s-04.yaml"},
+        {"id": "DOC-05", "title": "Customer Data Retention Policy", "classification": "Internal", "uri": "s3://corp-docs/audit-05.pdf"},
+    ]
+    for d in docs:
+        db.create_node("Document", d)
+
+    project_docs = [
+        ("PRJ-01", "DOC-01"), ("PRJ-01", "DOC-03"),
+        ("PRJ-02", "DOC-02"), ("PRJ-02", "DOC-04"), ("PRJ-01", "DOC-05"),
+    ]
+    for prj_id, doc_id in project_docs:
+        db.create_edge("Project", prj_id, "CONTAINS", "Document", doc_id)
