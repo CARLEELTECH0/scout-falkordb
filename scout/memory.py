@@ -23,3 +23,23 @@ class AgentMemory:
             "topic": topic
         }
         self.db.create_node("Session", props)
+        self.db.create_edge("Agent", agent_id, "HAS_SESSION", "Session", session_id)
+        return session_id
+
+    def record_interaction(
+        self,
+        session_id: str,
+        prompt: str,
+        response: str,
+        concept_names: Optional[List[str]] = None
+    ) -> str:
+        """Store an interaction (episodic memory) and link to semantic concepts."""
+        interaction_id = f"INT-{uuid.uuid4().hex[:6].upper()}"
+        props = {
+            "id": interaction_id,
+            "prompt": prompt,
+            "response": response,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        }
+        self.db.create_node("Interaction", props)
+        self.db.create_edge("Interaction", interaction_id, "RECORDED_IN", "Session", session_id)
