@@ -86,3 +86,13 @@ class CompanyBrain:
         OPTIONAL MATCH (p)-[:CONTAINS]->(d:Document)
         OPTIONAL MATCH (e)-[:ACCESSED]->(a:Asset)
         RETURN p.id AS project_id,
+               p.name AS project_name,
+               p.risk AS risk_level,
+               collect(DISTINCT e.name) AS team_members,
+               collect(DISTINCT d.title) AS documents,
+               collect(DISTINCT a.name) AS connected_infrastructure
+        """
+        rows = self.db.query_dicts(cypher, {"id": project_id})
+        return rows[0] if rows else {}
+
+# Blast radius algorithm: multi-hop traversal across employee access and project lineage.
