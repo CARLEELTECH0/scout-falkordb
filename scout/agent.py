@@ -168,3 +168,18 @@ class ScoutActionAgent:
         }
         self.db.create_node("Log", log_props)
 
+        # Check if log warrants an incident
+        is_suspicious = any(w in message.lower() for w in ["failed", "unauthorized", "bulk", "injection", "spike", "error"])
+        severity = "High" if ("root" in message.lower() or "bulk" in message.lower()) else "Medium"
+
+        if is_suspicious:
+            incident_id = f"INC-{uuid.uuid4().hex[:6].upper()}"
+            inc_props = {
+                "id": incident_id,
+                "title": f"Telemetry Alert: {message[:40]}...",
+                "severity": severity,
+                "status": "New",
+                "created_at": log_props["timestamp"]
+            }
+            self.db.create_node("Incident", inc_props)
+            self.db.create_edge("Incident", incident_id, "TRIGGERED_BY", "Log", log_id)
