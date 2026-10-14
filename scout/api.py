@@ -548,3 +548,153 @@ def dashboard():
                             I caught an unusual spike in failed logins on the <strong class="text-white">Login Gateway</strong> (<code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code>). There were <strong class="text-rose-400">14 consecutive failed attempts in 30 seconds</strong> coming from an unrecognized device (<code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">192.168.1.105</code>).
                         </p>
 
+                        <!-- Attached Log File Pill from Dribbble Shot -->
+                        <div class="flex items-center gap-2 p-2.5 rounded-2xl bg-orange-950/20 border border-orange-500/30 text-[11px] font-mono text-slate-200 hover:border-orange-500/50 transition cursor-pointer">
+                            <span class="text-orange-400 text-base">📄</span>
+                            <span class="font-medium text-white">login_activity_telemetry.log</span>
+                            <span class="text-slate-500 ml-auto">14.2 KB</span>
+                        </div>
+
+                        <!-- Interactive Voice Note Audio Player from Dribbble Shot -->
+                        <div class="p-3 rounded-2xl bg-orange-950/30 border border-orange-500/35 flex items-center gap-3">
+                            <button onclick="toggleVoiceAudio(this)" class="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 text-white flex items-center justify-center text-xs shadow-md shadow-orange-500/30 hover:scale-105 transition" title="Play Voice Brief">
+                                <span class="play-icon">▶</span>
+                            </button>
+                            <div class="flex-1 flex items-center gap-1 h-5">
+                                <span class="waveform-bar h-2 bg-orange-400"></span>
+                                <span class="waveform-bar h-4 bg-orange-400"></span>
+                                <span class="waveform-bar h-3 bg-orange-300"></span>
+                                <span class="waveform-bar h-5 bg-orange-400"></span>
+                                <span class="waveform-bar h-3 bg-orange-300"></span>
+                                <span class="waveform-bar h-4 bg-orange-400"></span>
+                                <span class="waveform-bar h-2 bg-orange-300"></span>
+                                <span class="waveform-bar h-5 bg-orange-400"></span>
+                                <span class="waveform-bar h-3 bg-orange-300"></span>
+                                <span class="waveform-bar h-4 bg-orange-400"></span>
+                                <span class="waveform-bar h-2 bg-orange-300"></span>
+                                <span class="waveform-bar h-4 bg-slate-500"></span>
+                                <span class="waveform-bar h-2 bg-slate-600"></span>
+                                <span class="waveform-bar h-3 bg-slate-600"></span>
+                                <span class="waveform-bar h-1 bg-slate-600"></span>
+                            </div>
+                            <span class="text-[10px] font-mono text-orange-300 font-bold">0:14</span>
+                        </div>
+
+                        <div class="flex justify-end pt-1">
+                            <span class="text-[10px] font-mono text-slate-400 bg-black/60 px-2.5 py-0.5 rounded-full border border-white/[0.08]">[Checked security logs · 12ms]</span>
+                        </div>
+                    </div>
+
+                    <!-- Message 2: Policy-Beta (Team & Rules Advisor) -->
+                    <div class="p-4 rounded-3xl bg-black/60 border border-purple-500/25 space-y-2.5 max-w-3xl ml-auto">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-full bg-purple-600/40 text-purple-300 font-bold text-[10px] flex items-center justify-center border border-purple-500/30">PB</div>
+                                <span class="font-bold text-purple-300">Policy-Beta (Team & Rules Advisor)</span>
+                                <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/30 font-mono">Rules Check</span>
+                            </div>
+                            <span class="text-[10px] text-slate-400 font-mono">12:44:13 PM</span>
+                        </div>
+
+                        <!-- Quoted Reply Box from Dribbble Shot -->
+                        <div class="p-2.5 rounded-2xl bg-purple-950/30 border-l-2 border-purple-400 text-[11px] text-slate-300 space-y-0.5">
+                            <span class="text-purple-400 font-semibold block text-[10px]">Replied to Scout-Alpha:</span>
+                            <p class="truncate italic opacity-85">"I caught an unusual spike in failed logins on the Login Gateway..."</p>
+                        </div>
+
+                        <p class="text-slate-200 leading-relaxed text-[12px]">
+                            I checked our company database in FalkorDB. The login key is used by <strong class="text-white">Bob Martinez</strong> (<span class="text-purple-300">SecOps Team</span>). This gateway connects directly to <strong class="text-amber-300">Project FalconShield</strong>. Under company safety rule <span class="text-purple-300 font-semibold">SEC-402</span>, automated lockdown is approved because the danger score is <strong class="text-rose-400">125 / 100</strong>.
+                        </p>
+
+                        <!-- Risk Score Meter -->
+                        <div class="p-2.5 rounded-2xl bg-purple-950/25 border border-purple-500/25 space-y-1">
+                            <div class="flex items-center justify-between text-[10px] font-mono">
+                                <span class="text-slate-400">Danger Level Meter</span>
+                                <span class="text-rose-400 font-bold">125 / 100 [High Priority · Lockdown Approved]</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-black/60 overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-amber-500 via-rose-500 to-red-600 rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end pt-1">
+                            <span class="text-[10px] font-mono text-slate-400 bg-black/60 px-2.5 py-0.5 rounded-full border border-white/[0.08]">[Verified team safety rules · 18ms]</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer Control: Modern Collaboration Input Dock (Direct from Dribbble Shot) -->
+                <div class="p-4 bg-black/60 border-t border-white/[0.08] shrink-0 space-y-2.5">
+                    
+                    <!-- Quick Directive Suggestion Chips -->
+                    <div class="flex items-center gap-2 overflow-x-auto text-[11px] font-medium text-slate-300">
+                        <span class="text-slate-500 text-[10px] uppercase font-mono">Quick Actions:</span>
+                        <button onclick="sendQuickDirective('Lock down Login Gateway now')" class="px-3 py-1 rounded-full bg-orange-500/15 hover:bg-orange-500/25 text-orange-300 border border-orange-500/30 transition shrink-0">
+                            ⚡ Lock Down Gateway
+                        </button>
+                        <button onclick="sendQuickDirective('Who has access to Login Gateway?')" class="px-3 py-1 rounded-full bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 transition shrink-0">
+                            🔍 Who has access?
+                        </button>
+                        <button onclick="sendQuickDirective('Show safety rule SEC-402')" class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-slate-200 border border-white/10 transition shrink-0">
+                            ⚖️ Check safety rules
+                        </button>
+                        <button onclick="sendQuickDirective('What teams are affected?')" class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-slate-200 border border-white/10 transition shrink-0">
+                            👥 Impacted teams
+                        </button>
+                    </div>
+
+                    <!-- Input Form -->
+                    <form id="directive-form" onsubmit="submitDirective(event)" class="flex items-center gap-2.5">
+                        <button type="button" class="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] text-slate-400 hover:text-white flex items-center justify-center text-sm transition" title="Voice Message">
+                            🎙️
+                        </button>
+                        <button type="button" class="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] text-slate-400 hover:text-white flex items-center justify-center text-sm transition" title="Attach Company File">
+                            📎
+                        </button>
+                        <input id="directive-input" type="text" placeholder="Message Scout-Alpha & Policy-Beta (or ask questions about the team & servers)..." class="h-11 bg-black/80 border border-white/10 focus:border-orange-500/60 rounded-full px-5 text-xs text-white placeholder-slate-500 flex-1 outline-none transition shadow-inner">
+                        <button type="submit" class="w-11 h-11 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 hover:scale-105 active:scale-95 text-white flex items-center justify-center shadow-lg shadow-orange-500/35 transition shrink-0" title="Send message to AI agents">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- VIEW 2: 🚨 LIVE ALERTS & QUICK FIXES (TRACK 1) -->
+        <!-- =================================================================== -->
+        <div id="view-alerts" class="w-full h-full p-5 hidden gap-5 overflow-hidden max-w-7xl mx-auto flex-col md:flex-row">
+            
+            <!-- Left Side: Alert Queue in Plain English -->
+            <div class="w-full md:w-[360px] dribbble-card p-4 flex flex-col space-y-3 shrink-0 bg-black/45">
+                <div class="flex items-center justify-between pb-2 border-b border-white/[0.08]">
+                    <div>
+                        <h2 class="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
+                            <span>🚨</span> Active Issues Queue
+                        </h2>
+                        <p class="text-[11px] text-slate-400">Current situation flags</p>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-mono text-[10px] font-bold border border-rose-500/30">1 Critical</span>
+                </div>
+
+                <!-- Alert Cards -->
+                <div class="space-y-2.5 flex-1 overflow-y-auto">
+                    <!-- Alert 1 (Selected) -->
+                    <div onclick="selectAlert('INC-2026-001')" id="alert-card-INC-2026-001" class="p-3.5 rounded-2xl bg-black/60 border border-orange-500/60 shadow-[0_0_20px_rgba(249,115,22,0.18)] cursor-pointer hover:border-orange-500 transition space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                                <div class="font-bold text-white text-xs">Login Gateway Brute-Force</div>
+                            </div>
+                            <span class="text-[10px] text-slate-400 font-mono">12:44 PM</span>
+                        </div>
+                        <p class="text-[11px] text-slate-300">14 failed logins detected on Login Gateway</p>
+                        <div class="flex items-center justify-between pt-1 text-[10px] font-mono">
+                            <span class="text-orange-300">Target: prod-auth-gateway</span>
+                            <span id="badge-alert-status" class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold">Needs Fix</span>
+                        </div>
+                    </div>
+
+                    <!-- Alert 2 -->
+                    <div onclick="selectAlert('INC-2026-002')" id="alert-card-INC-2026-002" class="p-3.5 rounded-2xl bg-black/35 border border-white/[0.06] cursor-pointer hover:border-orange-500/40 transition space-y-2">
