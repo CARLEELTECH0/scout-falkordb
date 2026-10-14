@@ -43,3 +43,23 @@ class CompanyBrain:
         OPTIONAL MATCH (e:Employee)-[:ACCESSED]->(a)
         OPTIONAL MATCH (e)-[:ASSIGNED_TO]->(p:Project)
         OPTIONAL MATCH (p)-[:CONTAINS]->(d:Document)
+        RETURN a.id AS asset_id,
+               a.name AS asset_name,
+               a.tier AS tier,
+               a.type AS asset_type,
+               collect(DISTINCT inc.id) AS related_incidents,
+               collect(DISTINCT e.name) AS exposed_employees,
+               collect(DISTINCT p.name) AS affected_projects,
+               collect(DISTINCT d.title) AS exposed_documents
+        """
+        rows = self.db.query_dicts(cypher, {"id": asset_id})
+        if not rows:
+            return {"error": f"Asset {asset_id} not found"}
+        res = rows[0]
+        # Calculate risk score
+        risk_score = (
+            len(res.get("exposed_employees", [])) * 10 +
+            len(res.get("affected_projects", [])) * 25 +
+            len(res.get("exposed_documents", [])) * 20 +
+            (50 if res.get("tier") == "Tier-0" else 20)
+        )
