@@ -201,8 +201,8 @@ def dashboard():
                     },
                     colors: {
                         brand: {
-                            500: '#f97316',
-                            600: '#ea580c',
+                            500: '#ea580c',
+                            600: '#c2410c',
                         }
                     }
                 }
@@ -213,7 +213,7 @@ def dashboard():
         :root {
             --bg-canvas: #07090e;
             --bg-card: rgba(18, 24, 38, 0.82);
-            --liquid-orange: #ff6b00;
+            --liquid-orange: #c2410c;
             --spring-curve: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -236,16 +236,16 @@ def dashboard():
 
         /* Solar Action Button */
         .btn-solar {
-            background: linear-gradient(135deg, #ff7a00 0%, #ff4d00 100%);
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
             border-radius: 9999px;
-            box-shadow: 0 10px 25px -5px rgba(255, 107, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 25px -5px rgba(194, 65, 12, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.3);
             color: #ffffff;
             font-weight: 600;
             transition: all 0.25s var(--spring-curve);
         }
         .btn-solar:hover {
             transform: scale(1.03);
-            box-shadow: 0 14px 30px -5px rgba(255, 107, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 14px 30px -5px rgba(194, 65, 12, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.4);
         }
 
         /* Obsidian Glass Secondary Button */
@@ -314,11 +314,11 @@ def dashboard():
         /* Floating Narrative Action Button (FAB) */
         #floating-narrative-btn {
             transition: all 0.3s var(--spring-curve);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(249, 115, 22, 0.35);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(194, 65, 12, 0.40);
         }
         #floating-narrative-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(249, 115, 22, 0.55);
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(194, 65, 12, 0.60);
         }
 
         /* Honeycomb Hexagon Animations */
@@ -407,8 +407,8 @@ def dashboard():
         /* Micro scrollbars */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.28); border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(249, 115, 22, 0.50); }
+        ::-webkit-scrollbar-thumb { background: rgba(194, 65, 12, 0.35); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(194, 65, 12, 0.55); }
     </style>
 </head>
 <body class="h-screen w-screen flex flex-col antialiased selection:bg-orange-500/30 selection:text-orange-200 overflow-hidden relative">
@@ -922,7 +922,7 @@ def dashboard():
                 } else if (n.group === "Team") {
                     color = "#38bdf8"; // Cyan
                 } else if (n.group === "Agent") {
-                    color = "#ff6b00"; // Solar Orange
+                    color = "#ea580c"; // Deep Burnt Orange
                 }
 
                 return { ...n, cx, cy, color };
