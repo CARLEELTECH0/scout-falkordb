@@ -159,7 +159,7 @@ Exposes tools:
 
 ## 🎨 Modern Collaboration UI & Honeycomb Architecture
 
-Scout's frontend visualizer is inspired by the **Dribbble Modern Team Collaboration App** design system (Chat, Tasks & Voice Calls) and features:
+Scout features a modern, responsive enterprise operations workspace designed for real-time threat investigation and team collaboration:
 
 1. **First Frame Focus**:
    - The workspace immediately surfaces the **AI Team Chat Stream & Current Situation Banner**.

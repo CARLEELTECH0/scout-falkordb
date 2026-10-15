@@ -285,8 +285,8 @@ def dashboard():
             overflow: hidden;
         }
 
-        /* Dribbble Pillowy Rounded Cards */
-        .dribbble-card {
+        /* Soft Rounded Glass Cards */
+        .scout-card {
             background: linear-gradient(150deg, rgba(22, 28, 46, 0.75) 0%, rgba(12, 16, 28, 0.92) 100%);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 28px;
@@ -557,7 +557,7 @@ def dashboard():
             </div>
 
             <!-- Active Selected Node Context Card -->
-            <div class="dribbble-card p-4 space-y-3 bg-black/60 border-orange-500/30 shrink-0">
+            <div class="scout-card p-4 space-y-3 bg-black/60 border-orange-500/30 shrink-0">
                 <div class="flex items-start gap-3">
                     <div id="ledger-icon" class="w-11 h-11 rounded-2xl bg-orange-600/20 border border-orange-500/40 text-orange-300 flex items-center justify-center text-2xl shrink-0">
                         💻
