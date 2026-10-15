@@ -214,6 +214,12 @@ Includes:
 * Organizational blast radius, exposed staff, and affected project dependencies.
 * Autonomous agent mitigation actions and FalkorDB episodic memory session tags.
 
+### Tactical Voice & Audio Synthesizer (`scout/audio.py`)
+Scout features real-time agent voice synthesis via browser Web Speech API and backend phonetics:
+* **Tactical Call Signs**: `Scout-Alpha` (Security Guardian) and `Policy-Beta` (Compliance Advisor).
+* **Live Audio Telemetry**: Automatic voice alerts during threat surges, containment actions, and human directive verifications.
+* **Equalizer Soundwave Sync**: Visual soundwave equalizer animations synchronized with real-time agent speech.
+
 ---
 
 ## 🚀 Performance Benchmarks (FalkorDB Sub-Millisecond Traversal)

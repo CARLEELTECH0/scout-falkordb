@@ -111,3 +111,21 @@ def test_evidence_exporter():
     assert "Organizational Blast Radius" in md
 
 
+def test_tactical_audio_synthesizer():
+    """Verify TacticalAudioSynthesizer generates phonetic scripts and tactical voice payloads."""
+    from scout.audio import TacticalAudioSynthesizer
+    synth = TacticalAudioSynthesizer()
+    cues = synth.list_cues()
+    assert "BREACH_ALERT" in cues
+    assert "CONTAINMENT_SUCCESS" in cues
+    assert "BLAST_RADIUS_WARNING" in cues
+    assert "DIRECTIVE_ACK" in cues
+
+    payload = synth.generate_cue("BREACH_ALERT", {"asset_name": "prod-auth-gateway"})
+    assert payload["callsign"] == "Scout-Alpha"
+    assert "prod-auth-gateway" in payload["spoken_text"]
+    assert payload["soundwave_active"] is True
+    assert 0.8 <= payload["pitch"] <= 1.2
+
+
+

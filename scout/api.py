@@ -22,6 +22,7 @@ from scout.agent import ScoutActionAgent
 from scout.seed import seed_enterprise_graph
 from scout.simulator import AttackSimulator
 from scout.exporter import EvidenceExporter
+from scout.audio import TacticalAudioSynthesizer
 
 app = FastAPI(title="Scout: Autonomous Enterprise Knowledge & Security Investigator", version="1.0.0")
 
@@ -39,6 +40,7 @@ memory = AgentMemory(db)
 agent = ScoutActionAgent(db=db)
 simulator = AttackSimulator(db=db)
 exporter = EvidenceExporter(db=db)
+audio_synth = TacticalAudioSynthesizer()
 
 # -------------------------------------------------------------
 # Request Schemas
@@ -50,6 +52,10 @@ class InvestigateRequest(BaseModel):
 class AttackSimulationRequest(BaseModel):
     vector: Optional[str] = None
     session_id: Optional[str] = "SES-101"
+
+class AudioSynthesisRequest(BaseModel):
+    event_type: str = "BREACH_ALERT"
+    context: Optional[Dict[str, Any]] = None
 
 class LogTriageRequest(BaseModel):
     message: str
@@ -69,6 +75,27 @@ class DirectiveRequest(BaseModel):
 # -------------------------------------------------------------
 # API Endpoints
 # -------------------------------------------------------------
+@app.get("/api/health")
+def health_check():
+    """Health check endpoint verifying FalkorDB connectivity and engine status."""
+    falkor_ok = True
+    try:
+        db.query("RETURN 1")
+    except Exception:
+        falkor_ok = False
+    return {
+        "status": "healthy" if falkor_ok else "degraded",
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "engine": "FalkorDB Graph Engine",
+        "tracks": {
+            "track1_action_agent": "operational",
+            "track2_agent_memory": "operational",
+            "track3_company_brain": "operational"
+        },
+        "audio_synthesizer": "operational",
+        "simulator": "operational"
+    }
+
 @app.get("/api/stats")
 def get_stats():
     """Return live summary counts across the graph."""
@@ -200,6 +227,11 @@ def export_evidence(incident_id: str, format: str = "markdown"):
     if format.lower() == "json":
         return exporter.generate_incident_bundle(incident_id)
     return PlainTextResponse(exporter.export_markdown(incident_id), media_type="text/markdown")
+
+@app.post("/api/audio/synthesize")
+def synthesize_audio(req: AudioSynthesisRequest):
+    """Generate tactical voice synthesis script and radio telemetry payload."""
+    return audio_synth.generate_cue(req.event_type, req.context)
 
 
 # -------------------------------------------------------------
@@ -490,6 +522,10 @@ def dashboard():
             </button>
             <button onclick="reseedGraph()" class="btn-obsidian text-xs px-3.5 py-1.5" title="Reset and reseed graph">
                 <span>🔄 Reset</span>
+            </button>
+            <button id="btn-audio-toggle" onclick="toggleTacticalAudio()" class="btn-obsidian text-xs px-3.5 py-1.5 flex items-center gap-1.5" title="Toggle Tactical Voice Alerts">
+                <span id="audio-icon">🔊</span>
+                <span id="audio-label">Voice On</span>
             </button>
         </div>
     </header>
@@ -845,6 +881,41 @@ def dashboard():
         let isQuarantined = false;
         let isNarrativeOpen = false;
         let isInspectorOpen = false;
+        let isAudioEnabled = true;
+
+        function toggleTacticalAudio() {
+            isAudioEnabled = !isAudioEnabled;
+            const icon = document.getElementById('audio-icon');
+            const label = document.getElementById('audio-label');
+            if (icon && label) {
+                icon.innerText = isAudioEnabled ? '🔊' : '🔇';
+                label.innerText = isAudioEnabled ? 'Voice On' : 'Muted';
+            }
+            if (window.speechSynthesis && !isAudioEnabled) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function speakTacticalAlert(text, pitch = 0.95, rate = 1.0) {
+            if (!isAudioEnabled || !('speechSynthesis' in window)) return;
+            try {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.pitch = pitch;
+                utter.rate = rate;
+                
+                const bars = document.querySelectorAll('.sound-bar-1, .sound-bar-2, .sound-bar-3');
+                utter.onstart = () => {
+                    bars.forEach(b => b.classList.add('animate-bounce'));
+                };
+                utter.onend = () => {
+                    bars.forEach(b => b.classList.remove('animate-bounce'));
+                };
+                window.speechSynthesis.speak(utter);
+            } catch (err) {
+                console.warn("Speech synthesis notice:", err);
+            }
+        }
 
         // Pan and Zoom State
         let panX = 0;
@@ -1312,6 +1383,7 @@ def dashboard():
                 // Sprout Containment Cell into grid
                 sproutNewBranch("AST-01", "ISOLATION_ZONE", "Containment Lock", "Security", "🛡️");
 
+                speakTacticalAlert("Threat contained. Target asset isolated in quarantine zone. Lateral movement neutralized.", 0.95, 1.0);
                 appendChatMessage("Scout-Alpha", "Asset AST-01 quarantined successfully in FalkorDB. Attack surface eliminated.", "scout", "Quarantine Active · 22ms");
             } catch (err) {
                 console.error("Mitigation error:", err);
@@ -1369,6 +1441,7 @@ def dashboard():
                 renderHoneycombCanvas();
                 openAlertSituationLedger();
 
+                speakTacticalAlert(`Security alert. Anomalous telemetry surge detected on ${data.target_asset_id}. Initiating graph triage in FalkorDB.`, 0.9, 1.05);
                 appendChatMessage("Scout-Alpha", `⚡ LIVE TELEMETRY SURGE [${data.vector}]: ${data.message}`, "scout", "Triage Surge · 9ms");
                 if (data.triage_result && data.triage_result.investigation) {
                     const inv = data.triage_result.investigation;
@@ -1473,6 +1546,7 @@ def dashboard():
                 }, 400);
 
                 setTimeout(() => {
+                    speakTacticalAlert(data.policy_response.message, 1.15, 0.98);
                     appendChatMessage("Policy-Beta", data.policy_response.message, "policy", data.policy_response.badge);
                 }, 900);
             } catch (err) {
