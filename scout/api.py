@@ -2,9 +2,10 @@
 FastAPI REST Backend & Interactive Single-Page Visualizer for Scout
 Serves the unified FalkorDB graph, multi-hop reasoning endpoints, and the Spatial Navigation Dashboard:
 - Top Context Bar: Search/Command bar, View pivots, Dynamic Micro-Telemetry Pill
-- Full-Screen Honeycomb: Wireframe grid, sprouting nodes, lineage highlighting, pulsing threat alert
-- Pop-Out Inspector Ledger: Contextual telemetry drawer that slides out when alert node is clicked
-- Floating Narrative Launcher: FAB bubble that expands into dual-stream chat drawer on demand
+- Left Panel: Pop-Out Inspector Ledger (Telemetry, Blast Radius, Step-by-Step Trace, Quarantine)
+- Center Panel: Dynamic Generative Honeycomb Hero Canvas (Lineage Highlighting, Threat Flow Paths, Multi-Layered Pulse)
+- Right Panel: Autonomous Agent Narrative (Dual-Stream Debate, Voice Waveform, Graph Mutation Anchors)
+- Seamless 3-Panel Side-By-Side View: When all panels are opened, they sit side-by-side without overlapping!
 """
 
 from fastapi import FastAPI, HTTPException
@@ -175,7 +176,7 @@ def human_directive(req: DirectiveRequest):
 
 
 # -------------------------------------------------------------
-# Spatial Navigation & Pop-Out Ledger Dashboard
+# Spatial Navigation & 3-Panel Side-By-Side Dashboard
 # -------------------------------------------------------------
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
@@ -219,180 +220,188 @@ def dashboard():
         body {
             background-color: var(--bg-canvas);
             color: #f1f5f9;
-            font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
-            letter-spacing: -0.012em;
-            height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
         }
 
         /* Dribbble Pillowy Rounded Cards */
         .dribbble-card {
-            background: linear-gradient(150deg, rgba(22, 28, 46, 0.85) 0%, rgba(12, 16, 28, 0.95) 100%);
-            backdrop-filter: blur(28px) saturate(210%);
-            -webkit-backdrop-filter: blur(28px) saturate(210%);
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            border-radius: 24px;
-            box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.80), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            background: linear-gradient(150deg, rgba(22, 28, 46, 0.75) 0%, rgba(12, 16, 28, 0.92) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        /* Solar Action Button */
+        .btn-solar {
+            background: linear-gradient(135deg, #ff7a00 0%, #ff4d00 100%);
+            border-radius: 9999px;
+            box-shadow: 0 10px 25px -5px rgba(255, 107, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-weight: 600;
             transition: all 0.25s var(--spring-curve);
         }
-
-        /* Solar Orange Button */
-        .btn-solar {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            height: 38px;
-            padding: 0 16px;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            border-radius: 9999px;
-            color: #ffffff;
-            background: linear-gradient(180deg, #ff7b24 0%, #ea580c 100%);
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            box-shadow: 0 4px 18px rgba(234, 88, 12, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-            cursor: pointer;
-            transition: all 140ms var(--spring-curve);
-        }
-        .btn-solar:hover:not(:disabled) {
-            background: linear-gradient(180deg, #ff8d3d 0%, #f97316 100%);
-            box-shadow: 0 6px 24px rgba(249, 115, 22, 0.60);
-            transform: translateY(-1px);
+        .btn-solar:hover {
+            transform: scale(1.03);
+            box-shadow: 0 14px 30px -5px rgba(255, 107, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.4);
         }
 
+        /* Obsidian Glass Secondary Button */
         .btn-obsidian {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            height: 38px;
-            padding: 0 14px;
-            font-size: 0.8125rem;
-            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 9999px;
             color: #cbd5e1;
-            background: rgba(22, 28, 44, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-            cursor: pointer;
-            transition: all 140ms var(--spring-curve);
-        }
-        .btn-obsidian:hover {
-            background: rgba(32, 40, 62, 0.85);
-            border-color: rgba(249, 115, 22, 0.40);
-            color: #ffffff;
-            transform: translateY(-1px);
-        }
-
-        /* Multi-Layered Threat Pulse Ring Animation */
-        @keyframes pulseRing {
-            0% { r: 36px; opacity: 0.95; stroke-width: 3.5px; }
-            50% { opacity: 0.40; }
-            100% { r: 76px; opacity: 0; stroke-width: 0.5px; }
-        }
-        .pulse-ring-1 {
-            animation: pulseRing 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-        }
-        .pulse-ring-2 {
-            animation: pulseRing 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite 0.75s;
-        }
-        .pulse-ring-3 {
-            animation: pulseRing 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite 1.5s;
-        }
-
-        /* Directional Animated Flowing Threat Path */
-        @keyframes threatFlow {
-            from { stroke-dashoffset: 32; }
-            to { stroke-dashoffset: 0; }
-        }
-        .threat-flow-path {
-            stroke: #ff6b00;
-            stroke-width: 3.5px;
-            stroke-dasharray: 8 5;
-            animation: threatFlow 1s linear infinite;
-            filter: drop-shadow(0 0 10px #ff6b00);
-        }
-
-        /* Sprouting Hexagon Scale Animation */
-        @keyframes sproutCard {
-            0% { transform: scale(0.2); opacity: 0; }
-            70% { transform: scale(1.08); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .sprouting-node {
-            transform-origin: center;
-            animation: sproutCard 0.45s var(--spring-curve) forwards;
-        }
-
-        /* Hexagon Interactivity */
-        .hex-cell {
-            cursor: pointer;
             transition: all 0.2s ease;
         }
-        .hex-cell:hover {
-            filter: drop-shadow(0 0 14px currentColor);
-            stroke-width: 3.5px;
-        }
-        .hex-cell.dimmed {
-            opacity: 0.15;
-            filter: grayscale(80%);
+        .btn-obsidian:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* Soundwave Equalizer */
-        @keyframes soundwave {
-            0%, 100% { height: 4px; }
-            50% { height: 18px; }
+        /* Dynamic 3-Panel Side-By-Side Layout System */
+        #inspector-ledger-col {
+            width: 400px;
+            min-width: 380px;
+            max-width: 90vw;
+            transition: width 0.35s var(--spring-curve), min-width 0.35s var(--spring-curve), opacity 0.3s ease, padding 0.35s var(--spring-curve);
+            box-shadow: 15px 0 45px rgba(0, 0, 0, 0.85);
         }
-        .sound-bar-1 { animation: soundwave 1.1s infinite ease-in-out 0.1s; }
-        .sound-bar-2 { animation: soundwave 1.1s infinite ease-in-out 0.35s; }
-        .sound-bar-3 { animation: soundwave 1.1s infinite ease-in-out 0.2s; }
-        .sound-bar-4 { animation: soundwave 1.1s infinite ease-in-out 0.5s; }
+        #inspector-ledger-col.drawer-closed {
+            width: 0 !important;
+            min-width: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            opacity: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-right-width: 0 !important;
+        }
+        #inspector-ledger-col.drawer-open {
+            width: 400px;
+            min-width: 380px;
+            opacity: 1;
+            pointer-events: auto;
+            border-right-width: 1px;
+        }
+
+        #narrative-col {
+            width: 420px;
+            min-width: 380px;
+            max-width: 90vw;
+            transition: width 0.35s var(--spring-curve), min-width 0.35s var(--spring-curve), opacity 0.3s ease;
+            box-shadow: -15px 0 45px rgba(0, 0, 0, 0.85);
+        }
+        #narrative-col.chat-closed {
+            width: 0 !important;
+            min-width: 0 !important;
+            opacity: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-left-width: 0 !important;
+        }
+        #narrative-col.chat-open {
+            width: 420px;
+            min-width: 380px;
+            opacity: 1;
+            pointer-events: auto;
+            border-left-width: 1px;
+        }
+
+        /* Floating Narrative Action Button (FAB) */
+        #floating-narrative-btn {
+            transition: all 0.3s var(--spring-curve);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(249, 115, 22, 0.35);
+        }
+        #floating-narrative-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(249, 115, 22, 0.55);
+        }
+
+        /* Honeycomb Hexagon Animations */
+        .hex-cell {
+            transition: transform 0.35s var(--spring-curve), opacity 0.35s ease, filter 0.35s ease;
+            transform-origin: center center;
+            cursor: pointer;
+        }
+        .hex-cell:hover {
+            transform: scale(1.16);
+            filter: drop-shadow(0 0 18px currentColor);
+        }
+        .hex-cell.sprouting-node {
+            animation: sproutScale 0.6s var(--spring-curve) backwards;
+        }
+
+        @keyframes sproutScale {
+            0% {
+                transform: scale(0.15);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.12);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Multi-Layered Threat Pulse Rings */
+        .pulse-ring-1 {
+            animation: threatRingPulse 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+            transform-origin: center center;
+        }
+        .pulse-ring-2 {
+            animation: threatRingPulse 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite 0.7s;
+            transform-origin: center center;
+        }
+        .pulse-ring-3 {
+            animation: threatRingPulse 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite 1.4s;
+            transform-origin: center center;
+        }
+
+        @keyframes threatRingPulse {
+            0% {
+                r: 34px;
+                opacity: 0.9;
+                stroke-width: 3.5px;
+            }
+            100% {
+                r: 105px;
+                opacity: 0;
+                stroke-width: 0.8px;
+            }
+        }
+
+        /* Animated Directional Threat Path */
+        .threat-flow-path {
+            stroke: #ef4444;
+            stroke-width: 2.5px;
+            stroke-dasharray: 6 5;
+            animation: flowMarch 1.2s linear infinite;
+        }
+        @keyframes flowMarch {
+            from { stroke-dashoffset: 22; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Audio Waveform Equalizer Bars */
+        @keyframes soundWave {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+        .sound-bar-1 { animation: soundWave 0.8s ease-in-out infinite; }
+        .sound-bar-2 { animation: soundWave 0.95s ease-in-out infinite 0.2s; }
+        .sound-bar-3 { animation: soundWave 0.7s ease-in-out infinite 0.4s; }
 
         .waveform-bar {
             width: 2.5px;
             border-radius: 2px;
             background-color: #cbd5e1;
-        }
-
-        /* Pop-Out Inspector Ledger Drawer (Slides in from Right) */
-        #inspector-ledger-drawer {
-            transition: transform 0.35s var(--spring-curve), opacity 0.3s ease;
-            box-shadow: -15px 0 45px rgba(0, 0, 0, 0.85);
-        }
-        #inspector-ledger-drawer.drawer-closed {
-            transform: translateX(110%);
-            opacity: 0;
-            pointer-events: none;
-        }
-        #inspector-ledger-drawer.drawer-open {
-            transform: translateX(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Floating Narrative Chat Drawer */
-        #narrative-chat-modal {
-            transition: transform 0.35s var(--spring-curve), opacity 0.3s ease;
-            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.90), 0 0 35px rgba(249, 115, 22, 0.18);
-        }
-        #narrative-chat-modal.chat-closed {
-            transform: translateY(20px) scale(0.92);
-            opacity: 0;
-            pointer-events: none;
-        }
-        #narrative-chat-modal.chat-open {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Floating Narrative Action Button (FAB) */
-        .fab-narrative {
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.80), 0 0 20px rgba(249, 115, 22, 0.35);
-        }
-        .fab-narrative:hover {
-            transform: scale(1.05);
-            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.90), 0 0 30px rgba(249, 115, 22, 0.55);
         }
 
         /* Micro scrollbars */
@@ -403,18 +412,17 @@ def dashboard():
     </style>
 </head>
 <body class="h-screen w-screen flex flex-col antialiased selection:bg-orange-500/30 selection:text-orange-200 overflow-hidden relative">
-
     <!-- =================================================================== -->
     <!-- 1. PERSISTENT TOP CONTEXT BAR (UNIVERSAL ANCHOR - 56px)             -->
     <!-- =================================================================== -->
     <header class="h-[56px] px-6 bg-[#090c15] border-b border-white/[0.08] flex items-center justify-between shrink-0 z-40">
         <!-- Brand & Global Search Bar -->
         <div class="flex items-center gap-3.5">
-            <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-700 flex items-center justify-center text-base shadow-[0_0_18px_rgba(249,115,22,0.48)] border border-orange-300/35 cursor-pointer" title="Scout FalkorDB Core">
-                🛡️
-            </div>
             <div class="flex items-center gap-2">
-                <span class="font-extrabold text-sm tracking-tight text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-orange-300">SCOUT</span>
+                <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center font-black text-sm text-white shadow-md shadow-orange-500/30">
+                    S
+                </div>
+                <span class="font-black text-sm tracking-wider text-white">SCOUT</span>
                 <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/30 font-bold">FalkorDB</span>
             </div>
 
@@ -422,22 +430,22 @@ def dashboard():
 
             <!-- Global Search / Command Bar -->
             <div class="relative hidden md:flex items-center w-80">
-                <span class="absolute left-3 text-slate-400 text-xs">🔍</span>
+                <span class="absolute left-3 text-slate-500 text-xs">🔍</span>
                 <input id="global-search-input" onkeyup="handleGlobalSearch(event)" type="text" placeholder="Search graph, users, credentials... [⌘K]" class="h-9 w-full bg-black/50 border border-white/10 rounded-full pl-8 pr-12 text-xs text-white placeholder-slate-500 outline-none focus:border-orange-500/60 transition font-mono">
-                <span class="absolute right-3 text-[10px] font-mono text-slate-500 bg-white/[0.05] px-1.5 py-0.5 rounded">⌘K</span>
+                <kbd class="absolute right-3 text-[10px] font-mono bg-white/10 text-slate-400 px-1.5 py-0.5 rounded border border-white/5">⌘K</kbd>
             </div>
         </div>
 
-        <!-- View Navigation Pivots (Persistent Center Anchor) -->
-        <div class="flex items-center gap-1.5 bg-black/40 p-1 rounded-full border border-white/[0.08] text-xs font-mono">
-            <button onclick="recenterHoneycombCanvas()" class="px-3.5 py-1.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/40 font-bold transition">
-                🗺️ Real-Time Map
+        <!-- Center View Pivot Controls -->
+        <div class="flex items-center gap-2 p-1 bg-black/60 rounded-full border border-white/10 text-xs font-mono">
+            <button onclick="recenterHoneycombCanvas()" class="px-3.5 py-1.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/40 font-bold transition flex items-center gap-1.5" title="Center on Real-Time Graph">
+                <span>🗺️ Real-Time Map</span>
             </button>
-            <button onclick="openAlertSituationDrawer()" id="pivot-alerts-btn" class="px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition flex items-center gap-1.5">
+            <button onclick="toggleInspectorLedger()" id="pivot-alerts-btn" class="px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition flex items-center gap-1.5" title="Toggle Left Inspector Ledger">
                 <span>🚨 Incident Ledger</span>
                 <span id="pivot-badge" class="px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[9px] font-bold">1</span>
             </button>
-            <button onclick="toggleNarrativeDrawer()" class="px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition flex items-center gap-1.5">
+            <button onclick="toggleNarrativePanel()" id="pivot-narrative-btn" class="px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition flex items-center gap-1.5" title="Toggle Right AI Narrative">
                 <span>💬 AI Narrative</span>
                 <span class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
             </button>
@@ -445,329 +453,358 @@ def dashboard():
 
         <!-- Contextual Status Micro-Telemetry Pill (Shifts Dynamically) -->
         <div class="flex items-center gap-3">
-            <div id="telemetry-pill" onclick="openAlertSituationDrawer()" class="px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 text-xs font-mono flex items-center gap-2 cursor-pointer hover:border-rose-500 transition shadow-sm" title="Click to pop out situation inspector">
+            <div id="telemetry-pill" onclick="openAlertSituationLedger()" class="px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 text-xs font-mono flex items-center gap-2 cursor-pointer hover:border-rose-500 transition shadow-sm" title="Click to inspect critical situation on left">
                 <span id="telemetry-pill-dot" class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
                 <span id="telemetry-pill-text"><strong>1 Active Breach:</strong> AST-01</span>
                 <span id="telemetry-pill-badge" class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500 text-white font-bold">CRITICAL</span>
             </div>
-            <button onclick="triggerSimulatedAttack()" class="btn-solar text-xs hidden lg:inline-flex" title="Simulate anomalous telemetry surge">
+            <button onclick="triggerSimulatedAttack()" class="btn-solar text-xs hidden lg:inline-flex px-3.5 py-1.5" title="Simulate anomalous telemetry surge">
                 <span>⚡ Attack Surge</span>
             </button>
-            <button onclick="reseedGraph()" class="btn-obsidian text-xs" title="Reset and reseed graph">
+            <button onclick="reseedGraph()" class="btn-obsidian text-xs px-3.5 py-1.5" title="Reset and reseed graph">
                 <span>🔄 Reset</span>
             </button>
         </div>
     </header>
 
     <!-- =================================================================== -->
-    <!-- 2. FULL-SCREEN GENERATIVE HONEYCOMB CANVAS VIEWPORT                 -->
+    <!-- DYNAMIC 3-PANEL SIDE-BY-SIDE CONTAINER                              -->
     <!-- =================================================================== -->
-    <main class="flex-1 w-full h-full relative overflow-hidden bg-[#070a12] select-none" id="canvas-wrapper">
-        
-        <!-- Canvas Floating Controls Overlay -->
-        <div class="absolute top-4 left-6 z-20 flex items-center gap-2 pointer-events-auto">
-            <div class="px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-xl border border-white/10 text-xs font-mono text-slate-300 flex items-center gap-2 shadow-lg">
-                <span class="text-orange-400 font-bold">🍯 Honeycomb Grid:</span>
-                <span id="node-counter-label">16 Active Cells</span>
-                <span class="text-slate-600">·</span>
-                <span class="text-purple-300">Secondary: People</span>
-                <span class="text-slate-600">·</span>
-                <span class="text-rose-400">Primary: Threats (RGY)</span>
-            </div>
-            <button onclick="recenterHoneycombCanvas()" class="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-xl hover:bg-black/90 border border-white/10 text-slate-300 hover:text-white text-xs font-mono transition" title="Center Canvas">
-                ↺ Center
-            </button>
-            <button onclick="clearLineageHighlight()" id="btn-clear-lineage" class="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-xl hover:bg-black/90 border border-white/10 text-slate-300 hover:text-white text-xs font-mono transition hidden" title="Clear Lineage Trace">
-                ✕ Clear Lineage
-            </button>
-        </div>
+    <div id="workspace-container" class="flex-1 w-full h-[calc(100vh-56px)] flex relative overflow-hidden bg-[#070a12]">
 
-        <!-- Floating Omni-Directional Jump to Alert Button -->
-        <button id="btn-jump-alert" onclick="openAlertSituationDrawer()" class="absolute top-4 right-6 z-20 px-4 py-2 rounded-full bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/70 text-rose-200 text-xs font-mono font-bold flex items-center gap-2 shadow-lg transition hover:scale-105">
-            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
-            <span>🚨 Inspect Threat: AST-01</span>
-        </button>
-
-        <!-- Lineage Path HUD Overlay -->
-        <div id="lineage-hud" class="absolute bottom-6 left-6 z-20 px-4 py-2.5 rounded-2xl bg-black/85 backdrop-blur-2xl border border-purple-500/40 text-xs font-mono space-y-1 hidden shadow-2xl max-w-md">
-            <div class="text-[10px] uppercase text-purple-300 font-bold flex items-center justify-between">
-                <span>Relational Lineage Path</span>
-                <span class="text-slate-500 cursor-pointer hover:text-white ml-3" onclick="clearLineageHighlight()">✕</span>
-            </div>
-            <div id="lineage-path-string" class="text-white text-[11px] leading-relaxed">
-                Bob Martinez ➔ tok_98a ➔ prod-auth-gateway
-            </div>
-        </div>
-
-        <!-- SVG Honeycomb Viewport -->
-        <svg id="honeycomb-viewport" class="w-full h-full" style="cursor: grab;">
-            <defs>
-                <!-- Glow Filters -->
-                <filter id="glow-red" x="-40%" y="-40%" width="180%" height="180%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-                <filter id="glow-amber" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-                <filter id="glow-purple" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-            </defs>
-
-            <!-- Layer 1: Zero-State Wireframe Hexagon Grid (The Faint Structural Matrix) -->
-            <g id="zero-state-grid"></g>
-
-            <!-- Layer 2: Connection Links & Animated Threat Flow Paths -->
-            <g id="honeycomb-links"></g>
-
-            <!-- Layer 3: Solid Sprouting Hexagonal Cards -->
-            <g id="honeycomb-cells"></g>
-
-            <!-- Layer 4: Multi-Layered Threat Pulse Rings (Over Alert Node) -->
-            <g id="threat-pulse-rings"></g>
-        </svg>
-    </main>
-
-    <!-- =================================================================== -->
-    <!-- 3. POP-OUT INSPECTOR LEDGER DRAWER (SLIDES DIRECTLY OUT OF SITUATION) -->
-    <!-- =================================================================== -->
-    <aside id="inspector-ledger-drawer" class="drawer-closed fixed top-14 right-0 bottom-0 w-[420px] max-w-[95vw] bg-[#0c101c]/95 backdrop-blur-2xl border-l border-white/10 z-40 flex flex-col p-5 space-y-4 overflow-y-auto">
-        <!-- Drawer Header -->
-        <div class="flex items-center justify-between pb-3 border-b border-white/[0.08]">
-            <div class="flex items-center gap-2">
-                <span class="text-base">🚨</span>
-                <div>
-                    <h3 class="text-xs font-bold text-white uppercase font-mono tracking-wider">The Inspector Ledger</h3>
-                    <p class="text-[10px] text-slate-400 font-mono">Direct Situation Telemetry</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <span id="inspect-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 CRITICAL</span>
-                <button onclick="closeInspectorLedger()" class="w-7 h-7 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-slate-400 hover:text-white flex items-center justify-center text-xs transition">
-                    ✕
-                </button>
-            </div>
-        </div>
-
-        <!-- Active Selected Node Context Card -->
-        <div class="dribbble-card p-4 space-y-3 bg-black/60 border-orange-500/30">
-            <div class="flex items-start gap-3">
-                <div id="ledger-icon" class="w-11 h-11 rounded-2xl bg-orange-600/20 border border-orange-500/40 text-orange-300 flex items-center justify-center text-2xl shrink-0">
-                    💻
-                </div>
-                <div class="space-y-0.5 flex-1 min-w-0">
-                    <div class="flex items-center justify-between">
-                        <span id="ledger-group" class="text-[10px] font-mono text-orange-400 uppercase font-semibold">Tier-1 Infrastructure Asset</span>
-                        <span id="ledger-id" class="text-[10px] font-mono text-slate-400">AST-01</span>
+        <!-- =============================================================== -->
+        <!-- 1. LEFT PANEL: POP-OUT INSPECTOR LEDGER                         -->
+        <!-- =============================================================== -->
+        <aside id="inspector-ledger-col" class="drawer-closed shrink-0 h-full bg-[#0c101c]/95 backdrop-blur-2xl border-r border-white/10 z-30 flex flex-col p-5 space-y-4 overflow-y-auto">
+            <!-- Drawer Header -->
+            <div class="flex items-center justify-between pb-3 border-b border-white/[0.08] shrink-0">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">🚨</span>
+                    <div>
+                        <h3 class="text-xs font-bold text-white uppercase font-mono tracking-wider">The Inspector Ledger</h3>
+                        <p class="text-[10px] text-slate-400 font-mono">Direct Situation Telemetry</p>
                     </div>
-                    <h4 id="ledger-title" class="text-sm font-bold text-white truncate">prod-auth-gateway</h4>
-                    <p id="ledger-desc" class="text-[11px] text-slate-300 leading-snug">
-                        Primary enterprise authentication bastion and SSH gateway.
-                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span id="inspect-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 CRITICAL</span>
+                    <button onclick="closeInspectorLedger()" class="w-7 h-7 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Close Ledger">
+                        ✕
+                    </button>
                 </div>
             </div>
 
-            <!-- Scannable Structured Properties List -->
-            <div class="space-y-1.5 pt-2 border-t border-white/[0.08] text-xs font-mono">
-                <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
-                    <span class="text-slate-400 text-[10px]">IP Footprint</span>
-                    <span id="ledger-ip" class="text-orange-300 font-bold text-[11px]">192.168.1.105</span>
-                </div>
-                <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
-                    <span class="text-slate-400 text-[10px]">Protocol / Port</span>
-                    <span class="text-slate-200 text-[11px]">SSHv2 / Port 22</span>
-                </div>
-                <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
-                    <span class="text-slate-400 text-[10px]">Access Key Traced</span>
-                    <span id="ledger-key" class="text-purple-300 font-bold text-[11px]">tok_98a (Bob Martinez)</span>
-                </div>
-                <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
-                    <span class="text-slate-400 text-[10px]">Department / Team</span>
-                    <span class="text-purple-300 text-[11px]">SecOps (Alice Chen)</span>
+            <!-- Active Selected Node Context Card -->
+            <div class="dribbble-card p-4 space-y-3 bg-black/60 border-orange-500/30 shrink-0">
+                <div class="flex items-start gap-3">
+                    <div id="ledger-icon" class="w-11 h-11 rounded-2xl bg-orange-600/20 border border-orange-500/40 text-orange-300 flex items-center justify-center text-2xl shrink-0">
+                        💻
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between">
+                            <span id="ledger-group" class="text-[10px] font-mono text-orange-400 uppercase font-semibold">Tier-1 Infrastructure Asset</span>
+                            <span id="ledger-id" class="text-[10px] font-mono text-slate-400">AST-01</span>
+                        </div>
+                        <h4 id="ledger-title" class="text-sm font-bold text-white truncate">prod-auth-gateway</h4>
+                        <p id="ledger-desc" class="text-[11px] text-slate-300 leading-snug mt-1">
+                            Core OAuth 2.0 and token issuance gateway handling production authentications.
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Blast Radius & Risk Score Meter -->
-            <div class="p-3 rounded-2xl bg-black/60 border border-rose-500/25 space-y-2">
-                <div class="flex items-center justify-between text-[11px] font-mono">
+            <!-- Scannable Telemetry & IP Footprint -->
+            <div class="space-y-2 shrink-0">
+                <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                    <span>Direct Telemetry Footprint</span>
+                    <span class="text-emerald-400 font-bold">● Active Ingestion</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-black/40 border border-white/[0.06] space-y-2 text-xs font-mono">
+                    <div class="flex items-center justify-between py-0.5 border-b border-white/[0.04]">
+                        <span class="text-slate-400 text-[10px]">IP Footprint</span>
+                        <span id="ledger-ip" class="text-orange-300 font-bold text-[11px]">192.168.1.105</span>
+                    </div>
+                    <div class="flex items-center justify-between py-0.5 border-b border-white/[0.04]">
+                        <span class="text-slate-400 text-[10px]">Protocol / Port</span>
+                        <span class="text-slate-200 text-[11px]">SSHv2 / Port 22</span>
+                    </div>
+                    <div class="flex items-center justify-between py-0.5 border-b border-white/[0.04]">
+                        <span class="text-slate-400 text-[10px]">Access Key Traced</span>
+                        <span id="ledger-key" class="text-purple-300 font-bold text-[11px]">tok_98a (Bob Martinez)</span>
+                    </div>
+                    <div class="flex items-center justify-between py-0.5">
+                        <span class="text-slate-400 text-[10px]">Department / Team</span>
+                        <span class="text-purple-300 text-[11px]">SecOps (Alice Chen)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Threat Blast Radius Meter -->
+            <div class="p-4 rounded-2xl bg-black/50 border border-rose-500/30 space-y-3 shrink-0">
+                <div class="flex items-center justify-between text-xs font-mono">
                     <span class="text-slate-400">Blast Radius Risk</span>
                     <span id="ledger-risk-score" class="text-rose-400 font-bold">125 / 100 [CRITICAL]</span>
                 </div>
-                <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
-                    <div id="ledger-risk-bar" class="h-full bg-gradient-to-r from-amber-500 via-rose-500 to-red-600 rounded-full" style="width: 100%"></div>
+                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                    <div id="ledger-risk-bar" class="bg-gradient-to-r from-amber-500 to-rose-600 h-2 rounded-full" style="width: 88%;"></div>
                 </div>
-                <div class="text-[10px] text-slate-400 flex items-center justify-between">
+                <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono">
                     <span>Exposed Staff: 2</span>
                     <span>Projects at Risk: 1</span>
+                    <span id="ledger-quarantine-status" class="text-rose-400 font-bold">Active Threat</span>
                 </div>
+
+                <!-- Instant Quarantine Action Button -->
+                <button onclick="executeMitigation()" id="btn-ledger-quarantine" class="btn-solar w-full h-11 text-xs font-bold shadow-lg shadow-orange-500/35 mt-1">
+                    <span>🛡️ Quarantine Asset & Contain Breach</span>
+                </button>
             </div>
 
-            <!-- One-Click Instant Mitigation Action Button -->
-            <button onclick="executeMitigation()" id="btn-ledger-quarantine" class="btn-solar w-full h-11 text-xs font-bold shadow-lg shadow-orange-500/35">
-                <span>🛡️ Quarantine Asset & Contain Breach</span>
+            <!-- Multi-Hop Breadcrumb Lineage Trace -->
+            <div class="space-y-2 shrink-0">
+                <div class="flex items-center justify-between text-xs font-mono">
+                    <span class="text-[10px] font-mono uppercase text-slate-400 font-bold">Step-by-Step Traversal Trace</span>
+                    <span class="text-[10px] font-mono text-purple-300">Cypher Multi-Hop</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-black/40 border border-white/[0.06] space-y-2 text-xs font-mono">
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-orange-500/20 text-orange-400 text-[9px] flex items-center justify-center font-bold">1</span>
+                        <span>Anomalous surge: 14 failed SSH attempts</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-purple-500/20 text-purple-400 text-[9px] flex items-center justify-center font-bold">2</span>
+                        <span>Matched credential token: <strong class="text-purple-300">tok_98a</strong></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-purple-500/20 text-purple-400 text-[9px] flex items-center justify-center font-bold">3</span>
+                        <span>Traced employee: <strong class="text-white">Bob Martinez</strong> (SecOps)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[9px] flex items-center justify-center font-bold">4</span>
+                        <span>Rule SEC-402 passed: Quarantine authorized</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- =============================================================== -->
+        <!-- 2. CENTER PANEL: GENERATIVE HONEYCOMB HERO CANVAS                -->
+        <!-- =============================================================== -->
+        <main id="canvas-wrapper" class="flex-1 min-w-0 h-full relative overflow-hidden bg-[#070a12] select-none">
+            
+            <!-- Canvas Floating Controls Overlay -->
+            <div class="absolute top-4 left-6 z-20 flex items-center gap-2 pointer-events-auto">
+                <div class="px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-xl border border-white/10 text-xs font-mono text-slate-300 flex items-center gap-2 shadow-lg">
+                    <span class="text-orange-400 font-bold">🍯 Honeycomb Grid:</span>
+                    <span id="node-counter-label">16 Active Cells</span>
+                    <span class="text-slate-600">·</span>
+                    <span class="text-purple-300">Secondary: People</span>
+                    <span class="text-slate-600">·</span>
+                    <span class="text-rose-400">Primary: Threats (RGY)</span>
+                </div>
+                <button onclick="recenterHoneycombCanvas()" class="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-xl hover:bg-black/90 border border-white/10 text-slate-300 hover:text-white text-xs font-mono transition" title="Center Canvas">
+                    ↺ Center
+                </button>
+                <button onclick="clearLineageHighlight()" id="btn-clear-lineage" class="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-xl hover:bg-black/90 border border-white/10 text-slate-300 hover:text-white text-xs font-mono transition hidden" title="Clear Lineage Trace">
+                    ✕ Clear Lineage
+                </button>
+            </div>
+
+            <!-- Floating Omni-Directional Jump to Alert Button -->
+            <button id="btn-jump-alert" onclick="openAlertSituationLedger()" class="absolute top-4 right-6 z-20 px-4 py-2 rounded-full bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/70 text-rose-200 text-xs font-mono font-bold flex items-center gap-2 shadow-lg transition hover:scale-105">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                <span>🚨 Inspect Threat: AST-01</span>
             </button>
-        </div>
 
-        <!-- Scannable Lineage Trace Ledger -->
-        <div class="dribbble-card p-4 space-y-2.5 bg-black/50 flex-1">
-            <div class="flex items-center justify-between pb-1 border-b border-white/[0.08]">
-                <span class="text-[10px] font-mono uppercase text-slate-400 font-bold">Step-by-Step Traversal Trace</span>
-                <span class="text-[10px] font-mono text-purple-300">Cypher Multi-Hop</span>
-            </div>
-            <div class="space-y-2 text-[11px] font-mono text-slate-300" id="ledger-steps">
-                <div class="flex items-center gap-2">
-                    <span class="w-4 h-4 rounded-full bg-orange-500/20 text-orange-400 text-[9px] flex items-center justify-center font-bold">1</span>
-                    <span>Anomalous surge: 14 failed SSH attempts</span>
+            <!-- Lineage Path HUD Overlay -->
+            <div id="lineage-hud" class="absolute bottom-6 left-6 z-20 px-4 py-2.5 rounded-2xl bg-black/85 backdrop-blur-2xl border border-purple-500/40 text-xs font-mono space-y-1 hidden shadow-2xl max-w-md">
+                <div class="text-[10px] uppercase text-purple-300 font-bold flex items-center justify-between">
+                    <span>Relational Lineage Path</span>
+                    <span class="text-slate-500 cursor-pointer hover:text-white ml-3" onclick="clearLineageHighlight()">✕</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-4 h-4 rounded-full bg-purple-500/20 text-purple-400 text-[9px] flex items-center justify-center font-bold">2</span>
-                    <span>Matched credential token: <strong class="text-purple-300">tok_98a</strong></span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-4 h-4 rounded-full bg-purple-500/20 text-purple-400 text-[9px] flex items-center justify-center font-bold">3</span>
-                    <span>Traced employee: <strong class="text-white">Bob Martinez</strong> (SecOps)</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[9px] flex items-center justify-center font-bold">4</span>
-                    <span>Rule SEC-402 passed: Quarantine authorized</span>
+                <div id="lineage-path-string" class="text-white text-[11px] leading-relaxed">
+                    Bob Martinez ➔ tok_98a ➔ prod-auth-gateway
                 </div>
             </div>
-        </div>
-    </aside>
 
-    <!-- =================================================================== -->
-    <!-- 4. FLOATING NARRATIVE ACTION BUTTON (FAB) & EXPANDABLE CHAT MODAL   -->
-    <!-- =================================================================== -->
-    <!-- Floating Narrative Trigger Pill -->
-    <button id="floating-narrative-btn" onclick="toggleNarrativeDrawer()" class="fab-narrative fixed bottom-6 right-6 z-30 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#141b2e] to-[#1e172f] border border-orange-500/40 backdrop-blur-2xl text-white shadow-2xl flex items-center gap-3 transition cursor-pointer">
-        <div class="relative">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-500 to-purple-600 flex items-center justify-center font-bold text-xs shadow">AI</div>
-            <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-pulse"></span>
-        </div>
-        <div class="text-left font-mono">
-            <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                <span>The Narrative</span>
-                <span class="px-1.5 py-0.2 rounded-full bg-orange-500 text-[9px] font-bold">2 Active</span>
-            </div>
-            <span class="text-[10px] text-orange-300">Scout & Policy Live</span>
-        </div>
-        <div class="flex items-center gap-0.5 h-3 pl-1">
-            <span class="w-1 bg-orange-400 rounded-full sound-bar-1"></span>
-            <span class="w-1 bg-amber-400 rounded-full sound-bar-2"></span>
-            <span class="w-1 bg-purple-400 rounded-full sound-bar-3"></span>
-        </div>
-    </button>
-
-    <!-- Floating Narrative Chat Drawer / Modal -->
-    <div id="narrative-chat-modal" class="chat-closed fixed bottom-20 right-6 z-40 w-[450px] max-w-[94vw] h-[640px] max-h-[85vh] dribbble-card bg-[#0b0e19]/95 flex flex-col overflow-hidden border-orange-500/40">
-        <!-- Chat Header -->
-        <div class="h-14 px-5 border-b border-white/[0.08] flex items-center justify-between shrink-0 bg-black/50">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-500 to-purple-600 flex items-center justify-center font-bold text-xs text-white">
-                    AI
+            <!-- Floating Narrative Launcher Button (FAB) (Visible when Narrative Column is Closed) -->
+            <button id="floating-narrative-btn" onclick="openNarrativePanel()" class="absolute bottom-6 right-6 z-20 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#141b2e] to-[#1e172f] border border-orange-500/40 backdrop-blur-2xl text-white shadow-2xl flex items-center gap-3 transition cursor-pointer" title="Open Autonomous Agent Narrative">
+                <div class="relative">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-500 to-purple-600 flex items-center justify-center font-bold text-xs shadow">AI</div>
+                    <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-pulse"></span>
                 </div>
-                <div>
-                    <h3 class="text-xs font-bold text-white leading-tight">The Narrative: Agent Debate</h3>
-                    <p class="text-[10px] text-emerald-400 font-mono">Online · Dual Asynchronous Stream</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <!-- Soundwave Equalizer -->
-                <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-[10px] font-mono text-orange-300">
-                    <span>🎙️ Voice: 04:18</span>
-                </div>
-                <button onclick="toggleNarrativeDrawer()" class="w-7 h-7 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-slate-400 hover:text-white flex items-center justify-center text-xs transition">
-                    ✕
-                </button>
-            </div>
-        </div>
-
-        <!-- Chat Messages & System Log Marker Anchors -->
-        <div id="narrative-stream" class="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs">
-            <!-- Message 1: Scout-Alpha -->
-            <div class="p-3.5 rounded-3xl bg-black/60 border border-orange-500/25 space-y-2">
-                <div class="flex items-center justify-between text-[11px]">
-                    <div class="flex items-center gap-2">
-                        <div class="w-5 h-5 rounded-full bg-orange-600/40 text-orange-300 font-bold text-[9px] flex items-center justify-center border border-orange-500/30">SA</div>
-                        <span class="font-bold text-orange-300 font-mono">Scout-Alpha</span>
-                        <span class="text-[9px] px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-400 border border-orange-500/30 font-mono">Analysis</span>
+                <div class="text-left font-mono">
+                    <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                        <span>The Narrative</span>
+                        <span class="px-1.5 py-0.2 rounded-full bg-orange-500 text-[9px] font-bold">2 Active</span>
                     </div>
-                    <span class="text-[10px] text-slate-400 font-mono">12:44:10</span>
+                    <span class="text-[10px] text-orange-300">Scout & Policy Live</span>
                 </div>
-                <p class="text-slate-200 text-xs leading-relaxed">
-                    Detected anomalous telemetry surge: <strong class="text-white">14 consecutive failed root SSH authentications</strong> on <code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code> (AST-01) from unauthorized IP <code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">192.168.1.105</code>.
-                </p>
+                <div class="flex items-center gap-0.5 h-3 pl-1">
+                    <span class="w-1 bg-orange-400 rounded-full sound-bar-1"></span>
+                    <span class="w-1 bg-amber-400 rounded-full sound-bar-2"></span>
+                    <span class="w-1 bg-purple-400 rounded-full sound-bar-3"></span>
+                </div>
+            </button>
 
-                <!-- Voice Note Player -->
-                <div class="p-2.5 rounded-2xl bg-orange-950/30 border border-orange-500/35 flex items-center gap-3">
-                    <button onclick="toggleVoiceAudio(this)" class="w-7 h-7 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 text-white flex items-center justify-center text-[10px] shadow-md shadow-orange-500/30">
-                        <span class="play-icon">▶</span>
+            <!-- SVG Honeycomb Viewport -->
+            <svg id="honeycomb-viewport" class="w-full h-full" style="cursor: grab;">
+                <defs>
+                    <!-- Glow Filters -->
+                    <filter id="glow-red" x="-40%" y="-40%" width="180%" height="180%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    <filter id="glow-amber" x="-30%" y="-30%" width="160%" height="160%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    <filter id="glow-purple" x="-30%" y="-30%" width="160%" height="160%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+
+                <!-- Root Viewport Transform Group (For Pan & Zoom) -->
+                <g id="viewport-transform">
+                    <!-- Layer 1: Zero-State Wireframe Hexagon Grid -->
+                    <g id="zero-state-grid"></g>
+
+                    <!-- Layer 2: Connection Links & Animated Threat Flow Paths -->
+                    <g id="honeycomb-links"></g>
+
+                    <!-- Layer 3: Solid Sprouting Hexagonal Cards -->
+                    <g id="honeycomb-cells"></g>
+
+                    <!-- Layer 4: Multi-Layered Threat Pulse Rings -->
+                    <g id="threat-pulse-rings"></g>
+                </g>
+            </svg>
+        </main>
+
+        <!-- =============================================================== -->
+        <!-- 3. RIGHT PANEL: AUTONOMOUS AGENT NARRATIVE CHAT                 -->
+        <!-- =============================================================== -->
+        <aside id="narrative-col" class="chat-closed shrink-0 h-full bg-[#0b0e19]/95 backdrop-blur-2xl border-l border-white/10 z-30 flex flex-col overflow-hidden">
+            <!-- Chat Header -->
+            <div class="h-14 px-5 border-b border-white/[0.08] flex items-center justify-between shrink-0 bg-black/50">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-500 to-purple-600 flex items-center justify-center font-bold text-xs text-white">
+                        AI
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold text-white leading-tight">The Narrative: Agent Debate</h3>
+                        <p class="text-[10px] text-emerald-400 font-mono">Online · Dual Asynchronous Stream</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <!-- Soundwave Equalizer -->
+                    <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-[10px] font-mono text-orange-300">
+                        <span>🎙️ Voice: 04:18</span>
+                    </div>
+                    <button onclick="closeNarrativePanel()" class="w-7 h-7 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Close Narrative">
+                        ✕
                     </button>
-                    <div class="flex-1 flex items-center gap-1 h-4">
-                        <span class="waveform-bar h-2 bg-orange-400"></span>
-                        <span class="waveform-bar h-4 bg-orange-400"></span>
-                        <span class="waveform-bar h-3 bg-orange-300"></span>
-                        <span class="waveform-bar h-4 bg-orange-400"></span>
-                        <span class="waveform-bar h-2 bg-orange-300"></span>
-                        <span class="waveform-bar h-4 bg-orange-400"></span>
-                        <span class="waveform-bar h-2 bg-slate-500"></span>
+                </div>
+            </div>
+
+            <!-- Chat Messages & System Log Marker Anchors -->
+            <div id="narrative-stream" class="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs">
+                <!-- Message 1: Scout-Alpha -->
+                <div class="p-3.5 rounded-3xl bg-black/60 border border-orange-500/25 space-y-2">
+                    <div class="flex items-center justify-between text-[11px]">
+                        <div class="flex items-center gap-2">
+                            <div class="w-5 h-5 rounded-full bg-orange-600/40 text-orange-300 font-bold text-[9px] flex items-center justify-center border border-orange-500/30">SA</div>
+                            <span class="font-bold text-orange-300 font-mono">Scout-Alpha</span>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-400 border border-orange-500/30 font-mono">Analysis</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-mono">12:44:10</span>
                     </div>
-                    <span class="text-[10px] font-mono text-orange-300 font-bold">0:14</span>
-                </div>
-            </div>
+                    <p class="text-slate-200 text-xs leading-relaxed">
+                        Detected anomalous telemetry surge: <strong class="text-white">14 consecutive failed root SSH authentications</strong> on <code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code> (AST-01) from unauthorized IP <code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">192.168.1.105</code>.
+                    </p>
 
-            <!-- SYSTEM LOG MARKER ANCHOR 01 -->
-            <div class="p-2.5 rounded-2xl bg-purple-950/25 border border-purple-500/30 flex items-center gap-2.5 text-[11px] font-mono text-purple-200 shadow-sm">
-                <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-                <span class="font-bold text-white">[12:44:11]</span>
-                <span class="truncate">Sprouted node <strong>tok_98a</strong> ➔ Assigned to <strong>Bob Martinez</strong></span>
-            </div>
-
-            <!-- Message 2: Policy-Beta -->
-            <div class="p-3.5 rounded-3xl bg-black/60 border border-purple-500/25 space-y-2">
-                <div class="flex items-center justify-between text-[11px]">
-                    <div class="flex items-center gap-2">
-                        <div class="w-5 h-5 rounded-full bg-purple-600/40 text-purple-300 font-bold text-[9px] flex items-center justify-center border border-purple-500/30">PB</div>
-                        <span class="font-bold text-purple-300 font-mono">Policy-Beta</span>
-                        <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/30 font-mono">Governance</span>
+                    <!-- Voice Note Player -->
+                    <div class="p-2.5 rounded-2xl bg-orange-950/30 border border-orange-500/35 flex items-center gap-3">
+                        <button onclick="toggleVoiceAudio(this)" class="w-7 h-7 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 text-white flex items-center justify-center text-[10px] shadow-md shadow-orange-500/30">
+                            <span class="play-icon">▶</span>
+                        </button>
+                        <div class="flex-1 flex items-center gap-1 h-4">
+                            <span class="waveform-bar h-2 bg-orange-400"></span>
+                            <span class="waveform-bar h-4 bg-orange-400"></span>
+                            <span class="waveform-bar h-3 bg-orange-300"></span>
+                            <span class="waveform-bar h-4 bg-orange-400"></span>
+                            <span class="waveform-bar h-2 bg-orange-300"></span>
+                            <span class="waveform-bar h-4 bg-orange-400"></span>
+                            <span class="waveform-bar h-2 bg-slate-500"></span>
+                        </div>
+                        <span class="text-[10px] font-mono text-orange-300 font-bold">0:14</span>
                     </div>
-                    <span class="text-[10px] text-slate-400 font-mono">12:44:13</span>
                 </div>
-                <div class="p-2 rounded-xl bg-purple-950/30 border-l-2 border-purple-400 text-[10px] text-slate-300 space-y-0.5">
-                    <span class="text-purple-400 font-semibold block">Replied to Scout-Alpha:</span>
-                    <p class="truncate italic opacity-85">"Detected anomalous telemetry surge: 14 consecutive failed root..."</p>
+
+                <!-- SYSTEM LOG MARKER ANCHOR 01 -->
+                <div class="p-2.5 rounded-2xl bg-purple-950/25 border border-purple-500/30 flex items-center gap-2.5 text-[11px] font-mono text-purple-200 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                    <span class="font-bold text-white">[12:44:11]</span>
+                    <span class="truncate">Sprouted node <strong>tok_98a</strong> ➔ Assigned to <strong>Bob Martinez</strong></span>
                 </div>
-                <p class="text-slate-200 text-xs leading-relaxed">
-                    Evaluated blast radius in FalkorDB: <code class="text-purple-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code> is accessed by <strong class="text-white">Bob Martinez</strong> (<span class="text-purple-300">SecOps Team</span>). Affects <strong class="text-amber-300">Project FalconShield</strong>. Risk score: <strong class="text-rose-400">125 / 100 [CRITICAL]</strong>. Rule <span class="text-purple-300 font-semibold">SEC-402</span> mandates instant quarantine.
-                </p>
+
+                <!-- Message 2: Policy-Beta -->
+                <div class="p-3.5 rounded-3xl bg-black/60 border border-purple-500/25 space-y-2">
+                    <div class="flex items-center justify-between text-[11px]">
+                        <div class="flex items-center gap-2">
+                            <div class="w-5 h-5 rounded-full bg-purple-600/40 text-purple-300 font-bold text-[9px] flex items-center justify-center border border-purple-500/30">PB</div>
+                            <span class="font-bold text-purple-300 font-mono">Policy-Beta</span>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/30 font-mono">Governance</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-mono">12:44:13</span>
+                    </div>
+                    <div class="p-2 rounded-xl bg-purple-950/30 border-l-2 border-purple-400 text-[11px] text-slate-300">
+                        <span class="text-purple-400 font-semibold block">Replied to Scout-Alpha:</span>
+                        <p class="truncate italic opacity-85">"Detected anomalous telemetry surge: 14 consecutive failed root..."</p>
+                    </div>
+                    <p class="text-slate-200 text-xs leading-relaxed">
+                        Evaluated blast radius in FalkorDB: <code class="text-purple-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code> is accessed by <strong class="text-white">Bob Martinez</strong> (<span class="text-purple-300">SecOps Team</span>). Affects <strong class="text-amber-300">Project FalconShield</strong>. Risk score: <strong class="text-rose-400">125 / 100 [CRITICAL]</strong>. Rule <span class="text-purple-300 font-semibold">SEC-402</span> mandates instant quarantine.
+                    </p>
+                </div>
+
+                <!-- SYSTEM LOG MARKER ANCHOR 02 -->
+                <div class="p-2.5 rounded-2xl bg-orange-950/25 border border-orange-500/30 flex items-center gap-2.5 text-[11px] font-mono text-orange-200 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                    <span class="font-bold text-white">[12:44:14]</span>
+                    <span class="truncate">Sprouted Alert Node <strong>AST-01</strong> ➔ Directional threat path active</span>
+                </div>
             </div>
 
-            <!-- SYSTEM LOG MARKER ANCHOR 02 -->
-            <div class="p-2.5 rounded-2xl bg-orange-950/25 border border-orange-500/30 flex items-center gap-2.5 text-[11px] font-mono text-orange-200 shadow-sm">
-                <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                <span class="font-bold text-white">[12:44:14]</span>
-                <span class="truncate">Sprouted Alert Node <strong>AST-01</strong> ➔ Directional threat path active</span>
+            <!-- Quick Action Suggestion Chips -->
+            <div class="px-4 py-2 border-t border-white/[0.06] bg-black/40 flex items-center gap-2 overflow-x-auto shrink-0 text-[11px] font-mono">
+                <button onclick="quickDirect('Investigate AST-01')" class="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-orange-500/20 text-slate-300 hover:text-orange-300 border border-white/10 shrink-0 transition">
+                    ⚡ Investigate AST-01
+                </button>
+                <button onclick="triggerSimulatedAttack()" class="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-white/10 shrink-0 transition">
+                    🚨 Spike Log Surge
+                </button>
+                <button onclick="clearLineageHighlight()" class="px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-purple-500/20 text-slate-300 hover:text-purple-300 border border-white/10 shrink-0 transition">
+                    ✕ Clear Lineage
+                </button>
             </div>
-        </div>
 
-        <!-- Chat Input Form -->
-        <div class="p-3.5 bg-black/60 border-t border-white/[0.08] shrink-0">
-            <form id="directive-form" onsubmit="submitDirective(event)" class="flex items-center gap-2">
-                <button type="button" class="w-9 h-9 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Voice Input">
-                    🎙️
-                </button>
-                <button type="button" class="w-9 h-9 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Attach Context">
-                    📎
-                </button>
-                <input id="directive-input" type="text" placeholder="Message agents or inject directive..." class="h-10 bg-black/80 border border-white/10 focus:border-orange-500/60 rounded-full px-4 text-xs text-white placeholder-slate-500 flex-1 outline-none font-mono transition">
-                <button type="submit" class="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 hover:scale-105 active:scale-95 text-white flex items-center justify-center shadow-lg shadow-orange-500/35 transition shrink-0" title="Dispatch Directive">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                </button>
-            </form>
-        </div>
+            <!-- Chat Input Form -->
+            <div class="p-3.5 bg-black/60 border-t border-white/[0.08] shrink-0">
+                <form id="directive-form" onsubmit="submitDirective(event)" class="flex items-center gap-2">
+                    <button type="button" class="w-9 h-9 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Voice Input">
+                        🎙️
+                    </button>
+                    <button type="button" class="w-9 h-9 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Attach Context">
+                        📎
+                    </button>
+                    <input id="directive-input" type="text" placeholder="Message agents or inject directive..." class="h-10 bg-black/80 border border-white/10 focus:border-orange-500/60 rounded-full px-4 text-xs text-white placeholder-slate-500 flex-1 outline-none font-mono transition">
+                    <button type="submit" class="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 hover:scale-105 active:scale-95 text-white flex items-center justify-center shadow-lg shadow-orange-500/35 transition shrink-0" title="Dispatch Directive">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
     </div>
 
     <!-- CLIENT JAVASCRIPT LOGIC -->
@@ -777,19 +814,35 @@ def dashboard():
         let isNarrativeOpen = false;
         let isInspectorOpen = false;
 
+        // Pan and Zoom State
+        let panX = 0;
+        let panY = 0;
+        let zoom = 1;
+        let isPanning = false;
+        let panStartX = 0;
+        let panStartY = 0;
+
         // Canvas Coordinates & Graph State
         let allGraphNodes = [];
         const R = 44; // Hexagon radius
-        let originX = window.innerWidth / 2 - 40;
-        let originY = window.innerHeight / 2 - 40;
+        let originX = window.innerWidth / 2;
+        let originY = window.innerHeight / 2;
 
-        // Update center on resize
-        window.addEventListener('resize', () => {
-            originX = window.innerWidth / 2 - 40;
-            originY = window.innerHeight / 2 - 40;
-            renderZeroStateGrid();
-            renderHoneycombCanvas();
-        });
+        function updateCanvasOrigin() {
+            const wrapper = document.getElementById('canvas-wrapper');
+            if (wrapper && wrapper.clientWidth > 0 && wrapper.clientHeight > 0) {
+                originX = wrapper.clientWidth / 2;
+                originY = wrapper.clientHeight / 2;
+            }
+        }
+
+        // Apply Pan & Zoom Transform to Viewport Group
+        function updateViewportTransform() {
+            const group = document.getElementById('viewport-transform');
+            if (group) {
+                group.setAttribute('transform', `translate(${panX}, ${panY}) scale(${zoom})`);
+            }
+        }
 
         // ----------------------------------------------------
         // 1. Zero-State Wireframe Hexagon Grid Generator
@@ -806,11 +859,12 @@ def dashboard():
         }
 
         function renderZeroStateGrid() {
+            updateCanvasOrigin();
             const gridG = document.getElementById('zero-state-grid');
             if (!gridG) return;
             gridG.innerHTML = '';
 
-            // Generate a spacious 11x11 wireframe hexagonal matrix
+            // Spacious 11x11 wireframe hexagonal matrix
             for (let q = -5; q <= 5; q++) {
                 for (let r = -5; r <= 5; r++) {
                     const cx = originX + R * Math.sqrt(3) * (q + r / 2);
@@ -848,6 +902,7 @@ def dashboard():
         ];
 
         function calculateNodeCoords() {
+            updateCanvasOrigin();
             allGraphNodes = nodeDefinitions.map(n => {
                 const cx = originX + R * Math.sqrt(3) * (n.q + n.r / 2);
                 const cy = originY + R * (3 / 2) * n.r;
@@ -959,34 +1014,36 @@ def dashboard():
                 hex.setAttribute("fill", "rgba(12, 16, 26, 0.92)");
                 hex.setAttribute("stroke", node.color);
                 hex.setAttribute("stroke-width", node.id === "AST-01" ? "3" : "2");
+
                 if (node.id === "AST-01" && !isQuarantined) {
                     hex.setAttribute("filter", "url(#glow-red)");
                 }
 
-                // Icon
+                // Icon Symbol
                 const icon = document.createElementNS("http://www.w3.org/2000/svg", "text");
                 icon.setAttribute("x", node.cx);
                 icon.setAttribute("y", node.cy - 5);
                 icon.setAttribute("text-anchor", "middle");
-                icon.setAttribute("font-size", "14");
+                icon.setAttribute("dominant-baseline", "central");
+                icon.setAttribute("font-size", "17");
                 icon.textContent = node.icon;
 
-                // Label
+                // Subtitle / ID Label
                 const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
                 label.setAttribute("x", node.cx);
-                label.setAttribute("y", node.cy + 13);
+                label.setAttribute("y", node.cy + 17);
                 label.setAttribute("text-anchor", "middle");
-                label.setAttribute("fill", "#ffffff");
-                label.setAttribute("font-size", "8.5");
+                label.setAttribute("fill", "#e2e8f0");
+                label.setAttribute("font-size", "10");
+                label.setAttribute("font-family", "JetBrains Mono");
                 label.setAttribute("font-weight", "600");
-                label.setAttribute("font-family", "sans-serif");
-                label.textContent = node.label.length > 10 ? node.label.substring(0, 9) + '…' : node.label;
+                label.textContent = node.label.length > 12 ? node.label.substring(0, 11) + '..' : node.label;
 
                 g.appendChild(hex);
                 g.appendChild(icon);
                 g.appendChild(label);
 
-                // Clicking ANY node (especially pulsing alert) pops out the Inspector Ledger!
+                // Clicking ANY node pops out the Left Inspector Ledger!
                 g.addEventListener('click', (e) => {
                     selectNodeAndPopOutInspector(node);
                     e.stopPropagation();
@@ -998,6 +1055,8 @@ def dashboard():
 
                 cellsG.appendChild(g);
             });
+
+            updateViewportTransform();
         }
 
         // ----------------------------------------------------
@@ -1053,7 +1112,7 @@ def dashboard():
         }
 
         // ----------------------------------------------------
-        // 4. Pop-Out Inspector Ledger (Directly on Node Click)
+        // 4. Left Panel: Inspector Ledger Controller
         // ----------------------------------------------------
         function selectNodeAndPopOutInspector(node) {
             highlightLineage(node);
@@ -1062,34 +1121,51 @@ def dashboard():
         }
 
         function openInspectorLedger() {
-            const drawer = document.getElementById('inspector-ledger-drawer');
+            const drawer = document.getElementById('inspector-ledger-col');
+            const btn = document.getElementById('pivot-alerts-btn');
             if (drawer) {
                 drawer.classList.remove('drawer-closed');
                 drawer.classList.add('drawer-open');
                 isInspectorOpen = true;
             }
+            if (btn) {
+                btn.className = "px-3.5 py-1.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold transition flex items-center gap-1.5";
+            }
         }
 
         function closeInspectorLedger() {
-            const drawer = document.getElementById('inspector-ledger-drawer');
+            const drawer = document.getElementById('inspector-ledger-col');
+            const btn = document.getElementById('pivot-alerts-btn');
             if (drawer) {
                 drawer.classList.remove('drawer-open');
                 drawer.classList.add('drawer-closed');
                 isInspectorOpen = false;
             }
+            if (btn) {
+                btn.className = "px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition flex items-center gap-1.5";
+            }
         }
 
-        function openAlertSituationDrawer() {
+        function toggleInspectorLedger() {
+            if (isInspectorOpen) {
+                closeInspectorLedger();
+            } else {
+                openAlertSituationLedger();
+            }
+        }
+
+        function openAlertSituationLedger() {
             const alertNode = allGraphNodes.find(n => n.id === "AST-01");
             if (alertNode) {
                 selectNodeAndPopOutInspector(alertNode);
-                // Flash scale node
                 const alertCell = document.getElementById('cell-AST-01');
                 if (alertCell) {
                     alertCell.style.transition = "transform 0.5s var(--spring-curve)";
                     alertCell.style.transform = "scale(1.25)";
                     setTimeout(() => { alertCell.style.transform = "scale(1)"; }, 600);
                 }
+            } else {
+                openInspectorLedger();
             }
         }
 
@@ -1103,28 +1179,54 @@ def dashboard():
             if (node.id === "AST-01") {
                 badge.innerText = isQuarantined ? "🟢 CONTAINED" : "🔴 CRITICAL";
                 badge.className = isQuarantined ? "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" : "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-rose-500/20 text-rose-300 border border-rose-500/40";
-            } else if (node.group === "Employee") {
-                badge.innerText = "SECONDARY: PERSON";
-                badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-purple-500/20 text-purple-300 border border-purple-500/40";
             } else {
-                badge.innerText = "OPERATIONAL";
-                badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-slate-800 text-slate-300 border border-white/10";
+                badge.innerText = "ℹ️ INSPECT";
+                badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-slate-700 text-slate-300 border border-slate-600";
             }
         }
 
         // ----------------------------------------------------
-        // 5. Floating Narrative Icon & Expandable Chat Modal
+        // 5. Right Panel: Narrative Chat Controller
         // ----------------------------------------------------
-        function toggleNarrativeDrawer() {
-            const modal = document.getElementById('narrative-chat-modal');
-            if (!modal) return;
-            isNarrativeOpen = !isNarrativeOpen;
+        function openNarrativePanel() {
+            const col = document.getElementById('narrative-col');
+            const fab = document.getElementById('floating-narrative-btn');
+            const btn = document.getElementById('pivot-narrative-btn');
+            if (col) {
+                col.classList.remove('chat-closed');
+                col.classList.add('chat-open');
+                isNarrativeOpen = true;
+            }
+            if (fab) {
+                fab.classList.add('opacity-0', 'pointer-events-none', 'scale-90');
+            }
+            if (btn) {
+                btn.className = "px-3.5 py-1.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/40 font-bold transition flex items-center gap-1.5";
+            }
+        }
+
+        function closeNarrativePanel() {
+            const col = document.getElementById('narrative-col');
+            const fab = document.getElementById('floating-narrative-btn');
+            const btn = document.getElementById('pivot-narrative-btn');
+            if (col) {
+                col.classList.remove('chat-open');
+                col.classList.add('chat-closed');
+                isNarrativeOpen = false;
+            }
+            if (fab) {
+                fab.classList.remove('opacity-0', 'pointer-events-none', 'scale-90');
+            }
+            if (btn) {
+                btn.className = "px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition flex items-center gap-1.5";
+            }
+        }
+
+        function toggleNarrativePanel() {
             if (isNarrativeOpen) {
-                modal.classList.remove('chat-closed');
-                modal.classList.add('chat-open');
+                closeNarrativePanel();
             } else {
-                modal.classList.remove('chat-open');
-                modal.classList.add('chat-closed');
+                openNarrativePanel();
             }
         }
 
@@ -1159,6 +1261,13 @@ def dashboard():
                 badge.innerText = "HEALTHY";
                 badge.className = "text-[9px] px-1.5 py-0.2 rounded bg-emerald-500 text-white font-bold";
 
+                // Update Status Badge in Inspector
+                const inspectBadge = document.getElementById('inspect-status-badge');
+                if (inspectBadge) {
+                    inspectBadge.innerText = "🟢 CONTAINED";
+                    inspectBadge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+                }
+
                 // Hide Jump to Alert button
                 const btnJump = document.getElementById('btn-jump-alert');
                 if (btnJump) btnJump.classList.add('hidden');
@@ -1192,11 +1301,15 @@ def dashboard():
             badge.innerText = "CRITICAL";
             badge.className = "text-[9px] px-1.5 py-0.2 rounded bg-rose-500 text-white font-bold";
 
-            const pivotBadge = document.getElementById('pivot-badge');
-            if (pivotBadge) pivotBadge.innerText = "1";
+            const btn = document.getElementById('btn-ledger-quarantine');
+            if (btn) {
+                btn.disabled = false;
+                btn.className = "btn-solar w-full h-11 text-xs font-bold shadow-lg shadow-orange-500/35 mt-1";
+                btn.innerHTML = "<span>🛡️ Quarantine Asset & Contain Breach</span>";
+            }
 
             renderHoneycombCanvas();
-            openAlertSituationDrawer();
+            openAlertSituationLedger();
 
             appendChatMessage("Scout-Alpha", "Caught 14 failed SSH attempts from unauthorized IP 192.168.1.105 on Login Gateway.", "scout", "Triage Surge · 9ms");
         }
@@ -1208,14 +1321,20 @@ def dashboard():
             const newNode = {
                 id: newId,
                 label: label,
-                q: parent.q + 1,
-                r: parent.r,
+                q: parent.q,
+                r: parent.r + 1,
                 group: group,
                 icon: icon,
                 parent: parentId
             };
             nodeDefinitions.push(newNode);
             renderHoneycombCanvas();
+
+            // Update Active Cells Label
+            const labelEl = document.getElementById('node-counter-label');
+            if (labelEl) {
+                labelEl.innerText = `${allGraphNodes.length} Active Cells`;
+            }
 
             // Anchor System Log Marker in Narrative Stream
             const stream = document.getElementById('narrative-stream');
@@ -1236,6 +1355,14 @@ def dashboard():
         // ----------------------------------------------------
         // 7. Chat Directives
         // ----------------------------------------------------
+        function quickDirect(text) {
+            const input = document.getElementById('directive-input');
+            if (input) {
+                input.value = text;
+                document.getElementById('directive-form').dispatchEvent(new Event('submit'));
+            }
+        }
+
         async function submitDirective(e) {
             e.preventDefault();
             const input = document.getElementById('directive-input');
@@ -1322,8 +1449,12 @@ def dashboard():
         }
 
         function recenterHoneycombCanvas() {
+            panX = 0;
+            panY = 0;
+            zoom = 1;
+            updateViewportTransform();
             clearLineageHighlight();
-            closeInspectorLedger();
+            renderZeroStateGrid();
             renderHoneycombCanvas();
         }
 
@@ -1346,14 +1477,64 @@ def dashboard():
             }
         }
 
-        // Initialize on load
+        // ----------------------------------------------------
+        // 8. Pan & Zoom Event Listeners for Honeycomb SVG
+        // ----------------------------------------------------
+        function setupCanvasInteraction() {
+            const svg = document.getElementById('honeycomb-viewport');
+            if (!svg) return;
+
+            svg.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.hex-cell')) return; // Cell click takes priority
+                isPanning = true;
+                panStartX = e.clientX - panX;
+                panStartY = e.clientY - panY;
+                svg.style.cursor = 'grabbing';
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isPanning) return;
+                panX = e.clientX - panStartX;
+                panY = e.clientY - panStartY;
+                updateViewportTransform();
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (isPanning) {
+                    isPanning = false;
+                    svg.style.cursor = 'grab';
+                }
+            });
+
+            svg.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                zoom = Math.min(Math.max(0.4, zoom * delta), 2.5);
+                updateViewportTransform();
+            }, { passive: false });
+        }
+
+        // Initialize on load with Dynamic Resize Observer
         window.addEventListener('DOMContentLoaded', () => {
+            updateCanvasOrigin();
             renderZeroStateGrid();
             renderHoneycombCanvas();
+            setupCanvasInteraction();
+
+            // Observe dynamic flex resizing when left/right panels slide open or close
+            const wrapper = document.getElementById('canvas-wrapper');
+            if (wrapper && window.ResizeObserver) {
+                const ro = new ResizeObserver(() => {
+                    updateCanvasOrigin();
+                    renderZeroStateGrid();
+                    renderHoneycombCanvas();
+                });
+                ro.observe(wrapper);
+            }
         });
     </script>
 </body>
 </html>
 """
 
-# Liquid Glass: cubic-bezier spring physics and specular highlights tuned
+# Liquid Glass & Dynamic 3-Panel Side-By-Side: Left Inspector Ledger, Center Honeycomb, Right Narrative
