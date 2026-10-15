@@ -1,8 +1,10 @@
 """
 FastAPI REST Backend & Interactive Single-Page Visualizer for Scout
-Serves the unified FalkorDB graph, multi-hop reasoning endpoints, and the Dribbble-inspired
-Modern Team Collaboration UI with Floating Bottom Navigation Bar, Dynamic Honeycomb Graph,
-and AI Team Chat & Situation First Frame.
+Serves the unified FalkorDB graph, multi-hop reasoning endpoints, and the Spatial Navigation Dashboard:
+- Top Context Bar: Search/Command bar, View pivots, Dynamic Micro-Telemetry Pill
+- Left (Honeycomb): Generative wireframe grid, sprouting cards, lineage highlighting, pulsing threat alert
+- Center (Narrative): Dual-stream agent debate with timestamped database modification anchors
+- Right (Inspector Ledger): Scannable telemetry, blast radius metrics, and one-click quarantine
 """
 
 from fastapi import FastAPI, HTTPException
@@ -160,20 +162,20 @@ def human_directive(req: DirectiveRequest):
         "security_response": {
             "agent": "Scout-Alpha",
             "role": "Security Guardian",
-            "message": f"I received your message: \"{req.directive}\". I checked our company records and access paths in FalkorDB. Everything is tracked safely.",
+            "message": f"Operator Directive received: \"{req.directive}\". Initiating targeted Cypher traversal across credentials, session tokens, and access paths in FalkorDB.",
             "badge": "Checked company records · 14ms"
         },
         "policy_response": {
             "agent": "Policy-Beta",
             "role": "Team & Rules Advisor",
-            "message": f"I verified your instruction against Rule SEC-402. All actions are logged and our team is protected.",
+            "message": f"Cross-referencing directive with Compliance Standard SEC-402. Verification logged to episodic audit session SES-101 in FalkorDB.",
             "badge": "Safety rule verified · 18ms"
         }
     }
 
 
 # -------------------------------------------------------------
-# Embedded Single-Page Interactive Dashboard (Dribbble Modern Team Collaboration UI)
+# Spatial Navigation & Generative Honeycomb Interface Dashboard
 # -------------------------------------------------------------
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
@@ -182,11 +184,11 @@ def dashboard():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCOUT — AI Team Workspace & Incident Solver</title>
+    <title>SCOUT — Generative Honeycomb & Threat Investigator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -208,7 +210,7 @@ def dashboard():
     </script>
     <style>
         :root {
-            --bg-canvas: #080b13;
+            --bg-canvas: #07090e;
             --bg-card: rgba(18, 24, 38, 0.78);
             --liquid-orange: #ff6b00;
             --spring-curve: cubic-bezier(0.16, 1, 0.3, 1);
@@ -223,7 +225,7 @@ def dashboard():
             overflow: hidden;
         }
 
-        /* Imran Jakir Pillowy Rounded Cards */
+        /* Dribbble Pillowy Rounded Cards */
         .dribbble-card {
             background: linear-gradient(150deg, rgba(22, 28, 46, 0.75) 0%, rgba(12, 16, 28, 0.92) 100%);
             backdrop-filter: blur(28px) saturate(210%);
@@ -234,26 +236,17 @@ def dashboard():
             transition: all 0.25s var(--spring-curve);
         }
         .dribbble-card:hover {
-            border-color: rgba(249, 115, 22, 0.40);
-            box-shadow: 0 14px 40px -8px rgba(249, 115, 22, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: rgba(249, 115, 22, 0.35);
         }
 
-        /* Voice Card (Lavender/Purple Glow) */
-        .voice-card {
-            background: linear-gradient(145deg, rgba(46, 28, 68, 0.65) 0%, rgba(20, 16, 32, 0.90) 100%);
-            border: 1px solid rgba(168, 85, 247, 0.32);
-            border-radius: 22px;
-            box-shadow: 0 8px 25px -6px rgba(168, 85, 247, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-        }
-
-        /* Solar Orange Tactile Button */
+        /* Solar Orange Button */
         .btn-solar {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            height: 40px;
-            padding: 0 18px;
+            gap: 7px;
+            height: 38px;
+            padding: 0 16px;
             font-size: 0.8125rem;
             font-weight: 600;
             border-radius: 9999px;
@@ -278,8 +271,8 @@ def dashboard():
             align-items: center;
             justify-content: center;
             gap: 6px;
-            height: 40px;
-            padding: 0 16px;
+            height: 38px;
+            padding: 0 14px;
             font-size: 0.8125rem;
             font-weight: 500;
             border-radius: 9999px;
@@ -297,7 +290,70 @@ def dashboard():
             transform: translateY(-1px);
         }
 
-        /* Soundwave Equalizer Bars */
+        /* Multi-Layered Threat Pulse Ring Animation */
+        @keyframes pulseRing {
+            0% { r: 34px; opacity: 0.95; stroke-width: 3.5px; }
+            50% { opacity: 0.45; }
+            100% { r: 68px; opacity: 0; stroke-width: 0.5px; }
+        }
+        .pulse-ring-1 {
+            animation: pulseRing 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+        }
+        .pulse-ring-2 {
+            animation: pulseRing 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite 0.75s;
+        }
+        .pulse-ring-3 {
+            animation: pulseRing 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite 1.5s;
+        }
+
+        /* Directional Animated Flowing Threat Path */
+        @keyframes threatFlow {
+            from { stroke-dashoffset: 32; }
+            to { stroke-dashoffset: 0; }
+        }
+        .threat-flow-path {
+            stroke: #ff6b00;
+            stroke-width: 3.5px;
+            stroke-dasharray: 8 5;
+            animation: threatFlow 1s linear infinite;
+            filter: drop-shadow(0 0 10px #ff6b00);
+        }
+
+        /* High-Contrast Lineage Path */
+        .lineage-path {
+            stroke: #a855f7;
+            stroke-width: 3px;
+            stroke-dasharray: 6 3;
+            animation: threatFlow 1.2s linear infinite;
+            filter: drop-shadow(0 0 8px #a855f7);
+        }
+
+        /* Sprouting Hexagon Scale Animation */
+        @keyframes sproutCard {
+            0% { transform: scale(0.2); opacity: 0; }
+            70% { transform: scale(1.08); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .sprouting-node {
+            transform-origin: center;
+            animation: sproutCard 0.45s var(--spring-curve) forwards;
+        }
+
+        /* Hexagon Interactivity */
+        .hex-cell {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .hex-cell:hover {
+            filter: drop-shadow(0 0 12px currentColor);
+            stroke-width: 3.5px;
+        }
+        .hex-cell.dimmed {
+            opacity: 0.15;
+            filter: grayscale(80%);
+        }
+
+        /* Soundwave Equalizer */
         @keyframes soundwave {
             0%, 100% { height: 4px; }
             50% { height: 18px; }
@@ -314,740 +370,853 @@ def dashboard():
             background-color: #cbd5e1;
         }
 
-        /* Micro scrollbars */
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(249, 115, 22, 0.28);
-            border-radius: 2px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(249, 115, 22, 0.50);
-        }
-
-        /* Floating Bottom Nav Pill */
-        .bottom-dock {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 60;
-            background: rgba(14, 18, 30, 0.88);
-            backdrop-filter: blur(28px) saturate(220%);
-            -webkit-backdrop-filter: blur(28px) saturate(220%);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+        /* Floating Omni-Directional Jump to Alert Button */
+        .btn-focus-alert {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            z-index: 30;
+            background: linear-gradient(180deg, rgba(239, 68, 68, 0.35) 0%, rgba(185, 28, 28, 0.55) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.70);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.40);
+            color: #ffffff;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            padding: 7px 14px;
             border-radius: 9999px;
-            padding: 6px 10px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.80), 0 0 30px rgba(249, 115, 22, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.18);
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        .dock-tab {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            height: 38px;
-            padding: 0 16px;
-            border-radius: 9999px;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: #94a3b8;
-            transition: all 0.2s var(--spring-curve);
+            gap: 7px;
             cursor: pointer;
-            user-select: none;
-            border: 1px solid transparent;
+            transition: all 0.2s var(--spring-curve);
         }
-        .dock-tab:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .dock-tab.active {
-            color: #ffffff;
-            background: linear-gradient(180deg, rgba(255, 107, 0, 0.22) 0%, rgba(234, 88, 12, 0.35) 100%);
-            border: 1px solid rgba(249, 115, 22, 0.50);
-            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+        .btn-focus-alert:hover {
+            transform: scale(1.05);
+            background: linear-gradient(180deg, rgba(239, 68, 68, 0.50) 0%, rgba(185, 28, 28, 0.75) 100%);
         }
 
-        /* Honeycomb Node Hover & Drag */
-        .hex-cell {
-            cursor: grab;
-            transition: filter 0.2s, stroke-width 0.2s;
-        }
-        .hex-cell:active {
-            cursor: grabbing;
-        }
-        .hex-cell:hover {
-            filter: drop-shadow(0 0 12px currentColor);
-            stroke-width: 3.5px;
-        }
-
-        /* Pulsing breach stroke */
-        @keyframes breachGlow {
-            0%, 100% { stroke-opacity: 1; filter: drop-shadow(0 0 6px #ff6b00); }
-            50% { stroke-opacity: 0.5; filter: drop-shadow(0 0 14px #ff8a3d); }
-        }
-        .breach-link {
-            stroke: #ff6b00;
-            stroke-width: 3px;
-            animation: breachGlow 2.2s infinite ease-in-out;
-        }
+        /* Micro scrollbars */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.28); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(249, 115, 22, 0.50); }
     </style>
 </head>
 <body class="h-screen w-screen flex flex-col antialiased selection:bg-orange-500/30 selection:text-orange-200 overflow-hidden">
 
-    <!-- TOP HEADER (Clean Collaboration Bar - 56px) -->
-    <header class="h-[56px] px-6 bg-[#090c15] border-b border-white/[0.08] flex items-center justify-between shrink-0 z-40">
+    <!-- =================================================================== -->
+    <!-- 1. SPATIAL NAVIGATION & THE PERSISTENT TOP CONTEXT BAR (56px)       -->
+    <!-- =================================================================== -->
+    <header class="h-[56px] px-5 bg-[#090c15] border-b border-white/[0.08] flex items-center justify-between shrink-0 z-50">
+        <!-- Brand & Global Command Search Anchor -->
         <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-700 flex items-center justify-center text-base shadow-[0_0_18px_rgba(249,115,22,0.48)] border border-orange-300/35 cursor-pointer" title="Scout AI Team Workspace">
+            <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-700 flex items-center justify-center text-base shadow-[0_0_18px_rgba(249,115,22,0.48)] border border-orange-300/35 cursor-pointer" title="Scout FalkorDB Core">
                 🛡️
             </div>
-            <div>
-                <div class="flex items-center gap-2">
-                    <span class="font-extrabold text-sm tracking-tight text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-orange-300">SCOUT</span>
-                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/30 font-bold">FalkorDB</span>
-                </div>
+            <div class="flex items-center gap-2">
+                <span class="font-extrabold text-sm tracking-tight text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-orange-300">SCOUT</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/30 font-bold">FalkorDB v1.0</span>
             </div>
-            <div class="h-4 w-px bg-white/10 hidden sm:block"></div>
-            <!-- System Status Indicator in Plain English -->
-            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs flex items-center gap-1.5 font-medium">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>All Systems Live</span>
-            </span>
-        </div>
 
-        <!-- Center Current Situation Pill in Plain English -->
-        <div class="hidden md:flex items-center gap-2">
-            <div id="top-situation-pill" class="px-3.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2 font-medium">
-                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                <span>Current Issue: <strong class="text-white">14 Failed Logins on Login Gateway</strong></span>
-                <span class="text-[10px] px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-200 uppercase font-mono font-bold">Critical</span>
+            <div class="h-4 w-px bg-white/10 mx-1 hidden md:block"></div>
+
+            <!-- Global Search / Command Bar -->
+            <div class="relative hidden lg:flex items-center w-72">
+                <span class="absolute left-3 text-slate-400 text-xs">🔍</span>
+                <input id="global-search-input" onkeyup="handleGlobalSearch(event)" type="text" placeholder="Global search (nodes, users, keys)... [⌘K]" class="h-9 w-full bg-black/50 border border-white/10 rounded-full pl-8 pr-12 text-xs text-white placeholder-slate-500 outline-none focus:border-orange-500/60 transition font-mono">
+                <span class="absolute right-3 text-[10px] font-mono text-slate-500 bg-white/[0.05] px-1.5 py-0.5 rounded">⌘K</span>
             </div>
         </div>
 
-        <!-- Top Right Action Controls -->
+        <!-- View Navigation Pivots (Persistent Center Anchor) -->
+        <div class="flex items-center gap-1.5 bg-black/40 p-1 rounded-full border border-white/[0.08] text-xs font-mono">
+            <button onclick="setSpatialView('map')" id="pivot-map" class="px-3.5 py-1.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/40 font-bold transition">
+                🗺️ Real-Time Map
+            </button>
+            <button onclick="setSpatialView('ledger')" id="pivot-ledger" class="px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition">
+                🚨 Incident Ledger
+            </button>
+            <button onclick="setSpatialView('chat')" id="pivot-chat" class="px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition">
+                💬 AI Narrative
+            </button>
+            <button onclick="setSpatialView('cockpit')" id="pivot-cockpit" class="px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition">
+                🔲 All-in-One
+            </button>
+        </div>
+
+        <!-- Contextual Status Micro-Telemetry Pill (Shifts Dynamically) -->
         <div class="flex items-center gap-2.5">
-            <button onclick="triggerSimulatedAttack()" class="btn-solar text-xs" title="Simulate a new issue to see AI in action">
-                <span>⚡ Simulate New Issue</span>
+            <div id="telemetry-pill" onclick="jumpToAlertNode()" class="px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 text-xs font-mono flex items-center gap-2 cursor-pointer hover:border-rose-500 transition shadow-sm" title="Click to center canvas on active threat">
+                <span id="telemetry-pill-dot" class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                <span id="telemetry-pill-text"><strong>1 Active Breach:</strong> AST-01</span>
+                <span id="telemetry-pill-badge" class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500 text-white font-bold">CRITICAL</span>
+            </div>
+            <button onclick="triggerSimulatedAttack()" class="btn-solar text-xs hidden sm:inline-flex" title="Simulate anomalous telemetry surge">
+                <span>⚡ Attack Surge</span>
             </button>
-            <button onclick="toggleCockpitView()" id="btn-toggle-layout" class="btn-obsidian text-xs" title="Switch between Focused View and 3-Column Cockpit">
-                <span id="layout-mode-label">🔲 Cockpit View</span>
-            </button>
-            <button onclick="reseedGraph()" class="btn-obsidian text-xs" title="Reset all data to clean state">
+            <button onclick="reseedGraph()" class="btn-obsidian text-xs" title="Reset and reseed graph">
                 <span>🔄 Reset</span>
             </button>
         </div>
     </header>
 
-    <!-- MAIN DYNAMIC CONTENT CONTAINER (Padding at bottom for floating dock) -->
-    <main class="flex-1 overflow-hidden relative pb-[82px]">
+    <!-- =================================================================== -->
+    <!-- UNIFIED 3-PANEL FLEX-GRID WORKSPACE (100vh - 56px)                 -->
+    <!-- =================================================================== -->
+    <div class="flex-1 flex overflow-hidden w-full">
 
-        <!-- =================================================================== -->
-        <!-- VIEW 1: 💬 AI TEAM CHAT & SITUATION (DEFAULT FIRST FRAME) -->
-        <!-- =================================================================== -->
-        <div id="view-chat" class="w-full h-full flex flex-col p-5 gap-4 overflow-hidden max-w-7xl mx-auto">
+        <!-- =============================================================== -->
+        <!-- 🍯 2. THE GENERATIVE HONEYCOMB INTERFACE (LEFT PANEL: 40%)      -->
+        <!-- =============================================================== -->
+        <section id="panel-honeycomb" class="w-[42%] min-w-[420px] bg-[#070a12] border-r border-white/[0.08] relative flex flex-col overflow-hidden shrink-0">
             
-            <!-- CURRENT SITUATION BANNER (Prominent First Frame Highlight) -->
-            <div id="situation-banner-card" class="dribbble-card p-4 shrink-0 border-orange-500/30 bg-gradient-to-r from-orange-950/30 via-slate-900/60 to-black/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-lg">
-                <div class="flex items-start gap-3.5">
-                    <div id="situation-icon-box" class="w-11 h-11 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-300 flex items-center justify-center text-xl shrink-0">
-                        🚨
-                    </div>
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <span id="situation-badge-rgy" class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 Situation: Critical</span>
-                            <span class="text-xs text-slate-400 font-mono">Today at 12:44 PM</span>
-                            <span class="text-xs text-slate-500">·</span>
-                            <span class="text-xs text-orange-300 font-medium">Target: Login Gateway (prod-auth-gateway)</span>
-                        </div>
-                        <h2 id="situation-title-text" class="text-sm font-bold text-white tracking-tight">
-                            Unauthorized Login Wave: 14 consecutive failed passwords detected from unknown address
-                        </h2>
-                        <p id="situation-desc-text" class="text-xs text-slate-300 max-w-3xl leading-relaxed">
-                            The security key was traced to team member <strong class="text-purple-300">Bob Martinez</strong>. Our AI agents investigated the access path, verified safety rules, and recommend an immediate one-click lockdown.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- One-Click Instant Fix Action -->
-                <div class="flex items-center gap-2 shrink-0 self-end md:self-center">
-                    <button onclick="executeMitigation()" id="btn-banner-quarantine" class="btn-solar h-10 px-5 text-xs font-bold shadow-lg shadow-orange-500/30">
-                        <span>🛡️ Lock Down & Fix Issue</span>
-                    </button>
-                    <button onclick="switchTab('honeycomb'); highlightNode('EMP-02');" class="btn-obsidian h-10 px-4 text-xs font-medium">
-                        <span>👤 View Bob on Map</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- CHAT STREAM CANVAS -->
-            <div class="flex-1 dribbble-card flex flex-col overflow-hidden bg-black/50 border-white/[0.08]">
-                
-                <!-- Chat Stream Subheader (Dribbble Screen Anatomy: Sophia Lee / Online / Voice Room) -->
-                <div class="h-14 px-6 border-b border-white/[0.08] flex items-center justify-between shrink-0 bg-black/40">
-                    <div class="flex items-center gap-3">
-                        <div class="relative">
-                            <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-orange-500 via-amber-600 to-purple-600 flex items-center justify-center font-bold text-xs text-white shadow">
-                                AI
-                            </div>
-                            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-black"></span>
-                        </div>
-                        <div>
-                            <h3 class="text-xs font-bold text-white flex items-center gap-2">
-                                <span>Scout-Alpha & Policy-Beta</span>
-                                <span class="text-[10px] text-orange-400 px-2 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/30 font-medium">AI Decision Room</span>
-                            </h3>
-                            <p class="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                <span>Online · Live Multi-Agent Reasoning</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Voice Call Waveform Visualizer from Dribbble Shot -->
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-xs font-mono">
-                            <span class="text-orange-400 font-bold">🎙️ Voice Room:</span>
-                            <div class="flex items-center gap-0.5 h-3">
-                                <span class="w-1 bg-orange-400 rounded-full sound-bar-1"></span>
-                                <span class="w-1 bg-amber-400 rounded-full sound-bar-2"></span>
-                                <span class="w-1 bg-orange-500 rounded-full sound-bar-3"></span>
-                                <span class="w-1 bg-amber-300 rounded-full sound-bar-4"></span>
-                                <span class="w-1 bg-orange-400 rounded-full sound-bar-5"></span>
-                            </div>
-                            <span class="text-slate-400 text-[10px] ml-1">00:04:18</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Messages Feed -->
-                <div id="unified-chat-stream" class="flex-1 overflow-y-auto p-5 space-y-4 text-xs">
-                    
-                    <!-- Date Divider -->
-                    <div class="flex items-center justify-center">
-                        <span class="px-3 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-[10px] font-mono text-slate-400 uppercase font-semibold">Today · Live Situation</span>
-                    </div>
-
-                    <!-- Message 1: Scout-Alpha (Security Guardian) -->
-                    <div class="p-4 rounded-3xl bg-black/60 border border-orange-500/25 space-y-2.5 max-w-3xl">
-                        <div class="flex items-center justify-between text-[11px]">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-full bg-orange-600/40 text-orange-300 font-bold text-[10px] flex items-center justify-center border border-orange-500/30">SA</div>
-                                <span class="font-bold text-orange-300">Scout-Alpha (Security Guardian)</span>
-                                <span class="text-[9px] px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-400 border border-orange-500/30 font-mono">Analysis</span>
-                            </div>
-                            <span class="text-[10px] text-slate-400 font-mono">12:44:10 PM</span>
-                        </div>
-                        <p class="text-slate-200 leading-relaxed text-[12px]">
-                            I caught an unusual spike in failed logins on the <strong class="text-white">Login Gateway</strong> (<code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code>). There were <strong class="text-rose-400">14 consecutive failed attempts in 30 seconds</strong> coming from an unrecognized device (<code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">192.168.1.105</code>).
-                        </p>
-
-                        <!-- Attached Log File Pill from Dribbble Shot -->
-                        <div class="flex items-center gap-2 p-2.5 rounded-2xl bg-orange-950/20 border border-orange-500/30 text-[11px] font-mono text-slate-200 hover:border-orange-500/50 transition cursor-pointer">
-                            <span class="text-orange-400 text-base">📄</span>
-                            <span class="font-medium text-white">login_activity_telemetry.log</span>
-                            <span class="text-slate-500 ml-auto">14.2 KB</span>
-                        </div>
-
-                        <!-- Interactive Voice Note Audio Player from Dribbble Shot -->
-                        <div class="p-3 rounded-2xl bg-orange-950/30 border border-orange-500/35 flex items-center gap-3">
-                            <button onclick="toggleVoiceAudio(this)" class="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 text-white flex items-center justify-center text-xs shadow-md shadow-orange-500/30 hover:scale-105 transition" title="Play Voice Brief">
-                                <span class="play-icon">▶</span>
-                            </button>
-                            <div class="flex-1 flex items-center gap-1 h-5">
-                                <span class="waveform-bar h-2 bg-orange-400"></span>
-                                <span class="waveform-bar h-4 bg-orange-400"></span>
-                                <span class="waveform-bar h-3 bg-orange-300"></span>
-                                <span class="waveform-bar h-5 bg-orange-400"></span>
-                                <span class="waveform-bar h-3 bg-orange-300"></span>
-                                <span class="waveform-bar h-4 bg-orange-400"></span>
-                                <span class="waveform-bar h-2 bg-orange-300"></span>
-                                <span class="waveform-bar h-5 bg-orange-400"></span>
-                                <span class="waveform-bar h-3 bg-orange-300"></span>
-                                <span class="waveform-bar h-4 bg-orange-400"></span>
-                                <span class="waveform-bar h-2 bg-orange-300"></span>
-                                <span class="waveform-bar h-4 bg-slate-500"></span>
-                                <span class="waveform-bar h-2 bg-slate-600"></span>
-                                <span class="waveform-bar h-3 bg-slate-600"></span>
-                                <span class="waveform-bar h-1 bg-slate-600"></span>
-                            </div>
-                            <span class="text-[10px] font-mono text-orange-300 font-bold">0:14</span>
-                        </div>
-
-                        <div class="flex justify-end pt-1">
-                            <span class="text-[10px] font-mono text-slate-400 bg-black/60 px-2.5 py-0.5 rounded-full border border-white/[0.08]">[Checked security logs · 12ms]</span>
-                        </div>
-                    </div>
-
-                    <!-- Message 2: Policy-Beta (Team & Rules Advisor) -->
-                    <div class="p-4 rounded-3xl bg-black/60 border border-purple-500/25 space-y-2.5 max-w-3xl ml-auto">
-                        <div class="flex items-center justify-between text-[11px]">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-full bg-purple-600/40 text-purple-300 font-bold text-[10px] flex items-center justify-center border border-purple-500/30">PB</div>
-                                <span class="font-bold text-purple-300">Policy-Beta (Team & Rules Advisor)</span>
-                                <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/30 font-mono">Rules Check</span>
-                            </div>
-                            <span class="text-[10px] text-slate-400 font-mono">12:44:13 PM</span>
-                        </div>
-
-                        <!-- Quoted Reply Box from Dribbble Shot -->
-                        <div class="p-2.5 rounded-2xl bg-purple-950/30 border-l-2 border-purple-400 text-[11px] text-slate-300 space-y-0.5">
-                            <span class="text-purple-400 font-semibold block text-[10px]">Replied to Scout-Alpha:</span>
-                            <p class="truncate italic opacity-85">"I caught an unusual spike in failed logins on the Login Gateway..."</p>
-                        </div>
-
-                        <p class="text-slate-200 leading-relaxed text-[12px]">
-                            I checked our company database in FalkorDB. The login key is used by <strong class="text-white">Bob Martinez</strong> (<span class="text-purple-300">SecOps Team</span>). This gateway connects directly to <strong class="text-amber-300">Project FalconShield</strong>. Under company safety rule <span class="text-purple-300 font-semibold">SEC-402</span>, automated lockdown is approved because the danger score is <strong class="text-rose-400">125 / 100</strong>.
-                        </p>
-
-                        <!-- Risk Score Meter -->
-                        <div class="p-2.5 rounded-2xl bg-purple-950/25 border border-purple-500/25 space-y-1">
-                            <div class="flex items-center justify-between text-[10px] font-mono">
-                                <span class="text-slate-400">Danger Level Meter</span>
-                                <span class="text-rose-400 font-bold">125 / 100 [High Priority · Lockdown Approved]</span>
-                            </div>
-                            <div class="w-full h-1.5 rounded-full bg-black/60 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-amber-500 via-rose-500 to-red-600 rounded-full" style="width: 100%"></div>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end pt-1">
-                            <span class="text-[10px] font-mono text-slate-400 bg-black/60 px-2.5 py-0.5 rounded-full border border-white/[0.08]">[Verified team safety rules · 18ms]</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Footer Control: Modern Collaboration Input Dock (Direct from Dribbble Shot) -->
-                <div class="p-4 bg-black/60 border-t border-white/[0.08] shrink-0 space-y-2.5">
-                    
-                    <!-- Quick Directive Suggestion Chips -->
-                    <div class="flex items-center gap-2 overflow-x-auto text-[11px] font-medium text-slate-300">
-                        <span class="text-slate-500 text-[10px] uppercase font-mono">Quick Actions:</span>
-                        <button onclick="sendQuickDirective('Lock down Login Gateway now')" class="px-3 py-1 rounded-full bg-orange-500/15 hover:bg-orange-500/25 text-orange-300 border border-orange-500/30 transition shrink-0">
-                            ⚡ Lock Down Gateway
-                        </button>
-                        <button onclick="sendQuickDirective('Who has access to Login Gateway?')" class="px-3 py-1 rounded-full bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 transition shrink-0">
-                            🔍 Who has access?
-                        </button>
-                        <button onclick="sendQuickDirective('Show safety rule SEC-402')" class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-slate-200 border border-white/10 transition shrink-0">
-                            ⚖️ Check safety rules
-                        </button>
-                        <button onclick="sendQuickDirective('What teams are affected?')" class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-slate-200 border border-white/10 transition shrink-0">
-                            👥 Impacted teams
-                        </button>
-                    </div>
-
-                    <!-- Input Form -->
-                    <form id="directive-form" onsubmit="submitDirective(event)" class="flex items-center gap-2.5">
-                        <button type="button" class="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] text-slate-400 hover:text-white flex items-center justify-center text-sm transition" title="Voice Message">
-                            🎙️
-                        </button>
-                        <button type="button" class="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] text-slate-400 hover:text-white flex items-center justify-center text-sm transition" title="Attach Company File">
-                            📎
-                        </button>
-                        <input id="directive-input" type="text" placeholder="Message Scout-Alpha & Policy-Beta (or ask questions about the team & servers)..." class="h-11 bg-black/80 border border-white/10 focus:border-orange-500/60 rounded-full px-5 text-xs text-white placeholder-slate-500 flex-1 outline-none transition shadow-inner">
-                        <button type="submit" class="w-11 h-11 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 hover:scale-105 active:scale-95 text-white flex items-center justify-center shadow-lg shadow-orange-500/35 transition shrink-0" title="Send message to AI agents">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- =================================================================== -->
-        <!-- VIEW 2: 🚨 LIVE ALERTS & QUICK FIXES (TRACK 1) -->
-        <!-- =================================================================== -->
-        <div id="view-alerts" class="w-full h-full p-5 hidden gap-5 overflow-hidden max-w-7xl mx-auto flex-col md:flex-row">
-            
-            <!-- Left Side: Alert Queue in Plain English -->
-            <div class="w-full md:w-[360px] dribbble-card p-4 flex flex-col space-y-3 shrink-0 bg-black/45">
-                <div class="flex items-center justify-between pb-2 border-b border-white/[0.08]">
-                    <div>
-                        <h2 class="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
-                            <span>🚨</span> Active Issues Queue
-                        </h2>
-                        <p class="text-[11px] text-slate-400">Current situation flags</p>
-                    </div>
-                    <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-mono text-[10px] font-bold border border-rose-500/30">1 Critical</span>
-                </div>
-
-                <!-- Alert Cards -->
-                <div class="space-y-2.5 flex-1 overflow-y-auto">
-                    <!-- Alert 1 (Selected) -->
-                    <div onclick="selectAlert('INC-2026-001')" id="alert-card-INC-2026-001" class="p-3.5 rounded-2xl bg-black/60 border border-orange-500/60 shadow-[0_0_20px_rgba(249,115,22,0.18)] cursor-pointer hover:border-orange-500 transition space-y-2">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
-                                <div class="font-bold text-white text-xs">Login Gateway Brute-Force</div>
-                            </div>
-                            <span class="text-[10px] text-slate-400 font-mono">12:44 PM</span>
-                        </div>
-                        <p class="text-[11px] text-slate-300">14 failed logins detected on Login Gateway</p>
-                        <div class="flex items-center justify-between pt-1 text-[10px] font-mono">
-                            <span class="text-orange-300">Target: prod-auth-gateway</span>
-                            <span id="badge-alert-status" class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold">Needs Fix</span>
-                        </div>
-                    </div>
-
-                    <!-- Alert 2 -->
-                    <div onclick="selectAlert('INC-2026-002')" id="alert-card-INC-2026-002" class="p-3.5 rounded-2xl bg-black/35 border border-white/[0.06] cursor-pointer hover:border-orange-500/40 transition space-y-2">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
-                                <div class="font-bold text-slate-200 text-xs">Elevated Database Queries</div>
-                            </div>
-                            <span class="text-[10px] text-slate-400 font-mono">11:15 AM</span>
-                        </div>
-                        <p class="text-[11px] text-slate-400">Query rate higher than normal on cluster</p>
-                        <div class="flex items-center justify-between pt-1 text-[10px] font-mono">
-                            <span class="text-amber-300">Target: prod-falcon-cluster</span>
-                            <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">Review</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Side: Step-by-Step Reasoner Breakdown & 1-Click Fix -->
-            <div class="flex-1 dribbble-card p-6 flex flex-col space-y-4 bg-black/50 overflow-y-auto">
-                <div class="flex items-center justify-between pb-3 border-b border-white/[0.08]">
-                    <div>
-                        <span class="text-[10px] font-mono uppercase tracking-wider text-orange-400 font-bold">Incident Analysis & Quick Resolution</span>
-                        <h3 class="text-base font-bold text-white">Login Gateway Unauthorized Access Investigation</h3>
-                    </div>
-                    <span id="drill-status-badge" class="px-3 py-1 rounded-full text-xs font-bold font-mono bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase">🔴 Active Issue</span>
-                </div>
-
-                <!-- 3 Steps Explained in Plain English -->
-                <div class="space-y-3.5">
-                    <!-- Step 1 -->
-                    <div class="p-4 rounded-2xl bg-black/60 border border-white/10 flex items-start gap-3.5">
-                        <div class="w-6 h-6 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold flex items-center justify-center border border-orange-500/40 shrink-0 mt-0.5">1</div>
-                        <div class="space-y-1">
-                            <div class="font-bold text-white text-xs">What Happened (The Entry Event)</div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                An external system repeatedly tried to log into <strong class="text-white">Login Gateway</strong> using wrong passwords 14 times in under 30 seconds.
-                            </p>
-                            <div class="text-[11px] font-mono text-slate-400">Source: <span class="text-orange-300">192.168.1.105</span> · Protocol: SSHv2</div>
-                        </div>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="p-4 rounded-2xl bg-black/60 border border-white/10 flex items-start gap-3.5">
-                        <div class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-xs font-bold flex items-center justify-center border border-purple-500/40 shrink-0 mt-0.5">2</div>
-                        <div class="space-y-1">
-                            <div class="font-bold text-white text-xs">Who is Impacted (Access Keys & Team Links)</div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                The targeted login key belongs to <strong class="text-purple-300">Bob Martinez</strong>. Bob reports to <strong class="text-purple-300">Alice Chen</strong> in the <strong class="text-purple-300">SecOps Team</strong>. This gateway connects to <strong class="text-amber-300">Project FalconShield</strong>.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="p-4 rounded-2xl bg-black/60 border border-white/10 flex items-start gap-3.5">
-                        <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center border border-emerald-500/40 shrink-0 mt-0.5">3</div>
-                        <div class="space-y-1 flex-1">
-                            <div class="font-bold text-white text-xs">AI Safety Rule Approval & Resolution</div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Rule <span class="text-purple-300 font-semibold">SEC-402</span> confirms that locking down this gateway will safely block the attacker while letting team members re-authenticate with clean credentials.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fix Button -->
-                <div class="pt-4 border-t border-white/[0.08] flex items-center gap-3">
-                    <button onclick="executeMitigation()" id="btn-fix-issue" class="btn-solar h-12 px-6 text-sm font-bold shadow-xl shadow-orange-500/30 flex-1">
-                        <span>🛡️ Lock Down & Fix Issue (Instant Quarantine)</span>
-                    </button>
-                    <button onclick="switchTab('honeycomb');" class="btn-obsidian h-12 px-5 text-xs font-medium">
-                        <span>🕸️ Inspect on Honeycomb Map</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- =================================================================== -->
-        <!-- VIEW 3: 🕸️ HONEYCOMB DYNAMIC GRAPH (TRACK 3) -->
-        <!-- =================================================================== -->
-        <div id="view-honeycomb" class="w-full h-full p-4 hidden gap-4 overflow-hidden max-w-7xl mx-auto flex-col">
-            
-            <!-- Honeycomb Controls Header -->
-            <div class="dribbble-card px-5 py-3 flex items-center justify-between shrink-0 bg-black/60">
-                <div class="flex items-center gap-4">
-                    <div>
-                        <h2 class="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
-                            <span>🕸️</span> Company Honeycomb Map
-                        </h2>
-                        <p class="text-[11px] text-slate-400">Drag any hexagon to move · Interactive live relationships</p>
-                    </div>
-
-                    <!-- Color Legend directly answering user prompt: Secondary for People, RGY for Situations -->
-                    <div class="hidden md:flex items-center gap-3 text-[11px] font-mono pl-4 border-l border-white/10">
-                        <span class="flex items-center gap-1.5 text-purple-300">
-                            <span class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_#a855f7]"></span>
-                            <span>People (Secondary Color)</span>
-                        </span>
-                        <span class="flex items-center gap-1.5 text-rose-400">
-                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#ef4444]"></span>
-                            <span>🔴 Critical Risk (RGY)</span>
-                        </span>
-                        <span class="flex items-center gap-1.5 text-amber-400">
-                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_#f59e0b]"></span>
-                            <span>🟡 Warning / Under Review (RGY)</span>
-                        </span>
-                        <span class="flex items-center gap-1.5 text-emerald-400">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]"></span>
-                            <span>🟢 Safe / Contained (RGY)</span>
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Actions -->
+            <!-- Panel Subheader -->
+            <div class="h-12 px-4 border-b border-white/[0.08] flex items-center justify-between shrink-0 bg-black/40 z-20">
                 <div class="flex items-center gap-2">
-                    <button onclick="recenterHoneycomb()" class="btn-obsidian h-8 px-3 text-xs" title="Reset hexagons back to regular honeycomb lattice">
-                        <span>↺ Re-align Honeycomb</span>
+                    <span class="text-xs font-bold text-white uppercase font-mono tracking-wider flex items-center gap-1.5">
+                        <span>🍯</span> Generative Honeycomb Map
+                    </span>
+                    <span id="honeycomb-node-count" class="px-2 py-0.2 rounded-full bg-white/[0.06] text-slate-400 font-mono text-[10px]">16 Active Cells</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="recenterHoneycombCanvas()" class="text-slate-400 hover:text-white text-xs font-mono px-2 py-1 rounded bg-white/[0.05]" title="Realign Honeycomb to Zero Grid">
+                        ↺ Center
                     </button>
-                    <button onclick="filterHoneycomb('all')" class="btn-obsidian h-8 px-3 text-xs filter-btn active" id="filter-all">
-                        <span>All</span>
-                    </button>
-                    <button onclick="filterHoneycomb('people')" class="btn-obsidian h-8 px-3 text-xs filter-btn" id="filter-people">
-                        <span>People Only</span>
-                    </button>
-                    <button onclick="filterHoneycomb('situations')" class="btn-obsidian h-8 px-3 text-xs filter-btn" id="filter-situations">
-                        <span>Situations (RGY)</span>
+                    <button onclick="clearLineageHighlight()" id="btn-clear-lineage" class="text-slate-400 hover:text-white text-xs font-mono px-2 py-1 rounded bg-white/[0.05] hidden" title="Clear Lineage Trace">
+                        ✕ Clear Trace
                     </button>
                 </div>
             </div>
 
-            <!-- Honeycomb Canvas with Interactive Dragging -->
-            <div class="flex-1 dribbble-card bg-[#070a12] relative overflow-hidden flex items-center justify-center border-white/10" id="honeycomb-container">
-                <svg id="honeycomb-svg" class="w-full h-full select-none" style="cursor: grab;">
+            <!-- Fixed Floating "Jump to Alert" Omni-Directional Focus Button -->
+            <button id="btn-jump-alert" onclick="jumpToAlertNode()" class="btn-focus-alert">
+                <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+                <span>🚨 Jump to Alert (AST-01)</span>
+            </button>
+
+            <!-- Lineage Path HUD Overlay -->
+            <div id="lineage-hud" class="absolute bottom-4 left-4 z-20 px-3.5 py-2 rounded-2xl bg-black/85 backdrop-blur-xl border border-purple-500/40 text-xs font-mono space-y-1 hidden shadow-2xl max-w-sm">
+                <div class="text-[10px] uppercase text-purple-300 font-bold flex items-center justify-between">
+                    <span>Relational Lineage Path</span>
+                    <span class="text-slate-500 cursor-pointer hover:text-white" onclick="clearLineageHighlight()">✕</span>
+                </div>
+                <div id="lineage-path-string" class="text-white text-[11px] leading-tight">
+                    Bob Martinez ➔ tok_98a ➔ prod-auth-gateway
+                </div>
+            </div>
+
+            <!-- SVG Honeycomb Canvas -->
+            <div class="flex-1 w-full h-full relative overflow-hidden flex items-center justify-center select-none" id="canvas-container">
+                <svg id="honeycomb-viewport" class="w-full h-full" style="cursor: grab;">
                     <defs>
                         <!-- Glow Filters -->
-                        <filter id="glow-orange" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="4" result="blur" />
+                        <filter id="glow-red" x="-40%" y="-40%" width="180%" height="180%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
                             <feComposite in="SourceGraphic" in2="blur" operator="over" />
                         </filter>
-                        <filter id="glow-purple" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="4" result="blur" />
+                        <filter id="glow-amber" x="-30%" y="-30%" width="160%" height="160%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                        <filter id="glow-purple" x="-30%" y="-30%" width="160%" height="160%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
                             <feComposite in="SourceGraphic" in2="blur" operator="over" />
                         </filter>
                     </defs>
-                    <!-- Link lines group -->
+
+                    <!-- Layer 1: Zero-State Wireframe Hexagon Grid (The Faint Structural Matrix) -->
+                    <g id="zero-state-grid"></g>
+
+                    <!-- Layer 2: Connection Links & Animated Threat Flow Paths -->
                     <g id="honeycomb-links"></g>
-                    <!-- Hexagon cells group -->
+
+                    <!-- Layer 3: Solid Sprouting Hexagonal Cards -->
                     <g id="honeycomb-cells"></g>
+
+                    <!-- Layer 4: Multi-Layered Threat Pulse Rings (Over Alert Node) -->
+                    <g id="threat-pulse-rings"></g>
                 </svg>
-
-                <!-- Floating Inspector Card on Node Click -->
-                <div id="honeycomb-inspector" class="absolute top-4 right-4 w-72 p-4 rounded-3xl bg-black/80 backdrop-blur-2xl border border-white/10 shadow-2xl space-y-2.5 hidden transition-all">
-                    <div class="flex items-center justify-between pb-2 border-b border-white/10">
-                        <div class="flex items-center gap-2">
-                            <span id="inspect-icon" class="text-base">👤</span>
-                            <span id="inspect-name" class="font-bold text-white text-xs">Bob Martinez</span>
-                        </div>
-                        <button onclick="closeInspector()" class="text-slate-400 hover:text-white text-xs">✕</button>
-                    </div>
-                    <div id="inspect-badge" class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase inline-block">Role: Engineer</div>
-                    <p id="inspect-desc" class="text-xs text-slate-300 leading-relaxed">
-                        Member of SecOps team. Has access keys for Login Gateway.
-                    </p>
-                    <div class="pt-2 border-t border-white/10 text-[11px] space-y-1">
-                        <div class="text-slate-400 font-mono text-[10px] uppercase">Connections:</div>
-                        <div id="inspect-connections" class="space-y-1 text-slate-200"></div>
-                    </div>
-                </div>
             </div>
-        </div>
+        </section>
 
-        <!-- =================================================================== -->
-        <!-- VIEW 4: 📊 WORKSPACE OVERVIEW & FEED (TRACK 3 BENTO) -->
-        <!-- =================================================================== -->
-        <div id="view-overview" class="w-full h-full p-5 hidden gap-4 overflow-y-auto max-w-7xl mx-auto flex-col">
+        <!-- =============================================================== -->
+        <!-- 💬 4. UNIFIED CENTER COLUMN: THE NARRATIVE (DUAL STREAM: 34%)  -->
+        <!-- =============================================================== -->
+        <main id="panel-narrative" class="w-[34%] min-w-[360px] bg-[#080b13] border-r border-white/[0.08] flex flex-col overflow-hidden shrink-0">
             
-            <!-- Bento Grid from Imran Jakir Dribbble Shot -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                
-                <!-- Voice Calls Bento Card (Lavender/Purple glow) -->
-                <div class="voice-card p-5 space-y-3 flex flex-col justify-between">
-                    <div class="flex items-center justify-between">
-                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm">
-                            📞
+            <!-- Narrative Subheader -->
+            <div class="h-12 px-5 border-b border-white/[0.08] flex items-center justify-between shrink-0 bg-black/40 z-20">
+                <div class="flex items-center gap-2.5">
+                    <div class="relative">
+                        <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-orange-500 via-amber-600 to-purple-600 flex items-center justify-center font-bold text-[10px] text-white">
+                            AI
                         </div>
-                        <span class="text-[10px] font-mono text-purple-300 font-bold uppercase">Live Audio Room</span>
+                        <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border border-black"></span>
                     </div>
                     <div>
-                        <div class="text-2xl font-extrabold text-white leading-tight">3 <span class="text-sm font-normal text-purple-200">team members</span></div>
-                        <span class="text-xs text-purple-200/80 block">Active Security Huddle</span>
-                    </div>
-                    <!-- Audio Waveform -->
-                    <div class="flex items-center justify-between pt-2">
-                        <div class="flex items-center gap-1 h-4">
-                            <span class="w-1 bg-purple-300 rounded-full h-2"></span>
-                            <span class="w-1 bg-purple-200 rounded-full h-4"></span>
-                            <span class="w-1 bg-white rounded-full h-3"></span>
-                            <span class="w-1 bg-purple-300 rounded-full h-4"></span>
-                            <span class="w-1 bg-purple-200 rounded-full h-2"></span>
-                        </div>
-                        <!-- Avatar Stack -->
-                        <div class="flex items-center -space-x-2 text-[9px] font-bold">
-                            <div class="w-6 h-6 rounded-full bg-orange-600 border border-black flex items-center justify-center text-white">SA</div>
-                            <div class="w-6 h-6 rounded-full bg-purple-600 border border-black flex items-center justify-center text-white">PB</div>
-                            <div class="w-6 h-6 rounded-full bg-slate-700 border border-black flex items-center justify-center text-white">BM</div>
-                        </div>
+                        <h2 class="text-xs font-bold text-white leading-none">The Narrative: Agent Debate</h2>
+                        <span class="text-[10px] font-mono text-emerald-400">Online · Dual Parallel Streams</span>
                     </div>
                 </div>
 
-                <!-- Team Channels Bento Card -->
-                <div class="dribbble-card p-5 space-y-3 flex flex-col justify-between bg-black/45">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-white font-mono uppercase">📁 Team Channels</span>
-                        <span class="text-xs text-orange-400 font-mono">3 Teams</span>
+                <!-- Audio Huddle Indicator -->
+                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-xs font-mono">
+                    <span class="text-orange-400 text-[10px] font-bold">🎙️ Voice:</span>
+                    <div class="flex items-center gap-0.5 h-3">
+                        <span class="w-1 bg-orange-400 rounded-full sound-bar-1"></span>
+                        <span class="w-1 bg-amber-400 rounded-full sound-bar-2"></span>
+                        <span class="w-1 bg-orange-500 rounded-full sound-bar-3"></span>
+                        <span class="w-1 bg-amber-300 rounded-full sound-bar-4"></span>
                     </div>
-                    <div class="space-y-2 text-xs">
-                        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
-                            <span class="font-medium text-white">🛡️ SecOps (Security)</span>
-                            <span class="text-purple-300 font-mono">4 People</span>
-                        </div>
-                        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
-                            <span class="font-medium text-white">💻 Platform Engineering</span>
-                            <span class="text-purple-300 font-mono">3 People</span>
-                        </div>
-                        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
-                            <span class="font-medium text-white">👑 Executive Leadership</span>
-                            <span class="text-purple-300 font-mono">3 People</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Daily Safety Checklist Card -->
-                <div class="dribbble-card p-5 space-y-3 flex flex-col justify-between bg-black/45">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-white font-mono uppercase">📋 Safety Checklist</span>
-                        <span class="text-xs text-emerald-400 font-mono">2 / 3 Passed</span>
-                    </div>
-                    <div class="space-y-2 text-xs font-mono">
-                        <div class="flex items-center gap-2 text-emerald-400">
-                            <span>✓</span>
-                            <span class="text-slate-200">Company Access Paths Audited</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-emerald-400">
-                            <span>✓</span>
-                            <span class="text-slate-200">Safety Rule SEC-402 Verified</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-orange-400">
-                            <span id="chk-quarantine-icon">●</span>
-                            <span id="chk-quarantine-label" class="text-orange-200">Quarantine Login Gateway</span>
-                        </div>
-                    </div>
+                    <span class="text-slate-400 text-[10px]">04:18</span>
                 </div>
             </div>
 
-            <!-- Live Database & Activity Feed in Plain English -->
-            <div class="dribbble-card p-5 flex-1 space-y-3 bg-black/55">
-                <div class="flex items-center justify-between pb-2 border-b border-white/[0.08]">
-                    <span class="text-xs font-bold uppercase tracking-wider text-orange-400 font-mono">Live Activity & Records Feed</span>
-                    <span class="text-xs font-mono text-slate-400">FalkorDB Synced</span>
+            <!-- Narrative Dual-Stream Feed -->
+            <div id="narrative-stream" class="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs">
+                
+                <!-- Date Divider -->
+                <div class="flex items-center justify-center py-1">
+                    <span class="px-3 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-[10px] font-mono text-slate-400 uppercase font-semibold">Today · FalkorDB Graph Events</span>
                 </div>
-                <div id="live-activity-box" class="h-44 overflow-y-auto space-y-2 text-xs font-mono text-slate-300">
-                    <div>[12:44:01 PM] <strong class="text-emerald-400">System:</strong> Enterprise database synced successfully.</div>
-                    <div>[12:44:10 PM] <strong class="text-rose-400">Scout-Alpha:</strong> Caught 14 failed logins from 192.168.1.105 on Login Gateway.</div>
-                    <div>[12:44:13 PM] <strong class="text-purple-400">Policy-Beta:</strong> Evaluated company impact for Bob Martinez and Project FalconShield.</div>
-                    <div>[12:44:15 PM] <strong class="text-amber-400">Policy-Beta:</strong> Rule SEC-402 passed. Immediate lockdown approved.</div>
+
+                <!-- Message 1: Scout-Alpha (Security Guardian) -->
+                <div class="p-3.5 rounded-3xl bg-black/60 border border-orange-500/25 space-y-2">
+                    <div class="flex items-center justify-between text-[11px]">
+                        <div class="flex items-center gap-2">
+                            <div class="w-5 h-5 rounded-full bg-orange-600/40 text-orange-300 font-bold text-[9px] flex items-center justify-center border border-orange-500/30">SA</div>
+                            <span class="font-bold text-orange-300 font-mono">Scout-Alpha</span>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-400 border border-orange-500/30 font-mono">Analysis</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-mono">12:44:10</span>
+                    </div>
+                    <p class="text-slate-200 text-xs leading-relaxed">
+                        Detected anomalous telemetry surge: <strong class="text-white">14 consecutive failed root SSH authentications</strong> on <code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code> (AST-01) from unauthorized IP <code class="text-orange-300 bg-black/60 px-1 py-0.5 rounded">192.168.1.105</code>.
+                    </p>
+
+                    <!-- Attached Log File Pill -->
+                    <div class="flex items-center gap-2 p-2 rounded-xl bg-orange-950/20 border border-orange-500/30 text-[10px] font-mono text-slate-200">
+                        <span class="text-orange-400 text-sm">📄</span>
+                        <span class="font-medium text-white truncate">auth_telemetry_surge.log</span>
+                        <span class="text-slate-500 ml-auto">14.2 KB</span>
+                    </div>
+
+                    <!-- Voice Note Pill -->
+                    <div class="p-2.5 rounded-2xl bg-orange-950/30 border border-orange-500/35 flex items-center gap-3">
+                        <button onclick="toggleVoiceAudio(this)" class="w-7 h-7 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 text-white flex items-center justify-center text-[10px] shadow-md shadow-orange-500/30">
+                            <span class="play-icon">▶</span>
+                        </button>
+                        <div class="flex-1 flex items-center gap-1 h-4">
+                            <span class="waveform-bar h-2 bg-orange-400"></span>
+                            <span class="waveform-bar h-4 bg-orange-400"></span>
+                            <span class="waveform-bar h-3 bg-orange-300"></span>
+                            <span class="waveform-bar h-4 bg-orange-400"></span>
+                            <span class="waveform-bar h-2 bg-orange-300"></span>
+                            <span class="waveform-bar h-4 bg-orange-400"></span>
+                            <span class="waveform-bar h-2 bg-slate-500"></span>
+                            <span class="waveform-bar h-3 bg-slate-600"></span>
+                        </div>
+                        <span class="text-[10px] font-mono text-orange-300 font-bold">0:14</span>
+                    </div>
+                </div>
+
+                <!-- SYSTEM LOG MARKER ANCHOR 01 (Anchored directly in chat stream) -->
+                <div class="p-2.5 rounded-2xl bg-purple-950/25 border border-purple-500/30 flex items-center gap-2.5 text-[11px] font-mono text-purple-200 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                    <span class="font-bold text-white">[12:44:11]</span>
+                    <span class="truncate">Sprouted node <strong>tok_98a</strong> ➔ Assigned to <strong>Bob Martinez</strong></span>
+                </div>
+
+                <!-- Message 2: Policy-Beta (Team & Rules Advisor) -->
+                <div class="p-3.5 rounded-3xl bg-black/60 border border-purple-500/25 space-y-2">
+                    <div class="flex items-center justify-between text-[11px]">
+                        <div class="flex items-center gap-2">
+                            <div class="w-5 h-5 rounded-full bg-purple-600/40 text-purple-300 font-bold text-[9px] flex items-center justify-center border border-purple-500/30">PB</div>
+                            <span class="font-bold text-purple-300 font-mono">Policy-Beta</span>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/30 font-mono">Governance</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-mono">12:44:13</span>
+                    </div>
+
+                    <!-- Quoted Reply Thread -->
+                    <div class="p-2 rounded-xl bg-purple-950/30 border-l-2 border-purple-400 text-[10px] text-slate-300 space-y-0.5">
+                        <span class="text-purple-400 font-semibold block">Replied to Scout-Alpha:</span>
+                        <p class="truncate italic opacity-85">"Detected anomalous telemetry surge: 14 consecutive failed root..."</p>
+                    </div>
+
+                    <p class="text-slate-200 text-xs leading-relaxed">
+                        Evaluated blast radius in FalkorDB: <code class="text-purple-300 bg-black/60 px-1 py-0.5 rounded">prod-auth-gateway</code> is accessed by <strong class="text-white">Bob Martinez</strong> (<span class="text-purple-300">SecOps Team</span>). Affects <strong class="text-amber-300">Project FalconShield</strong>. Risk score: <strong class="text-rose-400">125 / 100 [CRITICAL]</strong>. Rule <span class="text-purple-300 font-semibold">SEC-402</span> mandates instant quarantine.
+                    </p>
+                </div>
+
+                <!-- SYSTEM LOG MARKER ANCHOR 02 -->
+                <div class="p-2.5 rounded-2xl bg-orange-950/25 border border-orange-500/30 flex items-center gap-2.5 text-[11px] font-mono text-orange-200 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                    <span class="font-bold text-white">[12:44:14]</span>
+                    <span class="truncate">Sprouted Alert Node <strong>AST-01</strong> ➔ Directional threat path active</span>
+                </div>
+
+            </div>
+
+            <!-- Footer Control: Directive Command Bar -->
+            <div class="p-3.5 bg-black/60 border-t border-white/[0.08] shrink-0 space-y-2">
+                <form id="directive-form" onsubmit="submitDirective(event)" class="flex items-center gap-2">
+                    <button type="button" class="w-9 h-9 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Voice Input">
+                        🎙️
+                    </button>
+                    <button type="button" class="w-9 h-9 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-slate-400 hover:text-white flex items-center justify-center text-xs transition" title="Attach Context">
+                        📎
+                    </button>
+                    <input id="directive-input" type="text" placeholder="Message agents or inject directive..." class="h-10 bg-black/80 border border-white/10 focus:border-orange-500/60 rounded-full px-4 text-xs text-white placeholder-slate-500 flex-1 outline-none font-mono transition">
+                    <button type="submit" class="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 hover:scale-105 active:scale-95 text-white flex items-center justify-center shadow-lg shadow-orange-500/35 transition shrink-0" title="Dispatch Directive">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </main>
+
+        <!-- =============================================================== -->
+        <!-- 🔍 4. RIGHT COLUMN: THE INSPECTOR LEDGER (24%)                  -->
+        <!-- =============================================================== -->
+        <aside id="panel-inspector" class="flex-1 bg-[#0b0f19] flex flex-col p-4 space-y-4 overflow-y-auto shrink-0">
+            
+            <!-- Inspector Header -->
+            <div class="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+                <div>
+                    <h3 class="text-xs font-bold text-white uppercase font-mono tracking-wider flex items-center gap-2">
+                        <span>🔍</span> The Inspector Ledger
+                    </h3>
+                    <p class="text-[10px] text-slate-400 font-mono">Real-Time Node Telemetry</p>
+                </div>
+                <span id="inspect-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 CRITICAL</span>
+            </div>
+
+            <!-- Active Selected Node Card -->
+            <div class="dribbble-card p-4 space-y-3 bg-black/60 border-orange-500/30">
+                <div class="flex items-start gap-3">
+                    <div id="ledger-icon" class="w-10 h-10 rounded-2xl bg-orange-600/20 border border-orange-500/40 text-orange-300 flex items-center justify-center text-xl shrink-0">
+                        💻
+                    </div>
+                    <div class="space-y-0.5 flex-1 min-w-0">
+                        <div class="flex items-center justify-between">
+                            <span id="ledger-group" class="text-[10px] font-mono text-orange-400 uppercase font-semibold">Tier-1 Infrastructure Asset</span>
+                            <span id="ledger-id" class="text-[10px] font-mono text-slate-400">AST-01</span>
+                        </div>
+                        <h4 id="ledger-title" class="text-sm font-bold text-white truncate">prod-auth-gateway</h4>
+                        <p id="ledger-desc" class="text-[11px] text-slate-300 leading-snug">
+                            Primary enterprise authentication bastion and SSH gateway.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Scannable Structured Properties List -->
+                <div class="space-y-1.5 pt-2 border-t border-white/[0.08] text-xs font-mono">
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
+                        <span class="text-slate-400 text-[10px]">IP Footprint</span>
+                        <span id="ledger-ip" class="text-orange-300 font-bold text-[11px]">192.168.1.105</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
+                        <span class="text-slate-400 text-[10px]">Protocol / Port</span>
+                        <span class="text-slate-200 text-[11px]">SSHv2 / Port 22</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
+                        <span class="text-slate-400 text-[10px]">Access Key Traced</span>
+                        <span id="ledger-key" class="text-purple-300 font-bold text-[11px]">tok_98a (Bob Martinez)</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.04]">
+                        <span class="text-slate-400 text-[10px]">Department / Team</span>
+                        <span class="text-purple-300 text-[11px]">SecOps (Alice Chen)</span>
+                    </div>
+                </div>
+
+                <!-- Blast Radius & Risk Score Meter -->
+                <div class="p-3 rounded-2xl bg-black/60 border border-rose-500/25 space-y-2">
+                    <div class="flex items-center justify-between text-[11px] font-mono">
+                        <span class="text-slate-400">Blast Radius Risk</span>
+                        <span id="ledger-risk-score" class="text-rose-400 font-bold">125 / 100 [CRITICAL]</span>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+                        <div id="ledger-risk-bar" class="h-full bg-gradient-to-r from-amber-500 via-rose-500 to-red-600 rounded-full" style="width: 100%"></div>
+                    </div>
+                    <div class="text-[10px] text-slate-400 flex items-center justify-between">
+                        <span>Exposed Staff: 2</span>
+                        <span>Projects at Risk: 1</span>
+                    </div>
+                </div>
+
+                <!-- One-Click Instant Mitigation Action Button -->
+                <button onclick="executeMitigation()" id="btn-ledger-quarantine" class="btn-solar w-full h-11 text-xs font-bold shadow-lg shadow-orange-500/35">
+                    <span>🛡️ Quarantine Asset & Contain Breach</span>
+                </button>
+            </div>
+
+            <!-- Scannable Lineage Trace Ledger -->
+            <div class="dribbble-card p-4 space-y-2.5 bg-black/50 flex-1">
+                <div class="flex items-center justify-between pb-1 border-b border-white/[0.08]">
+                    <span class="text-[10px] font-mono uppercase text-slate-400 font-bold">Step-by-Step Traversal Trace</span>
+                    <span class="text-[10px] font-mono text-purple-300">Cypher Multi-Hop</span>
+                </div>
+                <div class="space-y-2 text-[11px] font-mono text-slate-300" id="ledger-steps">
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-orange-500/20 text-orange-400 text-[9px] flex items-center justify-center font-bold">1</span>
+                        <span>Anomalous surge: 14 failed SSH attempts</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-purple-500/20 text-purple-400 text-[9px] flex items-center justify-center font-bold">2</span>
+                        <span>Matched credential token: <strong class="text-purple-300">tok_98a</strong></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-purple-500/20 text-purple-400 text-[9px] flex items-center justify-center font-bold">3</span>
+                        <span>Traced employee: <strong class="text-white">Bob Martinez</strong> (SecOps)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[9px] flex items-center justify-center font-bold">4</span>
+                        <span>Rule SEC-402 passed: Quarantine authorized</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </aside>
 
-    </main>
-
-    <!-- =================================================================== -->
-    <!-- FLOATING BOTTOM NAVIGATION BAR (Dribbble Modern Team Dock) -->
-    <!-- =================================================================== -->
-    <nav class="bottom-dock">
-        <!-- Tab 1: AI Team Chat (First Frame Default) -->
-        <button onclick="switchTab('chat')" id="tab-btn-chat" class="dock-tab active">
-            <span class="text-sm">💬</span>
-            <span>AI Team Chat</span>
-            <span class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
-        </button>
-
-        <!-- Tab 2: Live Alerts & Fixes (Track 1) -->
-        <button onclick="switchTab('alerts')" id="tab-btn-alerts" class="dock-tab">
-            <span class="text-sm">🚨</span>
-            <span>Alerts & Fixes</span>
-            <span id="dock-alert-badge" class="px-1.5 py-0.2 rounded-full bg-rose-500 text-white font-mono text-[9px] font-bold">1</span>
-        </button>
-
-        <!-- Tab 3: Honeycomb Map (Track 3) -->
-        <button onclick="switchTab('honeycomb')" id="tab-btn-honeycomb" class="dock-tab">
-            <span class="text-sm">🕸️</span>
-            <span>Honeycomb Map</span>
-        </button>
-
-        <!-- Tab 4: Overview & Feed -->
-        <button onclick="switchTab('overview')" id="tab-btn-overview" class="dock-tab">
-            <span class="text-sm">📊</span>
-            <span>Overview</span>
-        </button>
-    </nav>
+    </div>
 
     <!-- CLIENT JAVASCRIPT LOGIC -->
     <script>
-        let currentTab = 'chat';
         let currentIncident = 'INC-2026-001';
-        let isCockpit = false;
         let isQuarantined = false;
+        let activeLineageNode = 'AST-01';
+        let highlightedNodeId = null;
+
+        // Coordinates & Graph State
+        let allGraphNodes = [];
+        let allGraphEdges = [];
+        const R = 44; // Hexagon radius
+        const originX = 220;
+        const originY = 280;
 
         // ----------------------------------------------------
-        // Tab Navigation
+        // 1. Zero-State Wireframe Hexagon Grid Generator
         // ----------------------------------------------------
-        function switchTab(tabId) {
-            currentTab = tabId;
-            const views = ['chat', 'alerts', 'honeycomb', 'overview'];
-            views.forEach(v => {
-                const el = document.getElementById(`view-${v}`);
-                const btn = document.getElementById(`tab-btn-${v}`);
-                if (v === tabId) {
-                    el.classList.remove('hidden');
-                    el.classList.add('flex');
-                    if (btn) btn.classList.add('active');
-                } else {
-                    el.classList.add('hidden');
-                    el.classList.remove('flex');
-                    if (btn) btn.classList.remove('active');
+        function getHexPoints(cx, cy, radius) {
+            let pts = [];
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI / 3) * i + Math.PI / 6;
+                const px = cx + radius * Math.cos(angle);
+                const py = cy + radius * Math.sin(angle);
+                pts.push(`${px.toFixed(1)},${py.toFixed(1)}`);
+            }
+            return pts.join(" ");
+        }
+
+        function renderZeroStateGrid() {
+            const gridG = document.getElementById('zero-state-grid');
+            if (!gridG) return;
+            gridG.innerHTML = '';
+
+            // Generate a 9x9 wireframe hexagonal matrix
+            for (let q = -4; q <= 4; q++) {
+                for (let r = -4; r <= 4; r++) {
+                    const cx = originX + R * Math.sqrt(3) * (q + r / 2);
+                    const cy = originY + R * (3 / 2) * r;
+                    const hex = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+                    hex.setAttribute("points", getHexPoints(cx, cy, R - 2));
+                    hex.setAttribute("stroke", "rgba(255, 255, 255, 0.04)");
+                    hex.setAttribute("stroke-width", "1");
+                    hex.setAttribute("stroke-dasharray", "2 3");
+                    hex.setAttribute("fill", "none");
+                    gridG.appendChild(hex);
+                }
+            }
+        }
+
+        // ----------------------------------------------------
+        // 2. Honeycomb Nodes & Sprouting Mechanism
+        // ----------------------------------------------------
+        const nodeDefinitions = [
+            // Center & Threat Origin
+            { id: "AST-01", label: "prod-auth-gateway", q: 0, r: 0, group: "Asset", icon: "💻", isThreat: true },
+            { id: "tok_98a", label: "tok_98a", q: 1, r: -1, group: "Credential", icon: "🔑", parent: "AST-01" },
+            { id: "EMP-02", label: "Bob Martinez", q: 2, r: -1, group: "Employee", icon: "👤", parent: "tok_98a" },
+            { id: "TEAM-01", label: "SecOps Team", q: 3, r: -2, group: "Team", icon: "📁", parent: "EMP-02" },
+            { id: "EMP-01", label: "Alice Chen", q: 3, r: -1, group: "Employee", icon: "👤", parent: "TEAM-01" },
+            { id: "PRJ-01", label: "Project FalconShield", q: 1, r: 1, group: "Project", icon: "🚀", parent: "AST-01" },
+            { id: "AST-02", label: "prod-falcon-cluster", q: -1, r: 1, group: "Asset", icon: "🗄️", parent: "PRJ-01" },
+            { id: "AST-03", label: "analytics-warehouse", q: -2, r: 0, group: "Asset", icon: "📊", parent: "AST-01" },
+            { id: "DOC-01", label: "Security Policy 402", q: -1, r: -1, group: "Document", icon: "📑", parent: "AST-01" },
+            { id: "AGT-01", label: "Scout-Alpha", q: -2, r: 2, group: "Agent", icon: "🤖", parent: "AST-01" },
+            { id: "AGT-02", label: "Policy-Beta", q: -1, r: 2, group: "Agent", icon: "⚖️", parent: "DOC-01" },
+            { id: "EMP-03", label: "Charlie Kim", q: 2, r: 0, group: "Employee", icon: "👤", parent: "TEAM-01" },
+            { id: "EMP-04", label: "Diana Prince", q: 2, r: 1, group: "Employee", icon: "👤", parent: "PRJ-01" },
+            { id: "INC-2026-001", label: "Brute-Force Anomaly", q: 0, r: -2, group: "Incident", icon: "🚨", parent: "AST-01" }
+        ];
+
+        function calculateNodeCoords() {
+            allGraphNodes = nodeDefinitions.map(n => {
+                const cx = originX + R * Math.sqrt(3) * (n.q + n.r / 2);
+                const cy = originY + R * (3 / 2) * n.r;
+                
+                // Color rules matching user requirements:
+                // - People / Employee: Secondary Vibrant Violet (#a855f7)
+                // - Threat Situations: Primary RGY (🔴 Red, 🟡 Yellow, 🟢 Green)
+                let color = "#94a3b8";
+                if (n.group === "Employee") {
+                    color = "#a855f7"; // Vibrant Secondary Purple
+                } else if (n.id === "AST-01" || n.group === "Incident") {
+                    color = isQuarantined ? "#10b981" : "#ef4444"; // 🔴 Red or 🟢 Green post-lockdown
+                } else if (n.id === "AST-02" || n.group === "Project" || n.group === "Credential") {
+                    color = "#f59e0b"; // 🟡 Yellow Warning / Sensitive
+                } else if (n.id === "AST-03" || n.group === "Document") {
+                    color = "#10b981"; // 🟢 Green Safe
+                } else if (n.group === "Team") {
+                    color = "#38bdf8"; // Cyan
+                } else if (n.group === "Agent") {
+                    color = "#ff6b00"; // Solar Orange
+                }
+
+                return {
+                    ...n,
+                    cx,
+                    cy,
+                    color
+                };
+            });
+        }
+
+        function renderHoneycombCanvas() {
+            calculateNodeCoords();
+            const linksG = document.getElementById('honeycomb-links');
+            const cellsG = document.getElementById('honeycomb-cells');
+            const pulseG = document.getElementById('threat-pulse-rings');
+            if (!linksG || !cellsG || !pulseG) return;
+
+            linksG.innerHTML = '';
+            cellsG.innerHTML = '';
+            pulseG.innerHTML = '';
+
+            const nodeMap = {};
+            allGraphNodes.forEach(n => { nodeMap[n.id] = n; });
+
+            // 1. Render Links (Threat Flow & Structural Paths)
+            allGraphNodes.forEach(node => {
+                if (node.parent && nodeMap[node.parent]) {
+                    const parent = nodeMap[node.parent];
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute("x1", node.cx);
+                    line.setAttribute("y1", node.cy);
+                    line.setAttribute("x2", parent.cx);
+                    line.setAttribute("y2", parent.cy);
+
+                    // Threat line flowing from employee -> credential -> alert node
+                    const isThreatPath = !isQuarantined && (
+                        (node.id === "tok_98a" && parent.id === "AST-01") ||
+                        (node.id === "EMP-02" && parent.id === "tok_98a")
+                    );
+
+                    if (isThreatPath) {
+                        line.setAttribute("class", "threat-flow-path");
+                    } else {
+                        line.setAttribute("stroke", "rgba(255, 255, 255, 0.12)");
+                        line.setAttribute("stroke-width", "1.5");
+                    }
+
+                    line.setAttribute("id", `link-${node.id}-${parent.id}`);
+                    linksG.appendChild(line);
                 }
             });
 
-            if (tabId === 'honeycomb') {
-                setTimeout(renderHoneycomb, 50);
+            // 2. Render Threat Pulse Rings on AST-01 if not quarantined
+            const alertNode = nodeMap["AST-01"];
+            if (alertNode && !isQuarantined) {
+                const ring1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                ring1.setAttribute("cx", alertNode.cx);
+                ring1.setAttribute("cy", alertNode.cy);
+                ring1.setAttribute("stroke", "#ef4444");
+                ring1.setAttribute("fill", "none");
+                ring1.setAttribute("class", "pulse-ring-1");
+
+                const ring2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                ring2.setAttribute("cx", alertNode.cx);
+                ring2.setAttribute("cy", alertNode.cy);
+                ring2.setAttribute("stroke", "#ef4444");
+                ring2.setAttribute("fill", "none");
+                ring2.setAttribute("class", "pulse-ring-2");
+
+                const ring3 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                ring3.setAttribute("cx", alertNode.cx);
+                ring3.setAttribute("cy", alertNode.cy);
+                ring3.setAttribute("stroke", "#ef4444");
+                ring3.setAttribute("fill", "none");
+                ring3.setAttribute("class", "pulse-ring-3");
+
+                pulseG.appendChild(ring1);
+                pulseG.appendChild(ring2);
+                pulseG.appendChild(ring3);
+            }
+
+            // 3. Render Solid Sprouting Hexagon Cards
+            allGraphNodes.forEach((node, i) => {
+                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                g.setAttribute("class", "hex-cell sprouting-node");
+                g.setAttribute("id", `cell-${node.id}`);
+                g.style.animationDelay = `${i * 35}ms`;
+                g.style.color = node.color;
+
+                // Base Polygon
+                const hex = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+                hex.setAttribute("points", getHexPoints(node.cx, node.cy, R - 6));
+                hex.setAttribute("fill", "rgba(12, 16, 26, 0.90)");
+                hex.setAttribute("stroke", node.color);
+                hex.setAttribute("stroke-width", node.id === "AST-01" ? "3" : "2");
+                if (node.id === "AST-01" && !isQuarantined) {
+                    hex.setAttribute("filter", "url(#glow-red)");
+                }
+
+                // Icon
+                const icon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                icon.setAttribute("x", node.cx);
+                icon.setAttribute("y", node.cy - 5);
+                icon.setAttribute("text-anchor", "middle");
+                icon.setAttribute("font-size", "14");
+                icon.textContent = node.icon;
+
+                // Label
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.setAttribute("x", node.cx);
+                label.setAttribute("y", node.cy + 13);
+                label.setAttribute("text-anchor", "middle");
+                label.setAttribute("fill", "#ffffff");
+                label.setAttribute("font-size", "8.5");
+                label.setAttribute("font-weight", "600");
+                label.setAttribute("font-family", "sans-serif");
+                label.textContent = node.label.length > 10 ? node.label.substring(0, 9) + '…' : node.label;
+
+                g.appendChild(hex);
+                g.appendChild(icon);
+                g.appendChild(label);
+
+                // Lineage Highlighting & Inspection on Click
+                g.addEventListener('click', (e) => {
+                    selectNodeAndHighlightLineage(node);
+                    e.stopPropagation();
+                });
+
+                g.addEventListener('mouseenter', () => {
+                    highlightLineage(node);
+                });
+
+                cellsG.appendChild(g);
+            });
+        }
+
+        // ----------------------------------------------------
+        // 3. Lineage Highlighting (Dims unrelated, traces back to Employee)
+        // ----------------------------------------------------
+        function highlightLineage(node) {
+            highlightedNodeId = node.id;
+            const nodeMap = {};
+            allGraphNodes.forEach(n => { nodeMap[n.id] = n; });
+
+            // Trace path backwards to root employee
+            const lineageIds = new Set([node.id]);
+            let curr = node;
+            while (curr && curr.parent && nodeMap[curr.parent]) {
+                lineageIds.add(curr.parent);
+                curr = nodeMap[curr.parent];
+            }
+
+            // Dim unrelated cells
+            allGraphNodes.forEach(n => {
+                const cell = document.getElementById(`cell-${n.id}`);
+                if (cell) {
+                    if (lineageIds.has(n.id)) {
+                        cell.classList.remove('dimmed');
+                        cell.style.filter = "drop-shadow(0 0 10px currentColor)";
+                    } else {
+                        cell.classList.add('dimmed');
+                        cell.style.filter = "none";
+                    }
+                }
+            });
+
+            // Update HUD
+            const hud = document.getElementById('lineage-hud');
+            const hudStr = document.getElementById('lineage-path-string');
+            const btnClear = document.getElementById('btn-clear-lineage');
+            if (hud && hudStr) {
+                const pathArr = Array.from(lineageIds).reverse();
+                hudStr.innerText = pathArr.join(" ➔ ");
+                hud.classList.remove('hidden');
+                if (btnClear) btnClear.classList.remove('hidden');
             }
         }
 
-        function toggleCockpitView() {
-            isCockpit = !isCockpit;
-            const lbl = document.getElementById('layout-mode-label');
-            if (isCockpit) {
-                lbl.innerText = "📱 Focused View";
-                // Show chat, alerts, and honeycomb in side-by-side cockpit if screen allows
-                document.getElementById('view-chat').classList.remove('hidden');
-                document.getElementById('view-chat').classList.add('flex');
-                document.getElementById('view-alerts').classList.remove('hidden');
-                document.getElementById('view-alerts').classList.add('flex');
+        function clearLineageHighlight() {
+            allGraphNodes.forEach(n => {
+                const cell = document.getElementById(`cell-${n.id}`);
+                if (cell) {
+                    cell.classList.remove('dimmed');
+                    cell.style.filter = "none";
+                }
+            });
+            const hud = document.getElementById('lineage-hud');
+            const btnClear = document.getElementById('btn-clear-lineage');
+            if (hud) hud.classList.add('hidden');
+            if (btnClear) btnClear.classList.add('hidden');
+        }
+
+        function selectNodeAndHighlightLineage(node) {
+            highlightLineage(node);
+            updateInspectorLedger(node);
+        }
+
+        function updateInspectorLedger(node) {
+            document.getElementById('ledger-icon').innerText = node.icon;
+            document.getElementById('ledger-id').innerText = node.id;
+            document.getElementById('ledger-title').innerText = node.label;
+            document.getElementById('ledger-group').innerText = `${node.group} Metadata`;
+
+            const badge = document.getElementById('inspect-status-badge');
+            if (node.id === "AST-01") {
+                badge.innerText = isQuarantined ? "🟢 CONTAINED" : "🔴 CRITICAL";
+                badge.className = isQuarantined ? "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" : "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-rose-500/20 text-rose-300 border border-rose-500/40";
+            } else if (node.group === "Employee") {
+                badge.innerText = "SECONDARY: PERSON";
+                badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-purple-500/20 text-purple-300 border border-purple-500/40";
             } else {
-                lbl.innerText = "🔲 Cockpit View";
-                switchTab(currentTab);
+                badge.innerText = "OPERATIONAL";
+                badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-slate-800 text-slate-300 border border-white/10";
             }
         }
 
         // ----------------------------------------------------
-        // AI Chat & Directives
+        // 4. Omni-Directional Focus Lock ("Jump to Alert")
+        // ----------------------------------------------------
+        function jumpToAlertNode() {
+            const alertCell = document.getElementById('cell-AST-01');
+            if (alertCell) {
+                alertCell.style.transition = "transform 0.5s var(--spring-curve)";
+                alertCell.style.transform = "scale(1.25)";
+                setTimeout(() => {
+                    alertCell.style.transform = "scale(1)";
+                }, 600);
+            }
+            selectNodeAndHighlightLineage(allGraphNodes.find(n => n.id === "AST-01"));
+        }
+
+        function recenterHoneycombCanvas() {
+            clearLineageHighlight();
+            renderHoneycombCanvas();
+        }
+
+        // ----------------------------------------------------
+        // 5. Sprouting Mechanism & Dynamic Simulation
+        // ----------------------------------------------------
+        function sproutNewBranch(parentId, newId, label, group, icon) {
+            const parent = allGraphNodes.find(n => n.id === parentId);
+            if (!parent) return;
+
+            // Sprout nearby
+            const newNode = {
+                id: newId,
+                label: label,
+                q: parent.q + 1,
+                r: parent.r,
+                group: group,
+                icon: icon,
+                parent: parentId
+            };
+            nodeDefinitions.push(newNode);
+            renderHoneycombCanvas();
+
+            // Anchor System Log Marker in Narrative Stream matching time stamp
+            appendSystemLogAnchor(newId, label, parentId);
+        }
+
+        function appendSystemLogAnchor(nodeId, label, parentId) {
+            const stream = document.getElementById('narrative-stream');
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = "p-2.5 rounded-2xl bg-orange-950/30 border border-orange-500/35 flex items-center gap-2.5 text-[11px] font-mono text-orange-200 shadow-sm animate-in fade-in";
+            div.innerHTML = `
+                <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                <span class="font-bold text-white">[${time}]</span>
+                <span class="truncate">FalkorDB Mutation: Sprouted cell <strong>${nodeId}</strong> off parent <strong>${parentId}</strong></span>
+            `;
+            stream.appendChild(div);
+            stream.scrollTop = stream.scrollHeight;
+        }
+
+        // ----------------------------------------------------
+        // 6. Threat Mitigation & State Shifts
+        // ----------------------------------------------------
+        async function executeMitigation() {
+            const btn = document.getElementById('btn-ledger-quarantine');
+            btn.disabled = true;
+            btn.innerHTML = "<span>⚙️ Executing FalkorDB Quarantine...</span>";
+
+            try {
+                const res = await fetch('/api/agent/investigate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ incident_id: currentIncident })
+                });
+                const data = await res.json();
+                isQuarantined = true;
+
+                // Update UI state
+                btn.className = "btn-obsidian w-full h-11 text-xs font-bold text-emerald-300 border-emerald-500/40 cursor-default";
+                btn.innerHTML = "<span>✓ Asset Quarantined & Contained</span>";
+
+                // Update Telemetry Pill
+                const pill = document.getElementById('telemetry-pill');
+                const dot = document.getElementById('telemetry-pill-dot');
+                const text = document.getElementById('telemetry-pill-text');
+                const badge = document.getElementById('telemetry-pill-badge');
+                pill.className = "px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-emerald-300 text-xs font-mono flex items-center gap-2";
+                dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+                text.innerHTML = "<strong>System Status:</strong> All Threats Contained";
+                badge.innerText = "HEALTHY";
+                badge.className = "text-[9px] px-1.5 py-0.2 rounded bg-emerald-500 text-white font-bold";
+
+                // Hide Jump to Alert button
+                const btnJump = document.getElementById('btn-jump-alert');
+                if (btnJump) btnJump.classList.add('hidden');
+
+                // Re-render canvas
+                renderHoneycombCanvas();
+
+                // Sprout containment verification node
+                sproutNewBranch("AST-01", "ISOLATION_ZONE", "Containment Lock", "Security", "🛡️");
+
+                appendChatMessage("Scout-Alpha", "Asset AST-01 quarantined successfully in FalkorDB. Lateral movement blocked.", "scout", "Quarantine Active · 22ms");
+            } catch (err) {
+                console.error("Mitigation error:", err);
+            }
+        }
+
+        async function triggerSimulatedAttack() {
+            isQuarantined = false;
+            const btnJump = document.getElementById('btn-jump-alert');
+            if (btnJump) btnJump.classList.remove('hidden');
+
+            const pill = document.getElementById('telemetry-pill');
+            const dot = document.getElementById('telemetry-pill-dot');
+            const text = document.getElementById('telemetry-pill-text');
+            const badge = document.getElementById('telemetry-pill-badge');
+            pill.className = "px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 text-xs font-mono flex items-center gap-2 cursor-pointer";
+            dot.className = "w-2 h-2 rounded-full bg-rose-500 animate-pulse";
+            text.innerHTML = "<strong>1 Active Breach:</strong> AST-01";
+            badge.innerText = "CRITICAL";
+            badge.className = "text-[9px] px-1.5 py-0.2 rounded bg-rose-500 text-white font-bold";
+
+            renderHoneycombCanvas();
+            jumpToAlertNode();
+
+            appendChatMessage("Scout-Alpha", "Caught 14 failed SSH attempts from unauthorized IP 192.168.1.105 on Login Gateway.", "scout", "Triage Surge · 9ms");
+        }
+
+        // ----------------------------------------------------
+        // 7. Chat & Directives
         // ----------------------------------------------------
         async function submitDirective(e) {
             e.preventDefault();
@@ -1055,15 +1224,7 @@ def dashboard():
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
-            sendDirective(text);
-        }
 
-        function sendQuickDirective(text) {
-            sendDirective(text);
-        }
-
-        async function sendDirective(text) {
-            // Append Operator Directive to Stream
             appendChatMessage("Operator (You)", text, "human");
 
             try {
@@ -1075,61 +1236,53 @@ def dashboard():
                 const data = await res.json();
 
                 setTimeout(() => {
-                    appendChatMessage("Scout-Alpha (Security Guardian)", data.security_response.message, "scout", data.security_response.badge);
+                    appendChatMessage("Scout-Alpha", data.security_response.message, "scout", data.security_response.badge);
                 }, 400);
 
                 setTimeout(() => {
-                    appendChatMessage("Policy-Beta (Team & Rules Advisor)", data.policy_response.message, "policy", data.policy_response.badge);
+                    appendChatMessage("Policy-Beta", data.policy_response.message, "policy", data.policy_response.badge);
                 }, 900);
-
-                addFeedEvent(`[${new Date().toLocaleTimeString()}] Operator: "${text.substring(0, 32)}..."`);
             } catch (err) {
                 console.error("Directive error:", err);
             }
         }
 
         function appendChatMessage(sender, text, type, badge) {
-            const stream = document.getElementById('unified-chat-stream');
+            const stream = document.getElementById('narrative-stream');
             const time = new Date().toLocaleTimeString();
             const div = document.createElement('div');
 
             if (type === "human") {
-                div.className = "p-3.5 rounded-3xl bg-orange-500/20 border border-orange-500/40 space-y-1.5 max-w-2xl ml-auto animate-in fade-in";
+                div.className = "p-3 rounded-2xl bg-orange-500/20 border border-orange-500/40 space-y-1 max-w-sm ml-auto animate-in fade-in";
                 div.innerHTML = `
-                    <div class="flex items-center justify-between text-[11px]">
-                        <span class="font-bold text-orange-300">👤 You (Operator)</span>
-                        <span class="text-[10px] text-slate-400 font-mono">${time}</span>
+                    <div class="flex items-center justify-between text-[10px]">
+                        <span class="font-bold text-orange-300">👤 You</span>
+                        <span class="text-slate-400 font-mono">${time}</span>
                     </div>
                     <p class="text-white text-xs leading-relaxed">${text}</p>
                 `;
             } else if (type === "policy") {
-                div.className = "p-4 rounded-3xl bg-black/60 border border-purple-500/25 space-y-2 max-w-3xl ml-auto animate-in fade-in";
+                div.className = "p-3.5 rounded-3xl bg-black/60 border border-purple-500/25 space-y-2 animate-in fade-in";
                 div.innerHTML = `
                     <div class="flex items-center justify-between text-[11px]">
-                        <div class="flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-full bg-purple-600/40 text-purple-300 font-bold text-[10px] flex items-center justify-center border border-purple-500/30">PB</div>
-                            <span class="font-bold text-purple-300">${sender}</span>
-                        </div>
+                        <span class="font-bold text-purple-300 font-mono">${sender}</span>
                         <span class="text-[10px] text-slate-400 font-mono">${time}</span>
                     </div>
                     <p class="text-slate-200 text-xs leading-relaxed">${text}</p>
                     <div class="flex justify-end pt-1">
-                        <span class="text-[10px] font-mono text-slate-400 bg-black/60 px-2 py-0.5 rounded-full border border-white/[0.08]">[${badge || 'Verified rule'}]</span>
+                        <span class="text-[9px] font-mono text-slate-400 bg-black/60 px-2 py-0.5 rounded-full border border-white/[0.08]">[${badge || 'Verified'}]</span>
                     </div>
                 `;
             } else {
-                div.className = "p-4 rounded-3xl bg-black/60 border border-orange-500/25 space-y-2 max-w-3xl animate-in fade-in";
+                div.className = "p-3.5 rounded-3xl bg-black/60 border border-orange-500/25 space-y-2 animate-in fade-in";
                 div.innerHTML = `
                     <div class="flex items-center justify-between text-[11px]">
-                        <div class="flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-full bg-orange-600/40 text-orange-300 font-bold text-[10px] flex items-center justify-center border border-orange-500/30">SA</div>
-                            <span class="font-bold text-orange-300">${sender}</span>
-                        </div>
+                        <span class="font-bold text-orange-300 font-mono">${sender}</span>
                         <span class="text-[10px] text-slate-400 font-mono">${time}</span>
                     </div>
                     <p class="text-slate-200 text-xs leading-relaxed">${text}</p>
                     <div class="flex justify-end pt-1">
-                        <span class="text-[10px] font-mono text-slate-400 bg-black/60 px-2 py-0.5 rounded-full border border-white/[0.08]">[${badge || 'Checked records'}]</span>
+                        <span class="text-[9px] font-mono text-slate-400 bg-black/60 px-2 py-0.5 rounded-full border border-white/[0.08]">[${badge || 'Analyzed'}]</span>
                     </div>
                 `;
             }
@@ -1150,440 +1303,74 @@ def dashboard():
         }
 
         // ----------------------------------------------------
-        // Fix & Quarantine Actions (Primary RGY Updates)
+        // 8. Spatial Navigation View Pivots
         // ----------------------------------------------------
-        async function executeMitigation() {
-            const btnBanner = document.getElementById('btn-banner-quarantine');
-            const btnFix = document.getElementById('btn-fix-issue');
-            if (btnBanner) {
-                btnBanner.disabled = true;
-                btnBanner.innerHTML = "<span>⚙️ Locking Down Gateway...</span>";
-            }
-            if (btnFix) {
-                btnFix.disabled = true;
-                btnFix.innerHTML = "<span>⚙️ Locking Down Gateway...</span>";
-            }
+        function setSpatialView(mode) {
+            const pMap = document.getElementById('panel-honeycomb');
+            const pNarrative = document.getElementById('panel-narrative');
+            const pInspector = document.getElementById('panel-inspector');
 
-            try {
-                const res = await fetch('/api/agent/investigate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ incident_id: currentIncident })
-                });
-                const data = await res.json();
-                isQuarantined = true;
-
-                // Update Banner to Green Safe
-                const banner = document.getElementById('situation-banner-card');
-                if (banner) {
-                    banner.className = "dribbble-card p-4 shrink-0 border-emerald-500/40 bg-gradient-to-r from-emerald-950/30 via-slate-900/60 to-black/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-lg";
-                }
-                const iconBox = document.getElementById('situation-icon-box');
-                if (iconBox) {
-                    iconBox.className = "w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center justify-center text-xl shrink-0";
-                    iconBox.innerText = "🛡️";
-                }
-                const badgeRGY = document.getElementById('situation-badge-rgy');
-                if (badgeRGY) {
-                    badgeRGY.className = "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
-                    badgeRGY.innerText = "🟢 Situation: Contained & Safe";
-                }
-                const titleText = document.getElementById('situation-title-text');
-                if (titleText) {
-                    titleText.innerText = "Threat Contained: Login Gateway safely locked down and access revoked";
-                }
-                const descText = document.getElementById('situation-desc-text');
-                if (descText) {
-                    descText.innerText = "The server was quarantined in FalkorDB. Credentials for Bob Martinez have been isolated for rotation. No downstream data leaked.";
-                }
-
-                if (btnBanner) {
-                    btnBanner.className = "btn-obsidian h-10 px-5 text-xs font-bold text-emerald-300 border-emerald-500/40 cursor-default";
-                    btnBanner.innerHTML = "<span>✓ Safe & Protected</span>";
-                }
-                if (btnFix) {
-                    btnFix.className = "btn-obsidian h-12 px-6 text-sm font-bold text-emerald-300 border-emerald-500/40 cursor-default flex-1";
-                    btnFix.innerHTML = "<span>✓ Issue Resolved & Asset Quarantined</span>";
-                }
-
-                // Top header pill
-                const topPill = document.getElementById('top-situation-pill');
-                if (topPill) {
-                    topPill.className = "px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2 font-medium";
-                    topPill.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>Status: <strong class="text-white">All Threats Contained & Protected</strong></span>';
-                }
-
-                // Badges in alerts tab
-                const drillBadge = document.getElementById('drill-status-badge');
-                if (drillBadge) {
-                    drillBadge.className = "px-3 py-1 rounded-full text-xs font-bold font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase";
-                    drillBadge.innerText = "🟢 Resolved";
-                }
-                const alertBadge = document.getElementById('badge-alert-status');
-                if (alertBadge) {
-                    alertBadge.className = "px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold";
-                    alertBadge.innerText = "Contained";
-                }
-                const dockAlert = document.getElementById('dock-alert-badge');
-                if (dockAlert) dockAlert.innerText = "0";
-
-                // Checklist in overview
-                const chkIcon = document.getElementById('chk-quarantine-icon');
-                if (chkIcon) {
-                    chkIcon.innerText = "✓";
-                    chkIcon.className = "text-emerald-400 font-bold";
-                }
-
-                appendChatMessage("Scout-Alpha", "Lockdown executed. Login Gateway (AST-01) is now in 'Quarantined' status in FalkorDB. Attack surface neutralized.", "scout", "Asset Quarantined · 22ms");
-                addFeedEvent(`[${new Date().toLocaleTimeString()}] Gateway AST-01 quarantined in FalkorDB.`);
-
-                // Re-render honeycomb to show green status for quarantined asset
-                renderHoneycomb();
-            } catch (err) {
-                console.error("Mitigation error:", err);
-            }
-        }
-
-        async function triggerSimulatedAttack() {
-            appendChatMessage("Scout-Alpha", "Caught 14 failed root login attempts from 192.168.1.105 on Login Gateway.", "scout", "Telemetry triage · 9ms");
-            setTimeout(() => {
-                appendChatMessage("Policy-Beta", "Evaluated blast radius. Risk Score 125 [High Risk]. Auto-lockdown recommended under Rule SEC-402.", "policy", "Safety rule audit · 15ms");
-            }, 600);
-            addFeedEvent(`[${new Date().toLocaleTimeString()}] Simulated incident triggered on Login Gateway.`);
-        }
-
-        function addFeedEvent(msg) {
-            const feed = document.getElementById('live-activity-box');
-            if (!feed) return;
-            const div = document.createElement('div');
-            div.innerText = msg;
-            feed.appendChild(div);
-            feed.scrollTop = feed.scrollHeight;
-        }
-
-        // ----------------------------------------------------
-        // DYNAMIC HONEYCOMB GRAPH (LATTICE + DRAG + RGY / SECONDARY COLORS)
-        // ----------------------------------------------------
-        let honeycombNodes = [];
-        let honeycombLinks = [];
-        let draggedNode = null;
-        let dragOffset = { x: 0, y: 0 };
-        let activeFilter = 'all';
-
-        // Hexagon coordinates generator for regular axial honeycomb grid
-        function generateHoneycombLattice(nodes) {
-            // Hexagon radius
-            const R = 44;
-            const cx = window.innerWidth > 900 ? 460 : 320;
-            const cy = 290;
-
-            // Concentric axial coordinates (q, r)
-            const coords = [{ q: 0, r: 0 }];
-            let ring = 1;
-            while (coords.length < nodes.length + 10) {
-                let q = ring, r = 0;
-                // 6 directions of hexagon neighbors
-                const dirs = [
-                    { dq: -1, dr: 1 },
-                    { dq: -1, dr: 0 },
-                    { dq: 0, dr: -1 },
-                    { dq: 1, dr: -1 },
-                    { dq: 1, dr: 0 },
-                    { dq: 0, dr: 1 }
-                ];
-                for (let d = 0; d < 6; d++) {
-                    for (let step = 0; step < ring; step++) {
-                        coords.push({ q, r });
-                        q += dirs[d].dq;
-                        r += dirs[d].dr;
+            ['map', 'ledger', 'chat', 'cockpit'].forEach(m => {
+                const b = document.getElementById(`pivot-${m}`);
+                if (b) {
+                    if (m === mode) {
+                        b.className = "px-3.5 py-1.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/40 font-bold transition";
+                    } else {
+                        b.className = "px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition";
                     }
                 }
-                ring++;
-            }
-
-            // Assign positions to nodes
-            return nodes.map((node, i) => {
-                const { q, r } = coords[i % coords.length];
-                // Pointy-topped hexagon coordinate formula
-                const x = cx + R * Math.sqrt(3) * (q + r / 2);
-                const y = cy + R * (3 / 2) * r;
-                return {
-                    ...node,
-                    x: node.x !== undefined ? node.x : x,
-                    y: node.y !== undefined ? node.y : y,
-                    origX: x,
-                    origY: y,
-                    r: 34
-                };
-            });
-        }
-
-        async function loadGraphData() {
-            try {
-                const res = await fetch('/api/graph');
-                const data = await res.json();
-                
-                // Color encoding rules strictly matching user prompt:
-                // - People / Employees: Secondary color (Violet / Purple: #a855f7)
-                // - Situations: Primary RGY colors:
-                //    * 🔴 Red: Critical threat / compromised asset (AST-01, INC-2026-001)
-                //    * 🟡 Yellow: Warning / sensitive asset (AST-02, Project FalconShield)
-                //    * 🟢 Green: Safe / Contained asset (AST-03, Safety Documents, or Quarantined asset)
-                honeycombNodes = (data.nodes || []).map(n => {
-                    let color = "#94a3b8"; // default slate
-                    let rgy = "neutral";
-                    let icon = "📄";
-                    let category = "other";
-
-                    if (n.group === "Employee") {
-                        color = "#a855f7"; // Vibrant secondary purple
-                        icon = "👤";
-                        category = "people";
-                    } else if (n.group === "Incident") {
-                        color = isQuarantined ? "#10b981" : "#ef4444"; // 🔴 Red or 🟢 Green if fixed
-                        rgy = isQuarantined ? "green" : "red";
-                        icon = "🚨";
-                        category = "situations";
-                    } else if (n.id === "AST-01") {
-                        color = isQuarantined ? "#10b981" : "#ef4444"; // 🔴 Red or 🟢 Green
-                        rgy = isQuarantined ? "green" : "red";
-                        icon = "💻";
-                        category = "situations";
-                    } else if (n.id === "AST-02" || n.group === "Project") {
-                        color = "#f59e0b"; // 🟡 Yellow Warning / Sensitive
-                        rgy = "yellow";
-                        icon = n.group === "Project" ? "🚀" : "🗄️";
-                        category = "situations";
-                    } else if (n.id === "AST-03" || n.group === "Document") {
-                        color = "#10b981"; // 🟢 Green Safe
-                        rgy = "green";
-                        icon = "📑";
-                        category = "situations";
-                    } else if (n.group === "Team") {
-                        color = "#38bdf8"; // cyan
-                        icon = "📁";
-                    } else if (n.group === "Agent") {
-                        color = "#ff6b00"; // solar orange
-                        icon = "🤖";
-                    }
-
-                    return {
-                        id: n.id,
-                        label: n.label.replace(/^[A-Za-z]+:\s*/, ''),
-                        group: n.group,
-                        color: color,
-                        rgy: rgy,
-                        icon: icon,
-                        category: category
-                    };
-                });
-
-                honeycombNodes = generateHoneycombLattice(honeycombNodes);
-                honeycombLinks = data.edges || [];
-                renderHoneycomb();
-            } catch (err) {
-                console.error("Load graph error:", err);
-            }
-        }
-
-        // Regular hexagon SVG polygon points around (cx, cy)
-        function getHexPoints(cx, cy, r) {
-            let pts = [];
-            for (let i = 0; i < 6; i++) {
-                const angle = (Math.PI / 3) * i + Math.PI / 6;
-                const px = cx + r * Math.cos(angle);
-                const py = cy + r * Math.sin(angle);
-                pts.push(`${px.toFixed(1)},${py.toFixed(1)}`);
-            }
-            return pts.join(" ");
-        }
-
-        function renderHoneycomb() {
-            const svg = document.getElementById('honeycomb-svg');
-            const linksG = document.getElementById('honeycomb-links');
-            const cellsG = document.getElementById('honeycomb-cells');
-            if (!svg || !linksG || !cellsG) return;
-
-            linksG.innerHTML = '';
-            cellsG.innerHTML = '';
-
-            const nodeMap = {};
-            honeycombNodes.forEach(n => { nodeMap[n.id] = n; });
-
-            // 1. Render Links
-            honeycombLinks.forEach(link => {
-                const src = nodeMap[link.from];
-                const dst = nodeMap[link.to];
-                if (!src || !dst) return;
-
-                // Check active filter
-                if (activeFilter === 'people' && src.category !== 'people' && dst.category !== 'people') return;
-                if (activeFilter === 'situations' && src.category !== 'situations' && dst.category !== 'situations') return;
-
-                const isBreach = (src.id === 'AST-01' || dst.id === 'AST-01' || src.id === 'INC-2026-001' || dst.id === 'INC-2026-001');
-
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                line.setAttribute("x1", src.x);
-                line.setAttribute("y1", src.y);
-                line.setAttribute("x2", dst.x);
-                line.setAttribute("y2", dst.y);
-                line.setAttribute("stroke", isBreach ? "#ff6b00" : "rgba(255, 255, 255, 0.12)");
-                line.setAttribute("stroke-width", isBreach ? "2.5" : "1.2");
-                if (isBreach) line.setAttribute("class", "breach-link");
-                linksG.appendChild(line);
             });
 
-            // 2. Render Hexagon Cells
-            honeycombNodes.forEach(node => {
-                if (activeFilter === 'people' && node.category !== 'people') return;
-                if (activeFilter === 'situations' && node.category !== 'situations') return;
-
-                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-                g.setAttribute("class", "hex-cell");
-                g.setAttribute("id", `hex-${node.id}`);
-                g.style.color = node.color;
-
-                // Hexagon base polygon
-                const hex = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-                hex.setAttribute("points", getHexPoints(node.x, node.y, node.r));
-                hex.setAttribute("fill", "rgba(12, 16, 26, 0.88)");
-                hex.setAttribute("stroke", node.color);
-                hex.setAttribute("stroke-width", "2");
-
-                // Icon Text
-                const icon = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                icon.setAttribute("x", node.x);
-                icon.setAttribute("y", node.y - 4);
-                icon.setAttribute("text-anchor", "middle");
-                icon.setAttribute("font-size", "14");
-                icon.textContent = node.icon;
-
-                // Label Text
-                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                label.setAttribute("x", node.x);
-                label.setAttribute("y", node.y + 14);
-                label.setAttribute("text-anchor", "middle");
-                label.setAttribute("fill", "#ffffff");
-                label.setAttribute("font-size", "9");
-                label.setAttribute("font-weight", "600");
-                label.setAttribute("font-family", "sans-serif");
-                label.textContent = node.label.length > 10 ? node.label.substring(0, 9) + '…' : node.label;
-
-                g.appendChild(hex);
-                g.appendChild(icon);
-                g.appendChild(label);
-
-                // Pointer Events for Dynamic Dragging
-                g.addEventListener('pointerdown', (e) => {
-                    draggedNode = node;
-                    dragOffset = { x: e.clientX - node.x, y: e.clientY - node.y };
-                    g.setPointerCapture(e.pointerId);
-                    e.stopPropagation();
-                });
-
-                g.addEventListener('pointermove', (e) => {
-                    if (draggedNode === node) {
-                        node.x = e.clientX - dragOffset.x;
-                        node.y = e.clientY - dragOffset.y;
-                        updateNodePositions();
-                    }
-                });
-
-                g.addEventListener('pointerup', (e) => {
-                    if (draggedNode === node) {
-                        draggedNode = null;
-                        try { g.releasePointerCapture(e.pointerId); } catch(err){}
-                    }
-                });
-
-                // Click to inspect
-                g.addEventListener('click', () => {
-                    inspectNode(node);
-                });
-
-                cellsG.appendChild(g);
-            });
-        }
-
-        function updateNodePositions() {
-            renderHoneycomb();
-        }
-
-        function recenterHoneycomb() {
-            honeycombNodes.forEach(node => {
-                node.x = node.origX;
-                node.y = node.origY;
-            });
-            renderHoneycomb();
-        }
-
-        function filterHoneycomb(filter) {
-            activeFilter = filter;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            const activeBtn = document.getElementById(`filter-${filter}`);
-            if (activeBtn) activeBtn.classList.add('active');
-            renderHoneycomb();
-        }
-
-        function inspectNode(node) {
-            const insp = document.getElementById('honeycomb-inspector');
-            if (!insp) return;
-            insp.classList.remove('hidden');
-
-            document.getElementById('inspect-icon').innerText = node.icon;
-            document.getElementById('inspect-name').innerText = node.label;
-            
-            const badge = document.getElementById('inspect-badge');
-            badge.innerText = `${node.group} · ${node.rgy !== 'neutral' ? node.rgy.toUpperCase() : 'OPERATIONAL'}`;
-            badge.style.color = node.color;
-            badge.style.borderColor = node.color;
-            badge.style.backgroundColor = `${node.color}20`;
-
-            const desc = document.getElementById('inspect-desc');
-            if (node.category === 'people') {
-                desc.innerText = `Team member in enterprise graph. Employs secondary color (${node.color}) for high-contrast visual tracking.`;
-            } else if (node.rgy === 'red') {
-                desc.innerText = `Critical risk detected in current situation. Requires immediate quarantine lockdown.`;
-            } else if (node.rgy === 'yellow') {
-                desc.innerText = `High-privilege system under monitoring. No breach detected.`;
+            if (mode === 'map') {
+                pMap.className = "w-full h-full relative flex flex-col overflow-hidden";
+                pNarrative.classList.add('hidden');
+                pInspector.classList.add('hidden');
+            } else if (mode === 'chat') {
+                pMap.classList.add('hidden');
+                pNarrative.className = "w-full h-full flex flex-col overflow-hidden";
+                pInspector.classList.add('hidden');
+            } else if (mode === 'ledger') {
+                pMap.classList.add('hidden');
+                pNarrative.classList.add('hidden');
+                pInspector.className = "w-full h-full flex flex-col p-6 space-y-4 overflow-y-auto";
             } else {
-                desc.innerText = `Verified secure and operational. Full access policy enforced.`;
+                // Cockpit mode: 3-column unified split
+                pMap.className = "w-[42%] min-w-[420px] bg-[#070a12] border-r border-white/[0.08] relative flex flex-col overflow-hidden shrink-0";
+                pNarrative.className = "w-[34%] min-w-[360px] bg-[#080b13] border-r border-white/[0.08] flex flex-col overflow-hidden shrink-0";
+                pInspector.className = "flex-1 bg-[#0b0f19] flex flex-col p-4 space-y-4 overflow-y-auto shrink-0";
+                pMap.classList.remove('hidden');
+                pNarrative.classList.remove('hidden');
+                pInspector.classList.remove('hidden');
             }
-
-            // List connections
-            const connList = document.getElementById('inspect-connections');
-            connList.innerHTML = '';
-            const connected = honeycombLinks.filter(l => l.from === node.id || l.to === node.id);
-            connected.slice(0, 4).forEach(l => {
-                const otherId = l.from === node.id ? l.to : l.from;
-                const d = document.createElement('div');
-                d.className = "p-1.5 rounded-lg bg-white/[0.05] text-[10px] flex items-center justify-between";
-                d.innerHTML = `<span>${l.label || 'CONNECTS'}</span><strong class="text-orange-300">${otherId}</strong>`;
-                connList.appendChild(d);
-            });
         }
 
-        function closeInspector() {
-            const insp = document.getElementById('honeycomb-inspector');
-            if (insp) insp.classList.add('hidden');
+        function handleGlobalSearch(e) {
+            const query = e.target.value.toLowerCase().trim();
+            if (!query) {
+                clearLineageHighlight();
+                return;
+            }
+            const match = allGraphNodes.find(n => n.id.toLowerCase().includes(query) || n.label.toLowerCase().includes(query));
+            if (match) {
+                selectNodeAndHighlightLineage(match);
+            }
         }
 
-        function highlightNode(id) {
-            const n = honeycombNodes.find(item => item.id === id);
-            if (n) {
-                inspectNode(n);
+        async function reseedGraph() {
+            if (confirm("Reset and reseed graph to baseline state?")) {
+                await fetch('/api/seed', { method: 'POST' });
+                location.reload();
             }
         }
 
         // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
-            loadGraphData();
+            renderZeroStateGrid();
+            renderHoneycombCanvas();
         });
     </script>
 </body>
 </html>
 """
-
-# Liquid Glass: cubic-bezier spring physics and specular highlights tuned
 
 # Liquid Glass: cubic-bezier spring physics and specular highlights tuned
