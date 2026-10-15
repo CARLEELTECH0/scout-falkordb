@@ -94,7 +94,3 @@ class CompanyBrain:
         """
         rows = self.db.query_dicts(cypher, {"id": project_id})
         return rows[0] if rows else {}
-
-# Blast radius algorithm: multi-hop traversal across employee access and project lineage.
-
-# Blast radius algorithm: multi-hop traversal across employee access and project lineage.

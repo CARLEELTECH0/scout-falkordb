@@ -80,3 +80,34 @@ def test_honeycomb_color_encoding_and_quarantine():
     quarantined = db.query("MATCH (a:Asset {status: 'Quarantined'}) RETURN a.name")
     assert len(quarantined) >= 1
 
+
+def test_attack_simulator():
+    """Verify AttackSimulator triggers scenario pulses, mutates FalkorDB, and triages."""
+    from scout.simulator import AttackSimulator
+    sim = AttackSimulator()
+    scenarios = sim.list_scenarios()
+    assert len(scenarios) >= 4
+
+    res = sim.trigger_attack(vector="AUTH_BRUTE_FORCE")
+    assert res["status"] == "Triggered"
+    assert res["target_asset_id"] == "AST-01"
+    assert "triage_result" in res
+    assert res["triage_result"]["investigation"]["final_status"] == "Contained"
+
+
+def test_evidence_exporter():
+    """Verify EvidenceExporter generates cryptographically hashed post-mortem bundles."""
+    from scout.exporter import EvidenceExporter
+    exp = EvidenceExporter()
+    bundle = exp.generate_incident_bundle("INC-2026-001")
+    assert "incident_id" in bundle
+    assert bundle["incident_id"] == "INC-2026-001"
+    assert "integrity_checksum" in bundle
+    assert len(bundle["integrity_checksum"]) == 64  # SHA-256 hex string
+
+    md = exp.export_markdown("INC-2026-001")
+    assert "Scout Incident Post-Mortem & Evidence Bundle" in md
+    assert "INC-2026-001" in md
+    assert "Organizational Blast Radius" in md
+
+

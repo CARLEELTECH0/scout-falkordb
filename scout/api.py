@@ -9,7 +9,7 @@ Serves the unified FalkorDB graph, multi-hop reasoning endpoints, and the Spatia
 """
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
@@ -20,6 +20,8 @@ from scout.brain import CompanyBrain
 from scout.memory import AgentMemory
 from scout.agent import ScoutActionAgent
 from scout.seed import seed_enterprise_graph
+from scout.simulator import AttackSimulator
+from scout.exporter import EvidenceExporter
 
 app = FastAPI(title="Scout: Autonomous Enterprise Knowledge & Security Investigator", version="1.0.0")
 
@@ -35,6 +37,8 @@ db = FalkorGraph.get_instance()
 brain = CompanyBrain(db)
 memory = AgentMemory(db)
 agent = ScoutActionAgent(db=db)
+simulator = AttackSimulator(db=db)
+exporter = EvidenceExporter(db=db)
 
 # -------------------------------------------------------------
 # Request Schemas
@@ -42,6 +46,10 @@ agent = ScoutActionAgent(db=db)
 class InvestigateRequest(BaseModel):
     incident_id: str
     session_id: Optional[str] = None
+
+class AttackSimulationRequest(BaseModel):
+    vector: Optional[str] = None
+    session_id: Optional[str] = "SES-101"
 
 class LogTriageRequest(BaseModel):
     message: str
@@ -173,6 +181,25 @@ def human_directive(req: DirectiveRequest):
             "badge": "Safety rule verified · 18ms"
         }
     }
+
+@app.get("/api/simulate/scenarios")
+def list_attack_scenarios():
+    """Return available multi-vector attack scenarios."""
+    return simulator.list_scenarios()
+
+@app.post("/api/simulate/attack")
+def trigger_attack_simulation(req: Optional[AttackSimulationRequest] = None):
+    """Trigger a synthetic security incident pulse, mutating FalkorDB and running autonomous agent triage."""
+    vector = req.vector if req else None
+    session_id = req.session_id if req else "SES-101"
+    return simulator.trigger_attack(vector=vector, session_id=session_id)
+
+@app.get("/api/incidents/{incident_id}/evidence")
+def export_evidence(incident_id: str, format: str = "markdown"):
+    """Export audit-ready incident post-mortem evidence bundle (Markdown or JSON)."""
+    if format.lower() == "json":
+        return exporter.generate_incident_bundle(incident_id)
+    return PlainTextResponse(exporter.export_markdown(incident_id), media_type="text/markdown")
 
 
 # -------------------------------------------------------------
@@ -556,6 +583,11 @@ def dashboard():
                 <!-- Instant Quarantine Action Button -->
                 <button onclick="executeMitigation()" id="btn-ledger-quarantine" class="btn-solar w-full h-11 text-xs font-bold shadow-lg shadow-orange-500/35 mt-1">
                     <span>🛡️ Quarantine Asset & Contain Breach</span>
+                </button>
+
+                <!-- Export Incident Evidence Post-Mortem Button -->
+                <button onclick="downloadEvidenceReport()" id="btn-export-evidence" class="w-full h-9 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-xs font-mono font-medium text-slate-300 hover:text-white flex items-center justify-center gap-1.5 transition">
+                    <span>📥 Export Evidence Bundle (.md)</span>
                 </button>
             </div>
 
@@ -1287,31 +1319,87 @@ def dashboard():
         }
 
         async function triggerSimulatedAttack() {
-            isQuarantined = false;
-            const btnJump = document.getElementById('btn-jump-alert');
-            if (btnJump) btnJump.classList.remove('hidden');
+            try {
+                // Call real backend attack simulator
+                const res = await fetch('/api/simulate/attack', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: 'SES-101' })
+                });
+                const data = await res.json();
 
-            const pill = document.getElementById('telemetry-pill');
-            const dot = document.getElementById('telemetry-pill-dot');
-            const text = document.getElementById('telemetry-pill-text');
-            const badge = document.getElementById('telemetry-pill-badge');
-            pill.className = "px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 text-xs font-mono flex items-center gap-2 cursor-pointer";
-            dot.className = "w-2 h-2 rounded-full bg-rose-500 animate-pulse";
-            text.innerHTML = "<strong>1 Active Breach:</strong> AST-01";
-            badge.innerText = "CRITICAL";
-            badge.className = "text-[9px] px-1.5 py-0.2 rounded bg-rose-500 text-white font-bold";
+                if (data.triage_result && data.triage_result.incident_created) {
+                    currentIncident = data.triage_result.incident_created;
+                }
 
-            const btn = document.getElementById('btn-ledger-quarantine');
-            if (btn) {
-                btn.disabled = false;
-                btn.className = "btn-solar w-full h-11 text-xs font-bold shadow-lg shadow-orange-500/35 mt-1";
-                btn.innerHTML = "<span>🛡️ Quarantine Asset & Contain Breach</span>";
+                isQuarantined = false;
+                const btnJump = document.getElementById('btn-jump-alert');
+                if (btnJump) {
+                    btnJump.classList.remove('hidden');
+                    btnJump.innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span><span>🚨 Inspect Threat: ${data.target_asset_id}</span>`;
+                }
+
+                const pill = document.getElementById('telemetry-pill');
+                const dot = document.getElementById('telemetry-pill-dot');
+                const text = document.getElementById('telemetry-pill-text');
+                const badge = document.getElementById('telemetry-pill-badge');
+                if (pill) pill.className = "px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 text-xs font-mono flex items-center gap-2 cursor-pointer";
+                if (dot) dot.className = "w-2 h-2 rounded-full bg-rose-500 animate-pulse";
+                if (text) text.innerHTML = `<strong>1 Active Breach:</strong> ${data.target_asset_id}`;
+                if (badge) {
+                    badge.innerText = data.level || "CRITICAL";
+                    badge.className = "text-[9px] px-1.5 py-0.2 rounded bg-rose-500 text-white font-bold";
+                }
+
+                const btn = document.getElementById('btn-ledger-quarantine');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.className = "btn-solar w-full h-11 text-xs font-bold shadow-lg shadow-orange-500/35 mt-1";
+                    btn.innerHTML = "<span>🛡️ Quarantine Asset & Contain Breach</span>";
+                }
+
+                // Update ledger texts
+                const ledgerId = document.getElementById('ledger-id');
+                const ledgerTitle = document.getElementById('ledger-title');
+                const ledgerDesc = document.getElementById('ledger-desc');
+                if (ledgerId) ledgerId.innerText = data.target_asset_id;
+                if (ledgerTitle) ledgerTitle.innerText = data.title;
+                if (ledgerDesc) ledgerDesc.innerText = data.message;
+
+                renderHoneycombCanvas();
+                openAlertSituationLedger();
+
+                appendChatMessage("Scout-Alpha", `⚡ LIVE TELEMETRY SURGE [${data.vector}]: ${data.message}`, "scout", "Triage Surge · 9ms");
+                if (data.triage_result && data.triage_result.investigation) {
+                    const inv = data.triage_result.investigation;
+                    setTimeout(() => {
+                        appendChatMessage("Policy-Beta", `Autonomous Containment: ${inv.explainable_verdict || 'Mitigation complete.'}`, "policy", "Policy Engine · 16ms");
+                    }, 500);
+                }
+            } catch (err) {
+                console.error("Simulation attack error:", err);
             }
+        }
 
-            renderHoneycombCanvas();
-            openAlertSituationLedger();
-
-            appendChatMessage("Scout-Alpha", "Caught 14 failed SSH attempts from unauthorized IP 192.168.1.105 on Login Gateway.", "scout", "Triage Surge · 9ms");
+        async function downloadEvidenceReport() {
+            try {
+                const incId = currentIncident || 'INC-2026-001';
+                const res = await fetch(`/api/incidents/${incId}/evidence?format=markdown`);
+                if (!res.ok) throw new Error("Failed to export evidence bundle");
+                const text = await res.text();
+                const blob = new Blob([text], { type: "text/markdown" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `scout-evidence-${incId}.md`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } catch (e) {
+                console.error("Evidence export failed:", e);
+                alert("Failed to export evidence report.");
+            }
         }
 
         function sproutNewBranch(parentId, newId, label, group, icon) {
@@ -1536,5 +1624,3 @@ def dashboard():
 </body>
 </html>
 """
-
-# Liquid Glass & Dynamic 3-Panel Side-By-Side: Left Inspector Ledger, Center Honeycomb, Right Narrative

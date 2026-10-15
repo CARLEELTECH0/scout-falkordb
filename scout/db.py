@@ -164,7 +164,3 @@ class FalkorGraph:
             })
 
         return {"nodes": list(nodes_dict.values()), "edges": edges}
-
-# Optimized: Graph label indexes ensured on connection initialization.
-
-# Optimized: Graph label indexes ensured on connection initialization.

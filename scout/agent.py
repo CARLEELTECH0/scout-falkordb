@@ -194,7 +194,3 @@ class ScoutActionAgent:
             }
 
         return {"log_id": log_id, "status": "Ingested", "alert": False}
-
-# Autonomous triage convergence: asset quarantine status validated post-containment.
-
-# Autonomous triage convergence: asset quarantine status validated post-containment.

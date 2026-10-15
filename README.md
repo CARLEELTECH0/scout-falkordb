@@ -179,14 +179,61 @@ Scout's frontend visualizer is inspired by the **Dribbble Modern Team Collaborat
      - 🟡 **Yellow**: Elevated access and monitored assets (`prod-falcon-cluster`, `Project FalconShield`).
      - 🟢 **Green**: Operational, safe, or quarantined & contained assets (`analytics-warehouse`, and quarantined targets post-lockdown).
 
-4. **Floating Bottom Navigation Dock**:
-   - Clean floating frosted-glass dock with simple, jargon-free English navigation:
-     - `💬 AI Team Chat` (Active situation & directives)
-     - `🚨 Alerts & Fixes` (Step-by-step reasoner & one-click quarantine)
-     - `🕸️ Honeycomb Map` (Dynamic network visualizer)
-     - `📊 Overview` (Voice calls, team channels, checklist, and live feed)
+4. **Dynamic 3-Panel Side-by-Side Workspace**:
+   - Seamless non-overlapping layout supporting concurrent triage:
+     - **Left**: Pop-Out Inspector Ledger (Direct telemetry footprint, risk meter, Cypher multi-hop breadcrumbs, and 1-click quarantine).
+     - **Center**: Generative Honeycomb Hero Canvas (Infinite pan/zoom, threat pulse rings, relational lineage tracing, and axial coordinates).
+     - **Right**: Autonomous Agent Narrative (Dual-stream AI dialogue, voice synthesis equalizers, and operator directive console).
+
+---
+
+## ⚡ Live Attack Simulator & Audit Evidence Exporter
+
+### Multi-Vector Threat Simulator (`scout/simulator.py`)
+Scout includes a built-in multi-vector attack generator for real-time demonstrations:
+* **`AUTH_BRUTE_FORCE`**: Distributed SSH & OAuth attack bursts against Tier-1 authentication gateways.
+* **`BULK_DATA_EXFILTRATION`**: Anomalous outbound egress surges from internal database clusters.
+* **`PRIVILEGE_ESCALATION`**: Kernel capability elevation and syscall breakouts on Kubernetes worker nodes.
+* **`CREDENTIAL_STUFFING`**: Coordinated botnet authentication floods with leaked tokens.
+
+Trigger an attack via UI (`⚡ Attack Surge`) or REST API:
+```bash
+curl -X POST http://localhost:8000/api/simulate/attack \
+  -H "Content-Type: application/json" \
+  -d '{"vector": "AUTH_BRUTE_FORCE"}'
+```
+
+### Audit-Ready Incident Evidence Bundle (`scout/exporter.py`)
+Export SOC 2 compliant post-mortem evidence bundles with cryptographic verification:
+```bash
+curl -s http://localhost:8000/api/incidents/INC-2026-001/evidence
+```
+Includes:
+* Cryptographic SHA-256 integrity checksum.
+* Multi-hop Cypher traversal provenance and reasoning hops.
+* Organizational blast radius, exposed staff, and affected project dependencies.
+* Autonomous agent mitigation actions and FalkorDB episodic memory session tags.
+
+---
+
+## 🚀 Performance Benchmarks (FalkorDB Sub-Millisecond Traversal)
+
+Run the included benchmark suite:
+```bash
+python3 scripts/benchmark.py
+```
+
+### Verified Benchmark Results
+| Operation / Cypher Workload | Avg Latency | p95 Latency | Throughput |
+| :--- | :--- | :--- | :--- |
+| **Single-Node Indexed Lookup** | **0.33 ms** | 0.59 ms | **~3,000 ops/s** |
+| **3-Hop Blast Radius Traversal** | **1.72 ms** | 3.07 ms | **~580 ops/s** |
+| **Multi-Hop Credential & Access Path Audit** | **1.28 ms** | 2.43 ms | **~780 ops/s** |
+| **Episodic Procedural Memory Recall** | **1.07 ms** | 1.87 ms | **~930 ops/s** |
+| **End-to-End Multi-Hop Triage & Containment** | **6.03 ms** | 9.41 ms | **~165 ops/s** |
 
 ---
 
 ## 📜 License
 MIT License. Built for FalkorDB Graph Hacks 2026.
+

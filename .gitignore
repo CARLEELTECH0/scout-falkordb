@@ -8,4 +8,6 @@ data/
 .env
 .pytest_cache/
 *.png
-scripts/
+graphify-out/
+scripts/*
+!scripts/benchmark.py
