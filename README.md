@@ -17,41 +17,6 @@
 
 ## 🏛️ System Architecture
 
-```
-                  +----------------------------------------------+
-                  |         Scout Interactive UI / Dashboard    |
-                  |     (Live Vis.js Graph + Reasoning Stream)   |
-                  +----------------------+-----------------------+
-                                         |
-                                         v
-                         +---------------+---------------+
-                         |   Scout FastAPI / MCP Server   |
-                         +---------------+---------------+
-                                         |
-          +------------------------------+------------------------------+
-          |                              |                              |
-          v                              v                              v
-+-------------------+          +-------------------+          +-------------------+
-|  Company Brain    |          |   Agent Memory    |          |   Action Agent    |
-|     (Track 3)     |          |     (Track 2)     |          |     (Track 1)     |
-| - Blast Radius    |          | - Episodic Log    |          | - Multi-Hop Triage|
-| - Access Auditing |          | - Semantic Recall |          | - Tool Selection  |
-| - Org Context     |          | - Agent Handoff   |          | - Quarantine Exec |
-+---------+---------+          +---------+---------+          +---------+---------+
-          |                              |                              |
-          +------------------------------+------------------------------+
-                                         |
-                                         v
-                  +----------------------------------------------+
-                  |              FalkorDB Engine                 |
-                  |  - Embedded Zero-Config (falkordblite) OR    |
-                  |  - Managed FalkorDB Cloud Instance           |
-                  +----------------------------------------------+
-```
-
----
-
-## 📊 Unified Graph Schema
 
 The database schema connects all three domains in a single, high-performance FalkorDB graph:
 
@@ -225,11 +190,3 @@ Scout's frontend visualizer is inspired by the **Dribbble Modern Team Collaborat
 
 ## 📜 License
 MIT License. Built for FalkorDB Graph Hacks 2026.
-
-
-<!-- Verified FalkorDB Graph Hacks 2026 Submission -->
-<!-- Release Version 1.0.0 Production Ready -->
-
-
-<!-- Verified FalkorDB Graph Hacks 2026 Submission -->
-<!-- Release Version 1.0.0 Production Ready -->
