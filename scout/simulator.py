@@ -85,3 +85,30 @@ class AttackSimulator:
     def list_scenarios(self) -> List[Dict[str, Any]]:
         """Return all available attack scenarios."""
         return ATTACK_SCENARIOS
+
+    def run_daemon(self, interval_seconds: int = 15, max_iterations: Optional[int] = None):
+        """Run continuous threat simulation loop generating background SOC events."""
+        print("=" * 72)
+        print("   SCOUT 24/7 SOC THREAT SIMULATION DAEMON")
+        print(f"   Feeding multi-vector attacks into FalkorDB every {interval_seconds}s")
+        print("=" * 72)
+
+        count = 0
+        try:
+            while True:
+                count += 1
+                attack = self.trigger_attack()
+                inv = attack.get("triage_result", {}).get("investigation", {})
+                print(f"\n[PULSE #{count}] Vector: {attack['vector']} | Target: {attack['target_asset_id']}")
+                print(f"  Alert: {attack['message'][:65]}...")
+                print(f"  Incident Created: {attack.get('triage_result', {}).get('incident_created')}")
+                print(f"  Triage Verdict: {inv.get('final_status')} via {inv.get('tools_used', ['telemetry scan'])}")
+
+                if max_iterations and count >= max_iterations:
+                    print(f"\n[✓] Completed {count} simulation iterations.")
+                    break
+
+                time.sleep(interval_seconds)
+        except KeyboardInterrupt:
+            print(f"\n[!] SOC simulation daemon stopped by operator ({count} events generated).")
+

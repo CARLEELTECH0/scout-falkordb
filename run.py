@@ -2,10 +2,11 @@
 """
 Scout CLI Runner & Demo Orchestrator
 Usage:
-  python run.py seed    -> Resets and seeds FalkorDB with unified enterprise schema
-  python run.py serve   -> Launches FastAPI API and Interactive Live Graph Dashboard
-  python run.py demo    -> Executes multi-hop autonomous security investigation demo
-  python run.py mcp     -> Starts standard Model Context Protocol (MCP) server
+  python run.py seed      -> Resets and seeds FalkorDB with unified enterprise schema
+  python run.py serve     -> Launches FastAPI API and Interactive Live Graph Dashboard
+  python run.py demo      -> Executes multi-hop autonomous security investigation demo
+  python run.py simulate  -> Starts 24/7 background SOC threat generation daemon
+  python run.py mcp       -> Starts standard Model Context Protocol (MCP) server
 """
 
 import sys
@@ -79,12 +80,18 @@ def main():
         port = int(sys.argv[2]) if len(sys.argv) > 2 else 8000
         print(f"[*] Launching Scout Dashboard at http://localhost:{port}")
         uvicorn.run("scout.api:app", host="0.0.0.0", port=port, reload=True)
+    elif sys.argv[1] == "simulate":
+        from scout.simulator import AttackSimulator
+        interval = int(sys.argv[2]) if len(sys.argv) > 2 else 15
+        count = int(sys.argv[3]) if len(sys.argv) > 3 else None
+        sim = AttackSimulator()
+        sim.run_daemon(interval_seconds=interval, max_iterations=count)
     elif sys.argv[1] == "mcp":
         from scout.mcp_server import main as mcp_main
         mcp_main()
     else:
         print(f"Unknown command: {sys.argv[1]}")
-        print("Available: demo, seed, serve, mcp")
+        print("Available: demo, seed, serve, simulate, mcp")
 
 if __name__ == "__main__":
     main()

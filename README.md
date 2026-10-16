@@ -240,6 +240,29 @@ python3 scripts/benchmark.py
 
 ---
 
+## 🐳 1-Click Containerized Deployment (Docker Compose)
+
+Launch the complete FalkorDB + Scout stack with a single command:
+```bash
+docker compose up
+```
+Open **`http://localhost:8000`** in your browser.
+
+### 24/7 Background SOC Threat Daemon
+Simulate continuous live security operations by generating background multi-vector attack events:
+```bash
+python run.py simulate 15
+```
+
+---
+
+## 📑 Hackathon Resources & Documentation
+* **[Official Submission Write-Up (`SUBMISSION.md`)](SUBMISSION.md)**: Complete problem analysis, track breakdown, and FalkorDB architectural design.
+* **[3-Minute Video Demo Script (`DEMO_SCRIPT.md`)](DEMO_SCRIPT.md)**: Precise timestamped walkthrough and voiceover guide for recording.
+
+---
+
 ## 📜 License
 MIT License. Built for FalkorDB Graph Hacks 2026.
+
 

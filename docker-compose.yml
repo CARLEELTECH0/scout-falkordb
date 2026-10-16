@@ -1,0 +1,33 @@
+services:
+  # FalkorDB High-Performance Graph Database Engine
+  falkordb:
+    image: falkordb/falkordb:latest
+    container_name: scout-falkordb
+    ports:
+      - "6379:6379"
+    volumes:
+      - falkordb-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Scout Autonomous Knowledge & Security Investigator
+  scout:
+    build: .
+    container_name: scout-app
+    ports:
+      - "8000:8000"
+    environment:
+      - FALKORDB_HOST=falkordb
+      - FALKORDB_PORT=6379
+      - FALKORDB_GRAPH_NAME=scout_enterprise
+    depends_on:
+      falkordb:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  falkordb-data:

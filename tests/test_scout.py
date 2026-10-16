@@ -128,4 +128,13 @@ def test_tactical_audio_synthesizer():
     assert 0.8 <= payload["pitch"] <= 1.2
 
 
+def test_simulator_daemon():
+    """Verify AttackSimulator run_daemon executes bounded simulation iterations."""
+    from scout.simulator import AttackSimulator
+    sim = AttackSimulator()
+    # Test 1 iteration with 0 second interval
+    sim.run_daemon(interval_seconds=0, max_iterations=1)
+
+
+
 
