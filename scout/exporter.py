@@ -75,6 +75,18 @@ class EvidenceExporter:
 
         return bundle_payload
 
+    @staticmethod
+    def verify_bundle(bundle: Dict[str, Any]) -> bool:
+        """Cryptographically verify the SHA-256 integrity checksum of an evidence bundle."""
+        if not isinstance(bundle, dict) or "integrity_checksum" not in bundle:
+            return False
+        expected_checksum = bundle["integrity_checksum"]
+        # Re-serialize payload excluding the checksum field
+        copy_payload = {k: v for k, v in bundle.items() if k != "integrity_checksum"}
+        payload_bytes = json.dumps(copy_payload, sort_keys=True).encode("utf-8")
+        computed_checksum = hashlib.sha256(payload_bytes).hexdigest()
+        return computed_checksum == expected_checksum
+
     def export_markdown(self, incident_id: str) -> str:
         """Render the evidence bundle as an executive Markdown post-mortem document."""
         bundle = self.generate_incident_bundle(incident_id)

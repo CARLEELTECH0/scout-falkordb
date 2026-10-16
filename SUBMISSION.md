@@ -37,14 +37,14 @@ By leveraging **FalkorDB's C-based GraphBLAS matrix multiplication engine**, Sco
 ### 🎯 Track 1: Graph-Powered Action Agent (`scout/agent.py`)
 * **Multi-Hop Autonomous Reasoning**: Executes 4-hop Cypher traversals across incidents, logs, assets, and procedural solutions to make explainable mitigation decisions.
 * **Dynamic Tool Selection & Execution**: Autonomously triggers mitigation tools in the graph:
-  - `TOOL-02 (FirewallQuarantine)`: Isolates compromised servers and databases.
-  - `TOOL-04 (TokenRevocationEngine)`: Revokes leaked OAuth credentials and session tokens.
-  - `TOOL-03 (GraphBlastRadiusAnalyzer)`: Traces downstream organizational exposure.
-* **Automated Log Triage**: Analyzes live telemetry streams, creates `Incident` nodes, connects them to root-cause `Log` and target `Asset` nodes, and initiates lockdown.
+  - `TOOL-02 (FirewallQuarantine)`: Updates compromised assets to `Quarantined` state in FalkorDB and the UI runtime, immutably logging the containment relationship.
+  - `TOOL-04 (TokenRevocationEngine)`: Revokes leaked OAuth credentials and session tokens in graph state.
+  - `TOOL-03 (GraphBlastRadiusAnalyzer)`: Traces downstream organizational exposure and affected staff.
+* **Automated Log Triage**: Analyzes live telemetry streams, creates `Incident` nodes, links them to root-cause `Log` and target `Asset` nodes, and initiates lockdown.
 
 ### 🧠 Track 2: Agent Memory & Cross-Session Learning (`scout/memory.py`)
 * **Episodic Conversation & Decision Memory**: Stores chronological agent interactions, prompts, responses, and session contexts in FalkorDB (`Session` and `Interaction` nodes).
-* **Semantic Concept & Procedural Recall**: Links past successful remediation actions to generalized security concepts (`BruteForceSpike`, `DataExfiltrationRisk`, `ClusterHealth`) via `(:RECALLS)` relationships. When a new threat emerges, agents query past playbooks before acting.
+* **Graph-Based Concept & Procedural Recall**: Links past successful remediation actions to indexed security concepts (`BruteForceSpike`, `DataExfiltrationRisk`, `ClusterHealth`) via `(:RECALLS)` relationships. Live cross-session retrieval allows initializing fresh sessions (`SES-XXXXXX`) that retrieve previous incident records and playbooks directly from FalkorDB.
 * **Multi-Agent Coordination & Task Handoffs**: When a task escalates (e.g. from `Scout-Alpha` security investigator to `Scout-Beta` IAM remediator), the handoff is immutably recorded in the graph with reason, timestamp, and audit trail.
 
 ### 🏢 Track 3: The Company Brain (`scout/brain.py`)
@@ -55,17 +55,17 @@ By leveraging **FalkorDB's C-based GraphBLAS matrix multiplication engine**, Sco
 
 ---
 
-## 🚀 Performance Benchmarks (FalkorDB vs Reality)
+## 🚀 Performance Benchmarks (Empirical FalkorDB Results)
 
-We benchmarked FalkorDB traversal throughput using `scripts/benchmark.py`:
+We benchmarked FalkorDB traversal throughput using `scripts/benchmark.py` over 100 iterations on the local engine:
 
 | Operation / Cypher Workload | Avg Latency | p95 Latency | Throughput |
 | :--- | :--- | :--- | :--- |
-| **Single-Node Indexed Lookup** | **0.33 ms** | 0.59 ms | **~3,000 ops/s** |
-| **3-Hop Blast Radius Traversal** | **1.72 ms** | 3.07 ms | **~580 ops/s** |
-| **Multi-Hop Access Path Audit** | **1.28 ms** | 2.43 ms | **~780 ops/s** |
-| **Episodic Procedural Memory Recall** | **1.07 ms** | 1.87 ms | **~930 ops/s** |
-| **End-to-End Triage & Containment** | **6.03 ms** | 9.41 ms | **~165 ops/s** |
+| **Single-Node Indexed Lookup** | **0.37 ms** | 0.53 ms | **2,717 ops/s** |
+| **3-Hop Blast Radius Traversal** | **1.69 ms** | 2.83 ms | **590 ops/s** |
+| **Multi-Hop Credential & Access Path Audit** | **1.33 ms** | 2.32 ms | **750 ops/s** |
+| **Episodic Procedural Memory Recall** | **1.43 ms** | 2.53 ms | **701 ops/s** |
+| **End-to-End Triage & Containment** | **7.21 ms** | 12.53 ms | **139 ops/s** |
 
 ---
 

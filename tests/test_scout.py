@@ -104,6 +104,12 @@ def test_evidence_exporter():
     assert bundle["incident_id"] == "INC-2026-001"
     assert "integrity_checksum" in bundle
     assert len(bundle["integrity_checksum"]) == 64  # SHA-256 hex string
+    # Cryptographic verification check
+    assert exp.verify_bundle(bundle) is True
+    # Anti-tamper verification check
+    tampered_bundle = dict(bundle)
+    tampered_bundle["status"] = "TamperedStatus"
+    assert exp.verify_bundle(tampered_bundle) is False
 
     md = exp.export_markdown("INC-2026-001")
     assert "Scout Incident Post-Mortem & Evidence Bundle" in md

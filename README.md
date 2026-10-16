@@ -25,7 +25,7 @@ The database schema connects all three domains in a single, high-performance Fal
    │
    ├──(:MEMBER_OF)───> [Team]
    ├──(:ASSIGNED_TO)─> [Project] ──(:CONTAINS)──> [Document]
-   └──(:ACCESSED)────> [Asset] <──(:AFFECTS)── [Incident] <──(:TRIGGERED_BY)── [Log]
+   └──(:ACCESSED)────> [Asset] <──(:AFFECTS)── [Incident] ──(:TRIGGERED_BY)──> [Log]
                           ▲                           ▲
                           │ (:QUARANTINED_BY)         │ (:INVESTIGATED)
                           │                           │
@@ -48,7 +48,7 @@ The database schema connects all three domains in a single, high-performance Fal
 * `ACCESSED`: Infrastructure telemetry access
 * `CONTAINS`: Project documentation provenance
 * `AFFECTS`: Incident targeting infrastructure
-* `TRIGGERED_BY`: Telemetry log generating security alert
+* `TRIGGERED_BY`: Incident triggered by telemetry log event
 * `INVESTIGATED`: Agent forensic investigation
 * `USED_TOOL`: Agent tool execution audit
 * `HAS_SESSION`: Agent memory partition
@@ -75,7 +75,7 @@ RETURN a.name AS asset_name,
        collect(DISTINCT d.title) AS exposed_documents
 ```
 
-### 2. Procedural & Semantic Memory Recall (Track 2)
+### 2. Procedural & Graph-Based Concept Recall (Track 2)
 ```cypher
 MATCH (c:Concept)
 WHERE toLower(c.name) = toLower($concept_name)
@@ -204,12 +204,12 @@ curl -X POST http://localhost:8000/api/simulate/attack \
 ```
 
 ### Audit-Ready Incident Evidence Bundle (`scout/exporter.py`)
-Export SOC 2 compliant post-mortem evidence bundles with cryptographic verification:
+Export audit-ready post-mortem evidence bundles with cryptographic verification:
 ```bash
 curl -s http://localhost:8000/api/incidents/INC-2026-001/evidence
 ```
 Includes:
-* Cryptographic SHA-256 integrity checksum.
+* Cryptographic SHA-256 integrity checksum (verifiable via `EvidenceExporter.verify_bundle()`).
 * Multi-hop Cypher traversal provenance and reasoning hops.
 * Organizational blast radius, exposed staff, and affected project dependencies.
 * Autonomous agent mitigation actions and FalkorDB episodic memory session tags.
@@ -229,14 +229,16 @@ Run the included benchmark suite:
 python3 scripts/benchmark.py
 ```
 
-### Verified Benchmark Results
+### Verified Empirical Benchmark Results
+Measured directly against local FalkorDB engine over 100 iterations:
+
 | Operation / Cypher Workload | Avg Latency | p95 Latency | Throughput |
 | :--- | :--- | :--- | :--- |
-| **Single-Node Indexed Lookup** | **0.33 ms** | 0.59 ms | **~3,000 ops/s** |
-| **3-Hop Blast Radius Traversal** | **1.72 ms** | 3.07 ms | **~580 ops/s** |
-| **Multi-Hop Credential & Access Path Audit** | **1.28 ms** | 2.43 ms | **~780 ops/s** |
-| **Episodic Procedural Memory Recall** | **1.07 ms** | 1.87 ms | **~930 ops/s** |
-| **End-to-End Multi-Hop Triage & Containment** | **6.03 ms** | 9.41 ms | **~165 ops/s** |
+| **Single-Node Indexed Lookup** | **0.37 ms** | 0.53 ms | **2,717 ops/s** |
+| **3-Hop Blast Radius Traversal** | **1.69 ms** | 2.83 ms | **590 ops/s** |
+| **Multi-Hop Credential & Access Path Audit** | **1.33 ms** | 2.32 ms | **750 ops/s** |
+| **Episodic Procedural Memory Recall** | **1.43 ms** | 2.53 ms | **701 ops/s** |
+| **End-to-End Multi-Hop Triage & Containment** | **7.21 ms** | 12.53 ms | **139 ops/s** |
 
 ---
 
