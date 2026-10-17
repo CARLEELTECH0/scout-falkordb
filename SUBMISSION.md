@@ -123,6 +123,13 @@ python run.py simulate 15
 
 ---
 
+## 📑 Project Resources
+* **GitHub Repository:** [https://github.com/CARLEELTECH0/scout-falkordb](https://github.com/CARLEELTECH0/scout-falkordb)
+* **Technical Blog Post:** [BLOG_POST.md](BLOG_POST.md) *(AirPods category entry)*
+* **3-Minute Demo Video Script:** [DEMO_SCRIPT.md](DEMO_SCRIPT.md)
+
+---
+
 ## 👥 Authors & Acknowledgments
 Built with ❤️ by **CARLEELTECH0** for the **WeMakeDevs & FalkorDB Graph Hacks 2026**.  
 *Licensed under MIT.*

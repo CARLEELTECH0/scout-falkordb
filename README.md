@@ -260,6 +260,7 @@ python run.py simulate 15
 
 ## 📑 Hackathon Resources & Documentation
 * **[Official Submission Write-Up (`SUBMISSION.md`)](SUBMISSION.md)**: Complete problem analysis, track breakdown, and FalkorDB architectural design.
+* **[Technical Blog Post (`BLOG_POST.md`)](BLOG_POST.md)**: Deep dive into architecture, Cypher traversals, agent memory, and benchmark methodology.
 * **[3-Minute Video Demo Script (`DEMO_SCRIPT.md`)](DEMO_SCRIPT.md)**: Precise timestamped walkthrough and voiceover guide for recording.
 
 ---
