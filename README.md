@@ -1,7 +1,8 @@
 # 🛡️ SCOUT: Autonomous Enterprise Knowledge & Security Investigator
 
 > **Built for [Graph Hacks 2026](https://www.wemakedevs.org/hackathons/falkordb/schedule) (WeMakeDevs & FalkorDB)**  
-> **Tracks Entered:** Track 1 (Action Agent), Track 2 (Agent Memory), Track 3 (Company Brain)
+> **Tracks Entered:** Track 1 (Action Agent), Track 2 (Agent Memory), Track 3 (Company Brain)  
+> **Live Interactive Demo:** [https://personals-issued-perceived-afterwards.trycloudflare.com](https://personals-issued-perceived-afterwards.trycloudflare.com)
 
 ---
 

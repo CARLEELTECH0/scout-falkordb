@@ -3,6 +3,7 @@
 > *Published for the **WeMakeDevs & FalkorDB Graph Hacks 2026** Hackathon*  
 > *Target Tracks: Track 1 (Action Agent), Track 2 (Agent Memory), Track 3 (The Company Brain)*  
 > *GitHub Repository: [github.com/CARLEELTECH0/scout-falkordb](https://github.com/CARLEELTECH0/scout-falkordb)*  
+> *Live Interactive Deployment: [https://personals-issued-perceived-afterwards.trycloudflare.com](https://personals-issued-perceived-afterwards.trycloudflare.com)*  
 
 ---
 

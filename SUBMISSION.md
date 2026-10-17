@@ -2,7 +2,8 @@
 
 > **Official Submission for [WeMakeDevs & FalkorDB Graph Hacks 2026](https://www.wemakedevs.org/hackathons/falkordb/schedule)**  
 > **Tracks Entered:** Track 1 (Graph-Powered Action Agent) · Track 2 (Agent Memory & Cross-Session Learning) · Track 3 (The Company Brain)  
-> **Repository:** [github.com/CARLEELTECH0/scout-falkordb](https://github.com/CARLEELTECH0/scout-falkordb)
+> **Repository:** [github.com/CARLEELTECH0/scout-falkordb](https://github.com/CARLEELTECH0/scout-falkordb)  
+> **Live Interactive Deployment:** [https://personals-issued-perceived-afterwards.trycloudflare.com](https://personals-issued-perceived-afterwards.trycloudflare.com)
 
 ---
 

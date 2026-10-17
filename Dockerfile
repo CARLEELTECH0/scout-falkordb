@@ -24,4 +24,4 @@ COPY .env.example .env
 EXPOSE 8000
 
 # Seed the graph on container startup and launch the visualizer
-CMD ["sh", "-c", "python run.py seed && python run.py serve 8000"]
+CMD ["sh", "-c", "python run.py seed && python run.py serve ${PORT:-8000}"]

@@ -9,6 +9,7 @@ Usage:
   python run.py mcp       -> Starts standard Model Context Protocol (MCP) server
 """
 
+import os
 import sys
 import uvicorn
 from scout.seed import seed_enterprise_graph
@@ -77,9 +78,10 @@ def main():
     elif sys.argv[1] == "seed":
         seed_enterprise_graph()
     elif sys.argv[1] == "serve":
-        port = int(sys.argv[2]) if len(sys.argv) > 2 else 8000
-        print(f"[*] Launching Scout Dashboard at http://localhost:{port}")
-        uvicorn.run("scout.api:app", host="0.0.0.0", port=port, reload=True)
+        port = int(os.environ.get("PORT", sys.argv[2] if len(sys.argv) > 2 else 8000))
+        reload_flag = os.environ.get("ENV") != "production"
+        print(f"[*] Launching Scout Dashboard at http://0.0.0.0:{port}")
+        uvicorn.run("scout.api:app", host="0.0.0.0", port=port, reload=reload_flag)
     elif sys.argv[1] == "simulate":
         from scout.simulator import AttackSimulator
         interval = int(sys.argv[2]) if len(sys.argv) > 2 else 15

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: scout-falkordb
+    env: docker
+    plan: free
+    region: oregon
+    branch: main
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: ENV
+        value: production
