@@ -370,6 +370,50 @@ def dashboard():
             border-left-width: 1px;
         }
 
+        /* Mobile Phone Layout Adaptations (< 768px) */
+        @media (max-width: 768px) {
+            #workspace-container {
+                height: calc(100vh - 56px - 56px) !important;
+            }
+            #inspector-ledger-col, #narrative-col {
+                position: fixed !important;
+                top: 56px !important;
+                bottom: 56px !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100vw !important;
+                min-width: 100vw !important;
+                max-width: 100vw !important;
+                z-index: 50 !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                border: none !important;
+            }
+            #inspector-ledger-col.drawer-closed,
+            #narrative-col.chat-closed {
+                display: none !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
+            #inspector-ledger-col.drawer-open,
+            #narrative-col.chat-open {
+                display: flex !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
+            #floating-narrative-btn {
+                bottom: 70px !important;
+                right: 12px !important;
+                padding: 6px 12px !important;
+            }
+            #lineage-hud {
+                bottom: 70px !important;
+                left: 10px !important;
+                right: 10px !important;
+                max-width: calc(100vw - 20px) !important;
+            }
+        }
+
         /* Floating Narrative Action Button (FAB) */
         #floating-narrative-btn {
             transition: all 0.3s var(--spring-curve);
@@ -474,15 +518,15 @@ def dashboard():
     <!-- =================================================================== -->
     <!-- 1. PERSISTENT TOP CONTEXT BAR (UNIVERSAL ANCHOR - 56px)             -->
     <!-- =================================================================== -->
-    <header class="h-[56px] px-6 bg-[#090c15] border-b border-white/[0.08] flex items-center justify-between shrink-0 z-40">
+    <header class="h-[56px] px-3 sm:px-6 bg-[#090c15] border-b border-white/[0.08] flex items-center justify-between shrink-0 z-40">
         <!-- Brand & Global Search Bar -->
-        <div class="flex items-center gap-3.5">
-            <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 sm:gap-3.5">
+            <div class="flex items-center gap-1.5 sm:gap-2">
                 <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center font-black text-sm text-white shadow-md shadow-orange-500/30">
                     S
                 </div>
                 <span class="font-black text-sm tracking-wider text-white">SCOUT</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/30 font-bold">FalkorDB</span>
+                <span class="text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/30 font-bold">FalkorDB</span>
             </div>
 
             <div class="h-4 w-px bg-white/10 mx-1 hidden sm:block"></div>
@@ -495,8 +539,8 @@ def dashboard():
             </div>
         </div>
 
-        <!-- Center View Pivot Controls -->
-        <div class="flex items-center gap-2 p-1 bg-black/60 rounded-full border border-white/10 text-xs font-mono">
+        <!-- Center View Pivot Controls (Desktop/Tablet) -->
+        <div class="hidden md:flex items-center gap-2 p-1 bg-black/60 rounded-full border border-white/10 text-xs font-mono">
             <button onclick="recenterHoneycombCanvas()" class="px-3.5 py-1.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/40 font-bold transition flex items-center gap-1.5" title="Center on Real-Time Graph">
                 <span>🗺️ Real-Time Map</span>
             </button>
@@ -511,21 +555,21 @@ def dashboard():
         </div>
 
         <!-- Contextual Status Micro-Telemetry Pill (Shifts Dynamically) -->
-        <div class="flex items-center gap-3">
-            <div id="telemetry-pill" onclick="openAlertSituationLedger()" class="px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 text-xs font-mono flex items-center gap-2 cursor-pointer hover:border-rose-500 transition shadow-sm" title="Click to inspect critical situation on left">
-                <span id="telemetry-pill-dot" class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                <span id="telemetry-pill-text"><strong>1 Active Breach:</strong> AST-01</span>
-                <span id="telemetry-pill-badge" class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500 text-white font-bold">CRITICAL</span>
+        <div class="flex items-center gap-1.5 sm:gap-3">
+            <div id="telemetry-pill" onclick="openAlertSituationLedger()" class="px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[11px] sm:text-xs font-mono flex items-center gap-1.5 sm:gap-2 cursor-pointer hover:border-rose-500 transition shadow-sm max-w-[140px] sm:max-w-none truncate" title="Click to inspect critical situation on left">
+                <span id="telemetry-pill-dot" class="w-2 h-2 rounded-full bg-rose-500 animate-pulse shrink-0"></span>
+                <span id="telemetry-pill-text" class="truncate font-semibold">1 Breach</span>
+                <span id="telemetry-pill-badge" class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500 text-white font-bold shrink-0">CRIT</span>
             </div>
             <button onclick="triggerSimulatedAttack()" class="btn-solar text-xs hidden lg:inline-flex px-3.5 py-1.5" title="Simulate anomalous telemetry surge">
                 <span>⚡ Attack Surge</span>
             </button>
-            <button onclick="reseedGraph()" class="btn-obsidian text-xs px-3.5 py-1.5" title="Reset and reseed graph">
-                <span>🔄 Reset</span>
+            <button onclick="reseedGraph()" class="btn-obsidian text-xs px-2 sm:px-3.5 py-1 sm:py-1.5" title="Reset and reseed graph">
+                <span>🔄</span><span class="hidden sm:inline ml-1">Reset</span>
             </button>
-            <button id="btn-audio-toggle" onclick="toggleTacticalAudio()" class="btn-obsidian text-xs px-3.5 py-1.5 flex items-center gap-1.5" title="Toggle Tactical Voice Alerts">
+            <button id="btn-audio-toggle" onclick="toggleTacticalAudio()" class="btn-obsidian text-xs px-2 sm:px-3.5 py-1 sm:py-1.5 flex items-center gap-1" title="Toggle Tactical Voice Alerts">
                 <span id="audio-icon">🔊</span>
-                <span id="audio-label">Voice On</span>
+                <span id="audio-label" class="hidden sm:inline">Voice On</span>
             </button>
         </div>
     </header>
@@ -660,27 +704,27 @@ def dashboard():
         <main id="canvas-wrapper" class="flex-1 min-w-0 h-full relative overflow-hidden bg-[#070a12] select-none">
             
             <!-- Canvas Floating Controls Overlay -->
-            <div class="absolute top-4 left-6 z-20 flex items-center gap-2 pointer-events-auto">
-                <div class="px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-xl border border-white/10 text-xs font-mono text-slate-300 flex items-center gap-2 shadow-lg">
-                    <span class="text-orange-400 font-bold">🍯 Honeycomb Grid:</span>
-                    <span id="node-counter-label">16 Active Cells</span>
-                    <span class="text-slate-600">·</span>
-                    <span class="text-purple-300">Secondary: People</span>
-                    <span class="text-slate-600">·</span>
-                    <span class="text-rose-400">Primary: Threats (RGY)</span>
+            <div class="absolute top-3 left-3 sm:top-4 sm:left-6 z-20 flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
+                <div class="px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-black/80 backdrop-blur-xl border border-white/10 text-[11px] sm:text-xs font-mono text-slate-300 flex items-center gap-1.5 shadow-lg">
+                    <span class="text-orange-400 font-bold">🍯</span>
+                    <span id="node-counter-label">16 Cells</span>
+                    <span class="hidden sm:inline text-slate-600">·</span>
+                    <span class="hidden sm:inline text-purple-300">People</span>
+                    <span class="hidden sm:inline text-slate-600">·</span>
+                    <span class="hidden sm:inline text-rose-400">Threats</span>
                 </div>
-                <button onclick="recenterHoneycombCanvas()" class="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-xl hover:bg-black/90 border border-white/10 text-slate-300 hover:text-white text-xs font-mono transition" title="Center Canvas">
+                <button onclick="recenterHoneycombCanvas()" class="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-black/80 backdrop-blur-xl hover:bg-black/90 border border-white/10 text-slate-300 hover:text-white text-[11px] sm:text-xs font-mono transition" title="Center Canvas">
                     ↺ Center
                 </button>
-                <button onclick="clearLineageHighlight()" id="btn-clear-lineage" class="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-xl hover:bg-black/90 border border-white/10 text-slate-300 hover:text-white text-xs font-mono transition hidden" title="Clear Lineage Trace">
-                    ✕ Clear Lineage
+                <button onclick="clearLineageHighlight()" id="btn-clear-lineage" class="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-black/80 backdrop-blur-xl hover:bg-black/90 border border-white/10 text-slate-300 hover:text-white text-[11px] sm:text-xs font-mono transition hidden" title="Clear Lineage Trace">
+                    ✕ Clear
                 </button>
             </div>
 
             <!-- Floating Omni-Directional Jump to Alert Button -->
-            <button id="btn-jump-alert" onclick="openAlertSituationLedger()" class="absolute top-4 right-6 z-20 px-4 py-2 rounded-full bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/70 text-rose-200 text-xs font-mono font-bold flex items-center gap-2 shadow-lg transition hover:scale-105">
+            <button id="btn-jump-alert" onclick="openAlertSituationLedger()" class="absolute top-3 right-3 sm:top-4 sm:right-6 z-20 px-2.5 py-1 sm:px-4 sm:py-2 rounded-full bg-rose-500/25 hover:bg-rose-500/35 border border-rose-500/70 text-rose-200 text-[11px] sm:text-xs font-mono font-bold flex items-center gap-1.5 shadow-lg transition hover:scale-105">
                 <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
-                <span>🚨 Inspect Threat: AST-01</span>
+                <span>🚨 <span class="hidden xs:inline">Threat: </span>AST-01</span>
             </button>
 
             <!-- Lineage Path HUD Overlay -->
@@ -877,6 +921,32 @@ def dashboard():
         </aside>
 
     </div>
+
+    <!-- =================================================================== -->
+    <!-- 4. MOBILE BOTTOM NAVIGATION DOCK (VISIBLE ON MOBILE ONLY)          -->
+    <!-- =================================================================== -->
+    <nav id="mobile-dock" class="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-[#090c15]/95 backdrop-blur-2xl border-t border-white/10 z-50 flex items-center justify-around px-2 text-[10px] font-mono select-none">
+        <button id="dock-tab-map" onclick="mobileNavSwitch('map')" class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition text-orange-400 bg-white/10 font-bold">
+            <span class="text-base">🗺️</span>
+            <span>Graph</span>
+        </button>
+        <button id="dock-tab-ledger" onclick="mobileNavSwitch('ledger')" class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition text-slate-400 hover:text-white">
+            <span class="text-base">🚨</span>
+            <span>Threat</span>
+        </button>
+        <button id="dock-tab-narrative" onclick="mobileNavSwitch('narrative')" class="flex flex-col items-center justify-center py-1 px-3 rounded-xl transition text-slate-400 hover:text-white">
+            <span class="text-base">💬</span>
+            <span>AI Chat</span>
+        </button>
+        <button id="dock-tab-surge" onclick="triggerSimulatedAttack()" class="flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition text-rose-400 hover:bg-rose-500/10 active:scale-95">
+            <span class="text-base">⚡</span>
+            <span>Surge</span>
+        </button>
+        <button id="dock-tab-export" onclick="downloadEvidenceReport()" class="flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition text-amber-400 hover:bg-amber-500/10 active:scale-95">
+            <span class="text-base">📄</span>
+            <span>Export</span>
+        </button>
+    </nav>
 
     <!-- CLIENT JAVASCRIPT LOGIC -->
     <script>
@@ -1218,8 +1288,42 @@ def dashboard():
         }
 
         // ----------------------------------------------------
-        // 4. Left Panel: Inspector Ledger Controller
+        // 4. Left Panel: Inspector Ledger Controller & Mobile Dock
         // ----------------------------------------------------
+        function mobileNavSwitch(target) {
+            if (target === 'map') {
+                closeInspectorLedger();
+                closeNarrativePanel();
+                recenterHoneycombCanvas();
+            } else if (target === 'ledger') {
+                closeNarrativePanel();
+                openAlertSituationLedger();
+            } else if (target === 'narrative') {
+                closeInspectorLedger();
+                openNarrativePanel();
+            }
+            updateMobileNavState(target);
+        }
+
+        function updateMobileNavState(activeTab) {
+            const tabMap = document.getElementById('dock-tab-map');
+            const tabLedger = document.getElementById('dock-tab-ledger');
+            const tabNarrative = document.getElementById('dock-tab-narrative');
+            if (!tabMap || !tabLedger || !tabNarrative) return;
+
+            [tabMap, tabLedger, tabNarrative].forEach(t => {
+                t.className = "flex flex-col items-center justify-center py-1 px-3 rounded-xl transition text-slate-400 hover:text-white";
+            });
+
+            if (activeTab === 'ledger') {
+                tabLedger.className = "flex flex-col items-center justify-center py-1 px-3 rounded-xl transition text-rose-400 bg-white/10 font-bold";
+            } else if (activeTab === 'narrative') {
+                tabNarrative.className = "flex flex-col items-center justify-center py-1 px-3 rounded-xl transition text-purple-400 bg-white/10 font-bold";
+            } else {
+                tabMap.className = "flex flex-col items-center justify-center py-1 px-3 rounded-xl transition text-orange-400 bg-white/10 font-bold";
+            }
+        }
+
         function selectNodeAndPopOutInspector(node) {
             highlightLineage(node);
             updateInspectorLedger(node);
@@ -1227,6 +1331,9 @@ def dashboard():
         }
 
         function openInspectorLedger() {
+            if (window.innerWidth <= 768 && isNarrativeOpen) {
+                closeNarrativePanel();
+            }
             const drawer = document.getElementById('inspector-ledger-col');
             const btn = document.getElementById('pivot-alerts-btn');
             if (drawer) {
@@ -1237,6 +1344,7 @@ def dashboard():
             if (btn) {
                 btn.className = "px-3.5 py-1.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold transition flex items-center gap-1.5";
             }
+            updateMobileNavState('ledger');
         }
 
         function closeInspectorLedger() {
@@ -1249,6 +1357,9 @@ def dashboard():
             }
             if (btn) {
                 btn.className = "px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition flex items-center gap-1.5";
+            }
+            if (!isNarrativeOpen) {
+                updateMobileNavState('map');
             }
         }
 
@@ -1295,6 +1406,9 @@ def dashboard():
         // 5. Right Panel: Narrative Chat Controller
         // ----------------------------------------------------
         function openNarrativePanel() {
+            if (window.innerWidth <= 768 && isInspectorOpen) {
+                closeInspectorLedger();
+            }
             const col = document.getElementById('narrative-col');
             const fab = document.getElementById('floating-narrative-btn');
             const btn = document.getElementById('pivot-narrative-btn');
@@ -1309,6 +1423,7 @@ def dashboard():
             if (btn) {
                 btn.className = "px-3.5 py-1.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/40 font-bold transition flex items-center gap-1.5";
             }
+            updateMobileNavState('narrative');
         }
 
         function closeNarrativePanel() {
@@ -1325,6 +1440,9 @@ def dashboard():
             }
             if (btn) {
                 btn.className = "px-3.5 py-1.5 rounded-full text-slate-400 hover:text-white transition flex items-center gap-1.5";
+            }
+            if (!isInspectorOpen) {
+                updateMobileNavState('map');
             }
         }
 
@@ -1715,7 +1833,7 @@ def dashboard():
         function recenterHoneycombCanvas() {
             panX = 0;
             panY = 0;
-            zoom = 1;
+            zoom = window.innerWidth <= 768 ? 0.76 : 1;
             updateViewportTransform();
             clearLineageHighlight();
             renderZeroStateGrid();
@@ -1742,12 +1860,13 @@ def dashboard():
         }
 
         // ----------------------------------------------------
-        // 8. Pan & Zoom Event Listeners for Honeycomb SVG
+        // 8. Pan & Zoom Event Listeners for Honeycomb SVG (Mouse & Touch)
         // ----------------------------------------------------
         function setupCanvasInteraction() {
             const svg = document.getElementById('honeycomb-viewport');
             if (!svg) return;
 
+            // Desktop Mouse Drag Panning
             svg.addEventListener('mousedown', (e) => {
                 if (e.target.closest('.hex-cell')) return; // Cell click takes priority
                 isPanning = true;
@@ -1776,14 +1895,72 @@ def dashboard():
                 zoom = Math.min(Math.max(0.4, zoom * delta), 2.5);
                 updateViewportTransform();
             }, { passive: false });
+
+            // Mobile Touch Panning & Pinch-to-Zoom
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let isTouchPanning = false;
+            let initialPinchDistance = null;
+            let initialPinchZoom = 1;
+
+            svg.addEventListener('touchstart', (e) => {
+                if (e.target.closest('.hex-cell')) return;
+                if (e.touches.length === 1) {
+                    isTouchPanning = true;
+                    touchStartX = e.touches[0].clientX - panX;
+                    touchStartY = e.touches[0].clientY - panY;
+                } else if (e.touches.length === 2) {
+                    isTouchPanning = false;
+                    initialPinchDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    initialPinchZoom = zoom;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && isTouchPanning) {
+                    panX = e.touches[0].clientX - touchStartX;
+                    panY = e.touches[0].clientY - touchStartY;
+                    updateViewportTransform();
+                } else if (e.touches.length === 2 && initialPinchDistance) {
+                    const currentDist = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    if (currentDist > 0) {
+                        const factor = currentDist / initialPinchDistance;
+                        zoom = Math.min(Math.max(0.35, initialPinchZoom * factor), 2.5);
+                        updateViewportTransform();
+                    }
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', (e) => {
+                if (e.touches.length === 0) {
+                    isTouchPanning = false;
+                    initialPinchDistance = null;
+                } else if (e.touches.length === 1) {
+                    isTouchPanning = true;
+                    touchStartX = e.touches[0].clientX - panX;
+                    touchStartY = e.touches[0].clientY - panY;
+                    initialPinchDistance = null;
+                }
+            });
         }
 
         // Initialize on load with Dynamic Resize Observer
         window.addEventListener('DOMContentLoaded', () => {
+            if (window.innerWidth <= 768) {
+                zoom = 0.76;
+            }
             updateCanvasOrigin();
             renderZeroStateGrid();
             renderHoneycombCanvas();
+            updateViewportTransform();
             setupCanvasInteraction();
+            updateMobileNavState('map');
 
             // Observe dynamic flex resizing when left/right panels slide open or close
             const wrapper = document.getElementById('canvas-wrapper');
