@@ -9,7 +9,8 @@ Serves the unified FalkorDB graph, multi-hop reasoning endpoints, and the Spatia
 """
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, FileResponse
+import os
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
@@ -95,6 +96,14 @@ def health_check():
         "audio_synthesizer": "operational",
         "simulator": "operational"
     }
+
+@app.get("/demo-video")
+def get_demo_video():
+    """Serves the master hackathon demo video for instant viewing and download."""
+    video_path = "/home/carleel/Public/SCOUT_Graph_Hacks_2026_Demo.mp4"
+    if os.path.exists(video_path):
+        return FileResponse(video_path, media_type="video/mp4", filename="SCOUT_Graph_Hacks_2026_Demo.mp4")
+    raise HTTPException(status_code=404, detail="Demo video not found")
 
 @app.get("/api/stats")
 def get_stats():
